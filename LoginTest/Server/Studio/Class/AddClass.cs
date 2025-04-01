@@ -40,7 +40,7 @@ namespace TestCompa.Server.Studio
             classes.Click();
             Thread.Sleep(5000);
         }
-        //Test 1: bấm nút tạo khóa học mới
+        //Test 1: bấm nút tạo lớp học mới
         [Test]
         public void btnNewClass()
         {
@@ -106,7 +106,7 @@ namespace TestCompa.Server.Studio
             clear.Click();
             Thread.Sleep(5000);
             clear.Clear();
-            Thread.Sleep(10000);
+            Thread.Sleep(10000);    
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
             Thread.Sleep(8000);
@@ -176,7 +176,7 @@ namespace TestCompa.Server.Studio
             Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
         }// chỉ cho phép nhập đúng 300 kí tự -> Passed
 
-        //Test 9: Bỏ trống tất cả các trường 
+        
 
         public void Create()
         {

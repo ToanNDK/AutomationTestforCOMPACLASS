@@ -33,7 +33,8 @@ namespace TestCompa.Server.Studio
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
-            IWebElement course = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > aside:nth-child(1) > div:nth-child(1) > a:nth-child(3) > button:nth-child(1)"));
+            Thread.Sleep(3000);
+            IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
             Thread.Sleep(5000);
         }
@@ -227,6 +228,7 @@ namespace TestCompa.Server.Studio
 
         public void Login()
         {
+            Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 

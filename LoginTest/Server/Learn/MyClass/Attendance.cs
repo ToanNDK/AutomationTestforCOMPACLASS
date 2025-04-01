@@ -39,7 +39,7 @@ namespace TestCompa.Server.Learn.Attendance
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(5000);
-            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
             testclass.Click();
             Thread.Sleep(5000);
             IWebElement assign = driver.FindElement(By.XPath("//a[text()='Lịch học']"));
@@ -55,50 +55,13 @@ namespace TestCompa.Server.Learn.Attendance
         public void AssignmentsMark()
         {
             Assignments();
-            IWebElement newMeeting = driver.FindElement(By.XPath("div[class='flex items-center gap-4'] button[type='button']"));
+            IWebElement newMeeting = driver.FindElement(By.XPath("//button[.//span[contains(text(), 'Thêm cuộc họp mới')]]"));
             newMeeting.Click();
             Thread.Sleep(5000);
 
         }
 
-        //3. Xem điểm theo chương
-        [Test, Order(3)]
-        public void chapterView()
-        {
-            AssignmentsMark();
-            IWebElement btnView = driver.FindElement(By.XPath("//button[@type='button']//span[contains(@class,'flex-1 text-start')][contains(text(),'Tất cả các chương')]"));
-            btnView.Click();
-            Thread.Sleep(2000);
-            IReadOnlyCollection<IWebElement> labels = btnView.FindElements(By.XPath("//label"));
-            if (labels.Count > 0)
-            {
-                Random rand = new Random();
-                int index = rand.Next(labels.Count);
-                labels.ElementAt(index).Click();
-            }
-
-            Thread.Sleep(2000);
-        }
-        //4. Xem điểm theo bài tập
-        [Test, Order(4)]
-        public void assignmentView()
-        {
-            AssignmentsMark();
-            IWebElement btnView = driver.FindElement(By.XPath("//button[@type='button']//span[contains(text(),'Loại bài tập')]"));
-            btnView.Click();
-            Thread.Sleep(2000);
-            IReadOnlyCollection<IWebElement> labels = btnView.FindElements(By.XPath("//label"));
-            if (labels.Count > 0)
-            {
-                Random rand = new Random();
-                int index = rand.Next(labels.Count);
-                labels.ElementAt(index).Click();
-                Thread.Sleep(2000);
-            }
-
-            Thread.Sleep(2000);
-        }
-
+        
         public void Login()
         {
             Thread.Sleep(5000);

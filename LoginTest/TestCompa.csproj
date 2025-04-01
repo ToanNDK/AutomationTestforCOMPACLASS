@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Bug\Studio\" />
     <Folder Include="Production\Studio\" />
     <Folder Include="Server\Learn\Course\" />
     <Folder Include="Server\Learn\ViewProfile\" />

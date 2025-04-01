@@ -26,7 +26,7 @@ namespace TestCompa.Production.Learn
             driver.Navigate().GoToUrl(devUrl);
 
             string currentUrl = driver.Url;
-
+            Thread.Sleep(2000);
             Assert.IsTrue(currentUrl.Contains("https://auth.compaclass.com/Auth/SignIn"));
         }
         //Test 2: Kiểm tra truy cập trang mission khi đã đăng nhập -> Chuyển về trang Mission

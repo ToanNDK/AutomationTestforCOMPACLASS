@@ -67,7 +67,7 @@ namespace TestCompa.Production.Learn.Grade
         {
             Grade();
             Thread.Sleep(2000);
-            IWebElement btnView = driver.FindElement(By.XPath("//span[@class='flex-1 text-start font-bold text-white line-clamp-1']"));
+            IWebElement btnView = driver.FindElement(By.XPath("//span[@class='flex-1 text-start font-bold text-white line-clamp-1 ']"));
             btnView.Click();
             Thread.Sleep(2000);
             IReadOnlyCollection<IWebElement> labels = btnView.FindElements(By.XPath("//label"));
@@ -85,6 +85,9 @@ namespace TestCompa.Production.Learn.Grade
         public void assignmentView()
         {
             Grade();
+            IWebElement user = driver.FindElement(By.XPath("//a[normalize-space()='KPIM Academy']"));
+            user.Click();
+            Thread.Sleep(3000);
             IWebElement btnView = driver.FindElement(By.XPath("//button[@type='button']//span[contains(text(),'Loại bài tập')]"));
             btnView.Click();
             Thread.Sleep(2000);

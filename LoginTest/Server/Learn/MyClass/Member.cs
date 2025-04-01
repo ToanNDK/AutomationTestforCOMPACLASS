@@ -100,6 +100,29 @@ namespace TestCompa.Server.Learn.MyClassMember
 
             Thread.Sleep(5000);
         }
+        [Test, Order(4)]
+        public void svgClick()
+        {
+            driver.Navigate().GoToUrl(devUrl);
+            Login();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
+            element.Click();
+            Thread.Sleep(3000);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
+            Thread.Sleep(5000);
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
+            testclass.Click();
+            Thread.Sleep(5000);
+            IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
+            member.Click();
+            Thread.Sleep(5000);
+            IWebElement svg = driver.FindElement(By.XPath("//button[.//svg]"));
+            svg.Click();
+
+            Thread.Sleep(5000);
+        }
         public void Login()
         {
             Thread.Sleep(5000);
