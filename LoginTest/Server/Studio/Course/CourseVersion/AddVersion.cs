@@ -46,7 +46,7 @@ namespace TestCompa.Server.Studio
         public void btnNewCourse()
         {
             studioTest();
-            IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > section:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
+            IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > div:nth-child(1) > button:nth-child(2)"));
             Actions action = new Actions(driver);
             action.DoubleClick(create).Perform();
             Thread.Sleep(5000);
@@ -64,7 +64,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(5000);
 
 
-            IWebElement courseTest = driver.FindElement(By.XPath("//h2[text()='Test Course 123']/ancestor::div[@class='bg-white rounded-lg shadow-md overflow-hidden']"));
+            IWebElement courseTest = driver.FindElement(By.XPath("//h2[text()='123123132']/ancestor::div[@class='bg-white rounded-lg shadow-md overflow-hidden']"));
             Thread.Sleep(2000);
 
             IWebElement edit = courseTest.FindElement(By.XPath(".//button[contains(@class, 'group/btn')]"));

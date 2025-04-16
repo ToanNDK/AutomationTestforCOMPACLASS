@@ -59,7 +59,7 @@ namespace TestCompa.Production.Learn.QNA
             IWebElement Title = driver.FindElement(By.XPath("//span[@class='block truncate text-start text-darkGray ']"));
             Title.Click();
             Thread.Sleep(5000);
-            Thread.Sleep(3000);
+           
 
 
             IWebElement chooseContent = driver.FindElement(By.XPath("//span[contains(text(),'Giới thiệu về hệ sinh thái PowerBI')]"));

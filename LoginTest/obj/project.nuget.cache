@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "FrE46xqVcFn7wccEm49yMAoRNX0PzfahvT3I0lRop2PNMQCx0G548M5k6FlWA0MrsJQ6GVfmhvIPf+WA5vZ66Q==",
+  "dgSpecHash": "Pguy9J2UknBs9bSOSOukNwDwZ3Fgy9mX09iLIBzaK244sCXHQFLV4GWCom+gB1DKVR4YJMo3UKZNUhymxG0Czw==",
   "success": true,
   "projectFilePath": "D:\\KPIM\\LoginTest\\LoginTest\\TestCompa.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Hello\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\Hello\\.nuget\\packages\\dotnetseleniumextras.waithelpers\\3.11.0\\dotnetseleniumextras.waithelpers.3.11.0.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\microsoft.codecoverage\\17.3.2\\microsoft.codecoverage.17.3.2.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\microsoft.net.test.sdk\\17.3.2\\microsoft.net.test.sdk.17.3.2.nupkg.sha512",
@@ -20,7 +21,7 @@
     "C:\\Users\\Hello\\.nuget\\packages\\nunit3testadapter\\4.3.0\\nunit3testadapter.4.3.0.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\selenium.support\\4.29.0\\selenium.support.4.29.0.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver\\4.29.0\\selenium.webdriver.4.29.0.nupkg.sha512",
-    "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver.chromedriver\\133.0.6943.14100\\selenium.webdriver.chromedriver.133.0.6943.14100.nupkg.sha512",
+    "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver.chromedriver\\135.0.7049.8400\\selenium.webdriver.chromedriver.135.0.7049.8400.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.diagnostics.debug\\4.0.11\\system.diagnostics.debug.4.0.11.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.diagnostics.tools\\4.0.1\\system.diagnostics.tools.4.0.1.nupkg.sha512",

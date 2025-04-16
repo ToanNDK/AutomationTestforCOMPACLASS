@@ -34,10 +34,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             Thread.Sleep(3000);
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
-            Thread.Sleep(5000);
-            IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > section:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
-            Actions action = new Actions(driver);
-            action.DoubleClick(create).Perform();
+
             Thread.Sleep(5000);
         }
         //Test 1: bấm nút vào course builder
@@ -45,17 +42,17 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
         public void courseBuilder()
         {
             studioTest();
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+
             Thread.Sleep(5000);
 
-            string expectedText = "123123132";
+            string expectedText = "CourseTest";
 
 
-            IWebElement h2Element = driver.FindElement(By.XPath($"//h2[contains(text(),'{expectedText}')]"));
-
-
-            IWebElement parentDiv = h2Element.FindElement(By.XPath("./ancestor::div[contains(@class, 'flex justify-between')]"));
+            IWebElement h2Element = driver.FindElement(By.XPath($"//h3[contains(text(),'{expectedText}')]"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
+            h2Element.Click();
+            /*IWebElement parentDiv = h2Element.FindElement(By.XPath("./ancestor::div[contains(@class, 'flex justify-between')]"));
 
 
             IWebElement svgButton = parentDiv.FindElement(By.XPath(".//button[contains(@class, 'group/btn')]"));
@@ -75,7 +72,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             toBuilder.Click();
             Thread.Sleep(3000);
             IWebElement Builder = driver.FindElement(By.XPath("//div[normalize-space()='Builder page']"));
-            Builder.Click();
+            Builder.Click();*/
             Thread.Sleep(3000);
         }
         //Test 2: Tạo Chapter
@@ -84,14 +81,27 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
         {
             courseBuilder();
             IWebElement btnCreate = driver.FindElement(By.XPath("//button[normalize-space()='Chapter']"));
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 btnCreate.Click();
                 Thread.Sleep(1000);
             }
+            IWebElement chapterDelete = driver.FindElement(By.XPath("//p[normalize-space()='Chapter 2: Untitled']"));
+            chapterDelete.Click();
+            Thread.Sleep(2000);
+            Actions acitons = new Actions(driver);
 
-
+            acitons.MoveToElement(chapterDelete);
+            Thread.Sleep(5000);
+            IWebElement svgDelete = driver.FindElement(By.CssSelector("button[aria-haspopup='dialog'] svg.lucide-ellipsis"));
+            svgDelete.Click();
+            Thread.Sleep(3000);
+            IWebElement delete = driver.FindElement(By.XPath("//button[normalize-space()='Delete']"));
+            delete.Click();
+            btnCreate.Click();
+            Thread.Sleep(2000);
         }
+       
         //Test 3: Nhập title, des, cho overview
         [Test]
         public void overview()
@@ -176,8 +186,12 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
         public void addActivity()
         {
             courseBuilder();
-            IWebElement editChapter = driver.FindElement(By.CssSelector("svg.lucide.lucide-chevron-right"));
-            editChapter.Click();
+            IWebElement btnCreate = driver.FindElement(By.XPath("//button[normalize-space()='Chapter']"));
+            for (int i = 0; i < 2; i++)
+            {
+                btnCreate.Click();
+                Thread.Sleep(1000);
+            }
             Thread.Sleep(3000);
             IWebElement addActivity = driver.FindElement(By.XPath("//button[normalize-space()='Activity']"));
             addActivity.Click();
@@ -217,6 +231,13 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Continue']"));
             confirm.Click();
             Thread.Sleep(5000);
+        }
+        //8.3.1 Quiz 
+        [Test]
+        public void addQuizQuestion()
+        {
+            addQuiz();
+
         }
 
         //8.4 Game

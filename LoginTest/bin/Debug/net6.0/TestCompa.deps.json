@@ -8,13 +8,14 @@
     ".NETCoreApp,Version=v6.0": {
       "TestCompa/1.0.0": {
         "dependencies": {
+          "DotNetSeleniumExtras.WaitHelpers": "3.11.0",
           "Microsoft.NET.Test.Sdk": "17.3.2",
           "NUnit": "3.13.3",
           "NUnit.Analyzers": "3.5.0",
           "NUnit3TestAdapter": "4.3.0",
           "Selenium.Support": "4.29.0",
           "Selenium.WebDriver": "4.29.0",
-          "Selenium.WebDriver.ChromeDriver": "133.0.6943.14100",
+          "Selenium.WebDriver.ChromeDriver": "135.0.7049.8400",
           "coverlet.collector": "3.1.2"
         },
         "runtime": {
@@ -22,6 +23,17 @@
         }
       },
       "coverlet.collector/3.1.2": {},
+      "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+        "dependencies": {
+          "Selenium.WebDriver": "4.29.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SeleniumExtras.WaitHelpers.dll": {
+            "assemblyVersion": "3.11.0.0",
+            "fileVersion": "3.11.0.0"
+          }
+        }
+      },
       "Microsoft.CodeCoverage/17.3.2": {
         "runtime": {
           "lib/netcoreapp1.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {
@@ -385,7 +397,7 @@
           }
         }
       },
-      "Selenium.WebDriver.ChromeDriver/133.0.6943.14100": {},
+      "Selenium.WebDriver.ChromeDriver/135.0.7049.8400": {},
       "System.Collections/4.0.11": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -725,6 +737,13 @@
       "path": "coverlet.collector/3.1.2",
       "hashPath": "coverlet.collector.3.1.2.nupkg.sha512"
     },
+    "DotNetSeleniumExtras.WaitHelpers/3.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xc6jVVl5ymgk3ZNWnC/KHxkEup1QpnwYbrwF+NQoCOGERsD8YMlLwmsX4lGhLXCLo/YQTRTIwlKCN9E/doGUNg==",
+      "path": "dotnetseleniumextras.waithelpers/3.11.0",
+      "hashPath": "dotnetseleniumextras.waithelpers.3.11.0.nupkg.sha512"
+    },
     "Microsoft.CodeCoverage/17.3.2": {
       "type": "package",
       "serviceable": true,
@@ -830,12 +849,12 @@
       "path": "selenium.webdriver/4.29.0",
       "hashPath": "selenium.webdriver.4.29.0.nupkg.sha512"
     },
-    "Selenium.WebDriver.ChromeDriver/133.0.6943.14100": {
+    "Selenium.WebDriver.ChromeDriver/135.0.7049.8400": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nXlooaa5xglW1PwkGsVTrR1k/bu6yyMUhX1/vGT8bWWSPLm0XdE7LE8wWPVJ2lh8f9QHpO729iP0fAVY2/zwtA==",
-      "path": "selenium.webdriver.chromedriver/133.0.6943.14100",
-      "hashPath": "selenium.webdriver.chromedriver.133.0.6943.14100.nupkg.sha512"
+      "sha512": "sha512-QndVENpH0irVmhx8IE4n8b3UcLZn7XfpeNCAaX6UCIvwsI9CHowbfUCeHj1qKHtGOiC2QFiBFrhFFdVifhGT/A==",
+      "path": "selenium.webdriver.chromedriver/135.0.7049.8400",
+      "hashPath": "selenium.webdriver.chromedriver.135.0.7049.8400.nupkg.sha512"
     },
     "System.Collections/4.0.11": {
       "type": "package",

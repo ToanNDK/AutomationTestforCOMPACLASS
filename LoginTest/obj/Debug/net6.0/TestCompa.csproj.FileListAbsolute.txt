@@ -105,3 +105,4 @@ D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\refint\TestCompa.dll
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.pdb
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.genruntimeconfig.cache
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\ref\TestCompa.dll
+D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\SeleniumExtras.WaitHelpers.dll

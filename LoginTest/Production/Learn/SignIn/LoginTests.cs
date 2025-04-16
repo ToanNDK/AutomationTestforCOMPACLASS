@@ -49,24 +49,15 @@ namespace TestCompa.Production.Learn.Login
         public void TestLoginSuccess()
         {
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozy564@gmail.com");
+            emailInput.SendKeys("abc@gmail.com");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
+            passwordInput.SendKeys("abcyxz");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
             Thread.Sleep(5000);
-            /* // lần 2 nếu khác login_challenge
-             IWebElement emailInput1 = driver.FindElement(By.Id("email"));
-             emailInput1.SendKeys("lozy564@gmail.com");
-
-             IWebElement passwordInput1 = driver.FindElement(By.Id("password"));
-             passwordInput1.SendKeys("Toanking2k3*");
-
-             IWebElement loginButton1 = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
-             loginButton1.Click();*/
-            // Kiểm tra URL chuyển hướng đúng không
+            
             string currentUrl = driver.Url;
 
             Thread.Sleep(2000);

@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿/*using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using System;
@@ -37,10 +37,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(3000);
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
-            Thread.Sleep(5000);
-            IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > section:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
-            Actions action = new Actions(driver);
-            action.DoubleClick(create).Perform();
+            
             Thread.Sleep(5000);
         }
         //Test 1: bấm nút vào course builder
@@ -48,17 +45,17 @@ namespace TestCompa.Server.CourseBuilder
         public void courseBuilder()
         {
             studioTest();
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+            
             Thread.Sleep(5000);
 
-            string expectedText = "123123132";
+            string expectedText = "CourseTest";
 
 
-            IWebElement h2Element = driver.FindElement(By.XPath($"//h2[contains(text(),'{expectedText}')]"));
-
-
-            IWebElement parentDiv = h2Element.FindElement(By.XPath("./ancestor::div[contains(@class, 'flex justify-between')]"));
+            IWebElement h2Element = driver.FindElement(By.XPath($"//h3[contains(text(),'{expectedText}')]"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
+            h2Element.Click();
+            *//*IWebElement parentDiv = h2Element.FindElement(By.XPath("./ancestor::div[contains(@class, 'flex justify-between')]"));
 
 
             IWebElement svgButton = parentDiv.FindElement(By.XPath(".//button[contains(@class, 'group/btn')]"));
@@ -78,11 +75,11 @@ namespace TestCompa.Server.CourseBuilder
             toBuilder.Click();
             Thread.Sleep(3000);
             IWebElement Builder = driver.FindElement(By.XPath("//div[normalize-space()='Builder page']"));
-            Builder.Click();
+            Builder.Click();*//*
             Thread.Sleep(3000);
         }
         
-        //Test 7: Drag&Drop Text
+        //Test 2: Drag&Drop Text (UC-S154)
         [Test]
         public void textDragNDrop()
         {
@@ -103,7 +100,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(4000);
 
         }
-        //Test 7.1 Nhập text sau khi kéo text vào 
+        //Test 2.1 Nhập text sau khi kéo text vào (UC-S155)
         [Test]
         public void editText()
         {
@@ -115,7 +112,7 @@ namespace TestCompa.Server.CourseBuilder
             textEditor.SendKeys("abcxyz");
             Thread.Sleep(8000);//chờ autosave
         }
-        //7.2 Xóa 
+        //2.2 Xóa 
         [Test]
         public void removeText()
         {
@@ -125,7 +122,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
 
         }
-        //7.3 Di chuyển các khối text với nhau
+        //2.3 Di chuyển các khối text với nhau
         [Test]
         public void ChangeLocation()
         {
@@ -159,7 +156,7 @@ namespace TestCompa.Server.CourseBuilder
 
             Thread.Sleep(8000);
         }
-        //Test 8: Test Image 
+        //Test 3: Test Image 
         [Test]
         public void imgDragNDrop()
         {
@@ -180,7 +177,7 @@ namespace TestCompa.Server.CourseBuilder
 
             Thread.Sleep(4000);
         }
-        //8.1 test upload ảnh
+        //3.1 test upload ảnh
         [Test]
         public void imgUpload()
         {
@@ -202,7 +199,7 @@ namespace TestCompa.Server.CourseBuilder
             remove.Click();
             Thread.Sleep(2000);
         }
-        //8.2 Sử dụng embed (link)
+        //3.2 Sử dụng embed (link)
         [Test]
         public void imgEmbed()
         {
@@ -225,7 +222,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
 
         }
-        //8.3 Thay đổi ảnh
+        //3.3 Thay đổi ảnh
         [Test]
         public void changeImg()
         {
@@ -261,7 +258,7 @@ namespace TestCompa.Server.CourseBuilder
 
 
         }
-        //Test 8.4 Đổi ảnh nhưng đường dẫn sai 
+        //Test 3.4 Đổi ảnh nhưng đường dẫn sai 
         [Test]
         public void invalidUrlImg()
         {
@@ -300,7 +297,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
 
         }
-        //Test 8.5 Điều chỉnh ảnh 
+        //Test 3.5 Điều chỉnh ảnh 
         [Test]
         public void editSizeImg()
         {
@@ -326,7 +323,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(5000);
 
         }
-        //Test 9 Code
+        //Test 4 Code
         [Test]
         public void codeDragNDrop()
         {
@@ -362,7 +359,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(4000);
         }
 
-        //9.1 Nhập code vào 
+        //4.1 Nhập code vào 
         [Test]
         public void editCode()
         {
@@ -406,7 +403,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
         }
 
-        //9.2 Test nhập code với Language bất kì 
+        //4.2 Test nhập code với Language bất kì 
         [Test]
         public void htmlCode()
         {
@@ -454,7 +451,7 @@ namespace TestCompa.Server.CourseBuilder
             actions.MoveToElement(element).Click().SendKeys("<h1>COMPACLASS</h1>").Perform();
             Thread.Sleep(2000);
         }
-        //Test 9.3 Test các mode light dark cold
+        //Test 4.3 Test các mode light dark cold
         [Test]
         public void mode()
         {
@@ -473,7 +470,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
         }
 
-        //Test 10: Video
+        //Test 5: Video
         [Test]
         public void videoDragNDrop()
         {
@@ -500,7 +497,7 @@ namespace TestCompa.Server.CourseBuilder
 
             Thread.Sleep(4000);
         }
-        //10.1 Upload Video từ máy tính
+        //5.1 Upload Video từ máy tính
         [Test]
         public void uploadVideo()
         {
@@ -508,8 +505,8 @@ namespace TestCompa.Server.CourseBuilder
             IWebElement uploadField = driver.FindElement(By.XPath("//p[contains(@class,'text-xs truncate flex-1')]"));
             uploadField.Click();
             Thread.Sleep(3000);
-           /* IWebElement upload = driver.FindElement(By.XPath("//label[@for='video-audio']"));
-            upload.Click();*/
+           *//* IWebElement upload = driver.FindElement(By.XPath("//label[@for='video-audio']"));
+            upload.Click();*//*
 
             IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
             //video test
@@ -521,7 +518,7 @@ namespace TestCompa.Server.CourseBuilder
 
 
         }
-        //10.2 Embed video từ URL
+        //5.2 Embed video từ URL
 
         [Test]
         public void embedVideo()
@@ -541,7 +538,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(3000);
         }
 
-        //10.3 Test toggle title và description 
+        //5.3 Test toggle title và description 
         [Test]
         public void toggleTitleAndDescription()
         {
@@ -557,7 +554,7 @@ namespace TestCompa.Server.CourseBuilder
             remove.Click();
             Thread.Sleep(2000);
         }
-        //10.4 Thêm title, description
+        //5.4 Thêm title, description
        
         [Test]
         public void addTitleAndDesc()
@@ -575,7 +572,7 @@ namespace TestCompa.Server.CourseBuilder
             Thread.Sleep(2000);
         }
 
-        //Test 11: Markdown
+        //Test 6: Markdown
         [Test]
         public void markdownDragNDrop()
         {
@@ -602,24 +599,20 @@ namespace TestCompa.Server.CourseBuilder
 
             Thread.Sleep(4000);
         }
-        //11.1 Test các chức năng trên tab
+        //6.1 Test các chức năng trên tab
         [Test]
         public void toolbarTest()
         {
             markdownDragNDrop();
 
-            // Tìm tất cả các nút toolbar trong div có class "w-md-editor-toolbar"
             IList<IWebElement> toolbarButtons = driver.FindElements(By.CssSelector("div.w-md-editor-toolbar button[data-name]"));
 
-            // Nhấn từng nút
             foreach (IWebElement button in toolbarButtons)
             {
                 try
                 {
-                    // Cuộn đến nút nếu nó bị ẩn
                     ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", button);
 
-                    // Kiểm tra xem button có thể nhấn được không
                     if (button.Displayed && button.Enabled)
                     {
                         string buttonName = button.GetAttribute("data-name");
@@ -627,9 +620,8 @@ namespace TestCompa.Server.CourseBuilder
                         // Nhấn nút
                         button.Click();
 
-                        // In ra tên nút đã nhấn
                         Console.WriteLine($"Đã ấn nút: {buttonName}");
-                        Thread.Sleep(1000); // Đợi một chút giữa các lần nhấn
+                        Thread.Sleep(1000); 
                     }
                     else
                     {
@@ -666,3 +658,4 @@ namespace TestCompa.Server.CourseBuilder
 
 
 }
+*/
