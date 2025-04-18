@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Restore Packages') {
+            steps {
+                dir('LoginTest') {
+                    bat 'dotnet restore'
+                }
+            }
+        }
+        stage('Build Project') {
+            steps {
+                dir('LoginTest') {
+                    bat 'dotnet build --configuration Release'
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                dir('LoginTest') {
+                    bat 'dotnet test --no-build --verbosity normal'
+                }
+            }
+        }
+    }
+}
