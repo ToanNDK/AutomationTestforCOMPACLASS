@@ -7,6 +7,18 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Clean workspace') {    // ✨ Thêm bước clean ở đây
+            steps {
+                dir('LoginTest') {
+                    bat '''
+                    if exist bin rmdir /s /q bin
+                    if exist obj rmdir /s /q obj
+                    '''
+                }
+            }
+        }
+
         stage('Restore Packages') {
             steps {
                 dir('LoginTest') {
@@ -14,6 +26,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build Project') {
             steps {
                 dir('LoginTest') {
@@ -21,6 +34,7 @@ pipeline {
                 }
             }
         }
+
         stage('Run Tests') {
             steps {
                 dir('LoginTest') {
