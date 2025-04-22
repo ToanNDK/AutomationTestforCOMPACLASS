@@ -4,13 +4,13 @@ using OpenQA.Selenium;
 using TestCompa.Utilities;
 using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
-namespace TestCompa.Server.CourseOverview
+namespace TestCompa.Server.CourseBuilder.Overview
 {
-    public class CourseOverview
+    public class AddCourse
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private string StudioUrl = "http://10.10.10.30:3000/";
 
         [SetUp]
         public void Setup()
@@ -18,33 +18,33 @@ namespace TestCompa.Server.CourseOverview
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
 
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(StudioUrl);
 
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
 
         }
 
-        public void studioTest()
+        public void StudioTest()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(StudioUrl);
             Login();
             Thread.Sleep(3000);
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
         }
-        [Test]
-        public void courseBuilder()
+
+        public void CourseBuilder()
         {
-            studioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='5']"));
+            StudioTest();
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
             tab.Click();
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
 
 
             string expectedText = "CourseTest";
@@ -55,57 +55,107 @@ namespace TestCompa.Server.CourseOverview
             js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
             Thread.Sleep(3000);
             h2Element.Click();
+
             Thread.Sleep(3000);
         }
 
-
-        
-        public void navigateToCourseOverview()
-        {
-            courseBuilder();
-            IWebElement overview = driver.FindElement(By.XPath("//button[normalize-space()='Course Overview']"));
-            overview.Click();
-            Thread.Sleep(2000);
-
-        }
+        //Test 1: Add Description
         [Test]
-        public void singleChoice()
+        public void AddDescription()
         {
-            navigateToCourseOverview();
-            IWebElement header = driver.FindElement(By.XPath("//input[@id='title']"));
-            header.Click();
+            CourseBuilder();
+            IWebElement description = driver.FindElement(By.XPath("//textarea[@id='description']"));
+            description.Clear();
+            description.SendKeys("Description Test");
+            Thread.Sleep(2000);
+        }
+        //Test 2 : Add Infomation
+        [Test]
+        public void AddInfomation()
+        {
+            CourseBuilder();
+            IWebElement info = driver.FindElement(By.XPath("//input[@class='flex w-full bg-white rounded-md border ring-offset-white border-gray-l20 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-darkGray focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-primary-l40 h-10 px-3 py-2 text-sm flex-1 opacity-70']"));
+            info.SendKeys("INFOMATION Test");
             Thread.Sleep(1000);
         }
-        //Test 1: Display Settings (UC-S229)
+
+        //Test 3: About the course 
         [Test]
-        public void displaySetting()
+        public void AboutTheCourse()
         {
-            singleChoice();
-            Thread.Sleep(3000);
-            IWebElement dropdown = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
-            dropdown.Click();
-            Thread.Sleep(4000);
-            IWebElement displayAllQuestions = driver.FindElement(By.XPath("//span[normalize-space()='Display all questions']"));
-            displayAllQuestions.Click();
+            CourseBuilder();
+            //nhập content vào ckeditor
+            IWebElement ckeditor = driver.FindElement(By.CssSelector("div.ck-editor__editable"));
+            ckeditor.Clear();
+            ckeditor.SendKeys("INFOMATION Test");
+            Thread.Sleep(1000);
+        }
+        //Test 3.1 About the course (Heading) 
+        [Test]
+        public void HeadingAboutTheCourse()
+        {
+            AboutTheCourse();
+            Thread.Sleep(2000);
+            IWebElement heading = driver.FindElement(By.XPath("//button[@role='combobox' and @type='button']"));
+            heading.Click();
+            Thread.Sleep(2000);
+            IList<IWebElement> headingOptions = driver.FindElements(By.CssSelector("span.flex-1"));
+
+            Random random = new Random();
+            int randomIndex = random.Next(headingOptions.Count);
+
+            IWebElement randomHeading = headingOptions[randomIndex];
+            randomHeading.Click();
+
+        }
+        //Test 3.2 Bold, Italic, Underline, Strikethrough 
+        [Test]
+        public void TextFormat()
+        {
+            AboutTheCourse();
+            IWebElement ckeditor = driver.FindElement(By.CssSelector("div.ck-editor__editable"));
+            ckeditor.SendKeys(Keys.Control + 'a');
+            Thread.Sleep(1000);
+            ckeditor.SendKeys(Keys.Control + 'b');
+            Thread.Sleep(1000);
+            ckeditor.SendKeys(Keys.Control + 'u');
+            Thread.Sleep(1000);
+            ckeditor.SendKeys(Keys.Control + 'i');
+            Thread.Sleep(1000);
+            IWebElement strikethrough = driver.FindElement(By.CssSelector(".lucide.lucide-strikethrough"));
+            strikethrough.Click();
             Thread.Sleep(2000);
         }
-        //Test 2: Allow Attempt ( Số lần làm ) (UC-S230)
+        //Test 4: Quote 
         [Test]
-        public void allowAttempt()
+        public void Quote()
         {
-            singleChoice();
-            Thread.Sleep(3000);
-            IWebElement dropdown = driver.FindElement(By.XPath("//button[.//span[normalize-space()='Unlimited']]"));
-            dropdown.Click();
-            Thread.Sleep(4000);
-            IWebElement attempt = driver.FindElement(By.XPath("//span[normalize-space()='1 attempt']"));
-            attempt.Click();
-            Thread.Sleep(4000);
-            dropdown.Click();
+            AboutTheCourse();
+            IWebElement Quote = driver.FindElement(By.CssSelector(".lucide.lucide-quote"));
+            Quote.Click();
             Thread.Sleep(2000);
-            IWebElement attempts = driver.FindElement(By.XPath("//span[normalize-space()='3 attempts']"));
-            attempts.Click();
+            IWebElement List = driver.FindElement(By.CssSelector(".lucide.lucide-list"));
+            List.Click();
             Thread.Sleep(2000);
+        }
+        //Test 5: Add Teacher 
+        [Test]
+        public void AddTeacher()
+        {
+            CourseBuilder();
+            ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+            Thread.Sleep(2000);
+            IWebElement add = driver.FindElement(By.CssSelector("svg.lucide.lucide-plus.text-primary"));
+            add.Click();
+            Thread.Sleep(2000);
+
+            IWebElement teacherEmail = driver.FindElement(By.XPath("//input[@placeholder='Email address or name']"));
+            teacherEmail.SendKeys("lozy564");
+            Thread.Sleep(1000);
+            IWebElement confirm = driver.FindElement(By.XPath("//div[contains(@class,'flex flex-col text-sm')]"));
+            teacherEmail.Click();
+            Thread.Sleep(2000);
+
         }
 
         public void Login()

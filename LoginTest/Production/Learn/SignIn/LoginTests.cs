@@ -49,10 +49,10 @@ namespace TestCompa.Production.Learn.Login
         public void TestLoginSuccess()
         {
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("abc@gmail.com");
+            emailInput.SendKeys("info@kpim.vn");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("abcyxz");
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
@@ -95,7 +95,7 @@ namespace TestCompa.Production.Learn.Login
         public void TestLogin_PasswordTooLong()
         {
 
-            string longPsw = new string('a', 100);
+            string longPsw = new('a', 100);
             driver.Navigate().GoToUrl(productionUrl);
             driver.FindElement(By.Id("email")).SendKeys("ValidEmail@example.com");
             driver.FindElement(By.Id("password")).SendKeys(longPsw);

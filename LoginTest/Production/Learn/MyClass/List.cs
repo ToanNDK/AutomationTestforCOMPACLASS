@@ -12,29 +12,45 @@ namespace TestCompa.Production.Learn.MyClassList
 {
     public class ClassTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private string devUrl = "https://compaclass.com/learn/home";
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "https://compaclass.com/learn/home";
+        private readonly string courseUrl = "https://compaclass.com/learn/course";
+       
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+            driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignIn");
         }
         // 1. Test chức năng tìm kiếm với từ khóa ("powerbi", "microsoft")
 
         [Test, Order(1)]
         public void searchClass()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(homeUrl);
             Login();
 
             // Đợi trang load và click vào nút để chuyển trang
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();  // Nhấn vào để chuyển trang
 
@@ -82,7 +98,7 @@ namespace TestCompa.Production.Learn.MyClassList
 
         public void Login()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 

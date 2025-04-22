@@ -12,36 +12,52 @@ namespace TestCompa.Production.Learn.Grade
 {
     public class ClassTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private string devUrl = "https://compaclass.com/learn/home";
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "https://compaclass.com/learn/home";
+        private readonly string courseUrl = "https://compaclass.com/learn/course";
+       
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new(driver, TimeSpan.FromSeconds(10));
+        }
+
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+            driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignIn");
         }
         // 1. Test chức năng điều hướng tới Grade
 
         [Test, Order(1)]
         public void Grade()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(homeUrl);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(20));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IWebElement testclass = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(),'Class Test')]")));
             testclass.Click();
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IWebElement grade = driver.FindElement(By.XPath("//a[text()='Điểm số']"));
             grade.Click();
             Thread.Sleep(2000);
@@ -57,7 +73,7 @@ namespace TestCompa.Production.Learn.Grade
             Grade();
             IWebElement mark = driver.FindElement(By.XPath("//a[contains(text(),'KPIM Academy')]"));
             mark.Click();
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
 
         }
 
@@ -73,7 +89,7 @@ namespace TestCompa.Production.Learn.Grade
             IReadOnlyCollection<IWebElement> labels = btnView.FindElements(By.XPath("//label"));
             if (labels.Count > 0)
             {
-                Random rand = new Random();
+                Random rand = new();
                 int index = rand.Next(labels.Count);
                 labels.ElementAt(index).Click();
             }
@@ -94,7 +110,7 @@ namespace TestCompa.Production.Learn.Grade
             IReadOnlyCollection<IWebElement> labels = btnView.FindElements(By.XPath("//label"));
             if (labels.Count > 0)
             {
-                Random rand = new Random();
+                Random rand = new();
                 int index = rand.Next(labels.Count);
                 labels.ElementAt(index).Click();
                 Thread.Sleep(2000);
@@ -105,7 +121,7 @@ namespace TestCompa.Production.Learn.Grade
 
         public void Login()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 

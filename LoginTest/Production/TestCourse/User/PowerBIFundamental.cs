@@ -11,8 +11,8 @@ namespace TestCompa.Production.TestCourse.User
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
         {
@@ -91,7 +91,7 @@ namespace TestCompa.Production.TestCourse.User
         {
             try
             {
-                InitDriver(headless: true);  // chạy headless trước
+                InitDriver(headless: true);  // Chạy headless trước
                 RunAddQuestionTest();
             }
             catch (Exception ex)
@@ -99,17 +99,21 @@ namespace TestCompa.Production.TestCourse.User
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
-                InitDriver(headless: false); // chạy lại với giao diện
+                // Đảm bảo driver không phải là null trước khi gọi Quit
+                driver?.Quit();
+
+                InitDriver(headless: false); // Chạy lại với giao diện UI
                 RunAddQuestionTest();
 
-                throw; // vẫn throw lỗi để Jenkins/log biết test fail
+                throw; // Vẫn throw lỗi để Jenkins/log biết test fail
             }
             finally
             {
-                driver.Quit();
+                // Kiểm tra nếu driver không phải là null trước khi gọi Quit
+                driver?.Quit();
             }
         }
+
 
         //Check trang điểm của học viên ( chỉ hiển thị điểm của mình ) 
         [Test]

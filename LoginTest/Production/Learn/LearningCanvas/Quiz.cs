@@ -22,7 +22,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
 
            // driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignIn");
 
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait = new(driver, TimeSpan.FromSeconds(10));
         }
         //Test 1: Truy cập learning canvas
         [Test]
@@ -31,7 +31,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
             driver.Navigate().GoToUrl("http://compaclass.com/learn/class");
             Thread.Sleep(5000);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new (driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(2000);
@@ -54,7 +54,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         public void gotoCourseContent()
         {
             testContinueLearn();
-            IWebElement chapterLink = driver.FindElement(By.XPath("//a[text()='Chapter 3: Mô hình dữ liệu Data Model']"));
+            IWebElement chapterLink = driver.FindElement(By.XPath("//a[text()='Chapter 5: Tạo biểu đồ và thiết kế báo cáo']"));
             chapterLink.Click();
             Thread.Sleep(3000);
         }
@@ -63,7 +63,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         public void selectQuiz()
         {
             gotoCourseContent();
-            IWebElement quizTest = driver.FindElement(By.XPath("//a[contains(text(),'Bài kiểm tra giữa khoá')]"));
+            IWebElement quizTest = driver.FindElement(By.XPath("//a[contains(text(),'Bài kiểm tra cuối khoá')]"));
             quizTest.Click();
             Thread.Sleep(2000);
 
@@ -91,7 +91,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
 
                 if (answerOptions.Count > 0)
                 {
-                    Random random = new Random();
+                    Random random = new();
 
                     
                     int numberOfChoices = random.Next(1, answerOptions.Count + 1);
@@ -236,7 +236,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         }
         /*public void clickScrollBar()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             string baseCourseUrl = driver.Url; // Lưu lại URL ban đầu
 
             // Lấy danh sách ban đầu

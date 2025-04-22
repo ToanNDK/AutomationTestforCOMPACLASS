@@ -11,8 +11,8 @@ namespace TestCompa.Production.TestCourse.TA
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
         {

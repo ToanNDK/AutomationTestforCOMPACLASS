@@ -11,12 +11,12 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
         {
-            ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new();
 
             if (headless)
             {
@@ -46,7 +46,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 content();
 
@@ -54,7 +54,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -72,7 +75,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 searchComment();
 
@@ -80,7 +83,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -99,7 +105,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 RunAddQuestionTest();
 
@@ -107,7 +113,11 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
+               
             }
         }
 
@@ -125,7 +135,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 RunCheckGradeTest();
 
@@ -133,7 +143,11 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
+                
             }
         }
         //Check theo tên chương
@@ -150,7 +164,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 RunCheckGradeTest();
 
@@ -158,7 +172,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -177,7 +194,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 gotoLearn();
 
@@ -185,7 +202,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -204,7 +224,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 addComment();
 
@@ -212,7 +232,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -230,7 +253,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 deleteComment();
 
@@ -238,7 +261,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -256,7 +282,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 deleteComment();
 
@@ -264,7 +290,10 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -281,13 +310,16 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false);
                 finishLesson();
             }
             finally
             {
-                driver.Quit();
+                if (driver != null)
+                {
+                    driver?.Quit();
+                }
             }
         }
 
@@ -304,7 +336,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
                 Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-                driver.Quit();
+                driver?.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
                 videoTest();
 
@@ -358,7 +390,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 return elements.Count > 0 ? elements : null;
             });
 
-            Random rnd = new Random();
+            Random rnd = new();
             int index = rnd.Next(options.Count);
             var option = options.ElementAt(index);
 
@@ -500,7 +532,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             // Kiểm tra số lượng và chọn ngẫu nhiên
             if (spans.Count > 0)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 int index = rnd.Next(spans.Count);
 
                 var randomSpan = spans[index];
@@ -538,7 +570,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new (driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));
@@ -552,7 +584,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
         private void Grade()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Điểm số']"));
@@ -661,7 +693,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             Thread.Sleep(2000);
         }
         //Xem video
-        private void videoTest()
+        /*private void videoTest()
         {
             gotoLearn();
             IWebElement playVideo = driver.FindElement(By.XPath("//div[@class='vds-blocker']"));
@@ -692,6 +724,6 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
             IWebElement mute = driver.FindElement(By.XPath("//button[contains(@aria-label,'Mute')]"));
             mute.Click();
             Thread.Sleep(1000);
-        }
+        }*/
     }
 }

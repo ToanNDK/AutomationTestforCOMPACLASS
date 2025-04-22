@@ -16,7 +16,7 @@ namespace TestCompa.Server.TestCourse.User
 
         private void InitDriver(bool headless)
         {
-            ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new();
 
             if (headless)
             {
@@ -296,7 +296,7 @@ namespace TestCompa.Server.TestCourse.User
         {
             try
             {
-                InitDriver(headless: false);  // chạy headless trước
+                InitDriver(headless: true);  // chạy headless trước
                 videoTest();
             }
             catch (Exception ex)
@@ -354,7 +354,7 @@ namespace TestCompa.Server.TestCourse.User
                 return elements.Count > 0 ? elements : null;
             });
 
-            Random rnd = new Random();
+            Random rnd = new();
             int index = rnd.Next(options.Count);
             options.ElementAt(index).Click();
             Thread.Sleep(3000);
@@ -408,10 +408,10 @@ namespace TestCompa.Server.TestCourse.User
         {
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozik480@gmail.com");
+            emailInput.SendKeys("tuantry959@gmail.com");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
+            passwordInput.SendKeys("Kpim@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
@@ -490,7 +490,7 @@ namespace TestCompa.Server.TestCourse.User
             // Kiểm tra số lượng và chọn ngẫu nhiên
             if (spans.Count > 0)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 int index = rnd.Next(spans.Count);
 
                 var randomSpan = spans[index];
@@ -528,7 +528,7 @@ namespace TestCompa.Server.TestCourse.User
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));
@@ -542,7 +542,7 @@ namespace TestCompa.Server.TestCourse.User
         private void Grade()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Điểm số']"));

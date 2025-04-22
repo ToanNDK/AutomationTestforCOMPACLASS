@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
@@ -8,42 +9,55 @@ namespace TestCompa.Production.Learn.CartTest
 {
     public class CartTest
     {
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string devUrl = "https://compaclass.com/vn/academy/kpim";
+        private readonly string email = "lozik480@gmail.com";
+        private readonly string password = "Toanking2k3*";
 
-        private IWebDriver driver;
-        private WebDriverWait wait;
-
-        private string devUrl = "https://compaclass.com/vn/academy/kpim";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+        }
 
         //Test 1 : Truy cập Overview khi chưa login
         [Test, Order(1)]
         public void TestOverviewCourseWithoutLogin()
         {
-
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
             IWebElement course = driver.FindElement(By.XPath("//a[contains(@class, 'absolute') and contains(@class, 'bg-dark')]"));
             course.Click();
 
             wait.Until(d => d.Url.Contains("https://compaclass.com/vn/learn/course/"));
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course/"));
+            Assert.That(driver.Url,Does.Contain("https://compaclass.com/vn/learn/course/"));
         }
 
         //Test 2: Truy cập OverView khi đã đăng nhập
         [Test, Order(2)]
-
         public void TestOverviewCourseLogin()
         {
-
             driver.Navigate().GoToUrl(devUrl);
-
             Thread.Sleep(2000);
 
             IWebElement course = driver.FindElement(By.XPath("//a[contains(@class, 'absolute') and contains(@class, 'bg-dark')]"));
@@ -56,26 +70,18 @@ namespace TestCompa.Production.Learn.CartTest
 
             Thread.Sleep(4000);
 
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozy564@gmail.com");
-
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
-
-            IWebElement signInButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
-            signInButton.Click();
-
+            // Đăng nhập
+            Login();
 
             Thread.Sleep(6000);
 
             // Kiểm tra kết quả
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url,Does.Contain("https://compaclass.com/vn/learn/course"));
         }
 
         //Test 3: Thêm vào giỏ hàng khi chưa đăng nhập
-
         [Test, Order(3)]
-        public void addCartWithoutLogin()
+        public void AddCartWithoutLogin()
         {
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
@@ -88,12 +94,12 @@ namespace TestCompa.Production.Learn.CartTest
             Thread.Sleep(5000);
 
             // Bắt buộc chuyển hướng sang trang login
-            Assert.IsTrue(driver.Url.Contains("https://auth.compaclass.com/Auth/SignIn"));
-
+            Assert.That(driver.Url, Does.Contain("https://auth.compaclass.com/Auth/SignIn"));
         }
+
         //Test 4 : Thêm vào giỏ hàng khi đã đăng nhập
         [Test, Order(4)]
-        public void addCartLogin()
+        public void AddCartLogin()
         {
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
@@ -109,7 +115,7 @@ namespace TestCompa.Production.Learn.CartTest
             Thread.Sleep(3000);
 
             // Kiểm tra đã chuyển hướng đến trang đăng nhập
-            Assert.IsTrue(driver.Url.Contains("https://auth.compaclass.com/Auth/SignIn"));
+            Assert.That(driver.Url, Does.Contain("https://auth.compaclass.com/Auth/SignIn"));
             Thread.Sleep(3000);
 
             // Đăng nhập
@@ -127,12 +133,12 @@ namespace TestCompa.Production.Learn.CartTest
             Thread.Sleep(5000);
 
             // Kiểm tra đã vào trang giỏ hàng
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/cart"));
+            Assert.That(driver.Url, Does.Contain("https://compaclass.com/learn/cart"));
         }
 
         //Test 5: Xóa khóa học khỏi giỏ hàng
         [Test, Order(5)]
-        public void removeCourseCart()
+        public void RemoveCourseCart()
         {
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
@@ -147,8 +153,7 @@ namespace TestCompa.Production.Learn.CartTest
             cart.Click();
             Thread.Sleep(1000);
 
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/cart"));
-
+            Assert.That(driver.Url, Does.Contain("https://compaclass.com/learn/cart"));
 
             IWebElement editCart = driver.FindElement(By.XPath("//button[span[text()='Chỉnh sửa giỏ hàng']]"));
             editCart.Click();
@@ -157,34 +162,31 @@ namespace TestCompa.Production.Learn.CartTest
             IWebElement checkbox = driver.FindElement(By.XPath("//input[@type='checkbox']"));
             checkbox.Click();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(2));
             wait.Until(d => checkbox.Selected);
-            Assert.IsTrue(checkbox.Selected, "Checkbox chưa được chọn");
-
+            Assert.That(checkbox.Selected, "Checkbox chưa được chọn");
 
             IWebElement deleteCourse = driver.FindElement(By.XPath("//button[text()='Xóa khỏi giỏ hàng']"));
             deleteCourse.Click();
 
-
             IWebElement confirmPopup = wait.Until(d => d.FindElement(By.XPath("//div[@role='alertdialog']")));
-            Assert.IsTrue(confirmPopup.Displayed, "Popup xác nhận không xuất hiện!");
+            Assert.That(confirmPopup.Displayed, "Popup xác nhận không xuất hiện!");
 
             IWebElement closePopup = wait.Until(d => d.FindElement(By.XPath("//button[text()='Quay lại']")));
             closePopup.Click();
             Thread.Sleep(500);
 
-
             IWebElement deleteAll = wait.Until(d => d.FindElement(By.XPath("//button[text()='Xóa']")));
             deleteAll.Click();
-
 
             wait.Until(d => d.FindElements(By.XPath("//div[@role='alertdialog']")).Count == 0);
             Thread.Sleep(1000);
             Console.WriteLine(" Sản phẩm đã được xóa khỏi giỏ hàng.");
         }
-        [Test]
+
         // Test 6: Kiểm tra checkbox trong giỏ hàng -> Sau khi click thì nút Thanh toán sang
-        public void cartCheckboxTest()
+        [Test, Order(6)]
+        public void CartCheckboxTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
@@ -213,10 +215,9 @@ namespace TestCompa.Production.Learn.CartTest
                 buttonAddCart = driver.FindElement(By.XPath("//span[contains(text(),'Xem giỏ hàng')]"));
                 if (buttonAddCart.Text.Trim() == "Xem giỏ hàng")
                 {
-
                     buttonAddCart.Click();
                     Thread.Sleep(2000);
-                    Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/cart"));
+                    Assert.That(driver.Url, Does.Contain("https://compaclass.com/learn/cart"));
                 }
                 else
                 {
@@ -225,10 +226,9 @@ namespace TestCompa.Production.Learn.CartTest
             }
             else if (btnText == "Xem giỏ hàng")
             {
-
                 buttonAddCart.Click();
                 Thread.Sleep(2000);
-                Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/cart"));
+                Assert.That(driver.Url, Does.Contain("https://compaclass.com/learn/cart"));
             }
             else
             {
@@ -239,37 +239,23 @@ namespace TestCompa.Production.Learn.CartTest
             Thread.Sleep(5000);
         }
 
-
-        public void Login()
+        private void Login()
         {
             Thread.Sleep(1000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozik480@gmail.com");
+            emailInput.SendKeys(email);
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
+            passwordInput.SendKeys(password);
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
-
         }
+
         [TearDown]
         public void Teardown()
         {
             driver.Quit();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
-

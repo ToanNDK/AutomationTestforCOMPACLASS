@@ -1,5 +1,5 @@
-D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\testhost.exe
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\testhost.dll
+D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\testhost.exe
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\selenium-manager\linux\selenium-manager
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\selenium-manager\macos\selenium-manager
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\selenium-manager\windows\selenium-manager.exe
@@ -13,6 +13,7 @@ D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\TestCompa.deps.json
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\TestCompa.runtimeconfig.json
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\TestCompa.dll
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\TestCompa.pdb
+D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\SeleniumExtras.WaitHelpers.dll
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\Microsoft.TestPlatform.CoreUtilities.dll
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
@@ -96,8 +97,6 @@ D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\zh-Hant\Microsoft.VisualStudio.Test
 D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.csproj.AssemblyReference.cache
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.GeneratedMSBuildEditorConfig.editorconfig
-D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.AssemblyInfoInputs.cache
-D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.AssemblyInfo.cs
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.csproj.CoreCompileInputs.cache
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.csproj.CopyComplete
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.dll
@@ -105,4 +104,3 @@ D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\refint\TestCompa.dll
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.pdb
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\TestCompa.genruntimeconfig.cache
 D:\KPIM\LoginTest\LoginTest\obj\Debug\net6.0\ref\TestCompa.dll
-D:\KPIM\LoginTest\LoginTest\bin\Debug\net6.0\SeleniumExtras.WaitHelpers.dll

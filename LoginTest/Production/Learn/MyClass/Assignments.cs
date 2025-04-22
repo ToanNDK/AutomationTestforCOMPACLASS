@@ -23,7 +23,7 @@ namespace TestCompa.Production.Learn.Assignments
 
             driver.Navigate().GoToUrl(devUrl);
 
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait = new(driver, TimeSpan.FromSeconds(10));
         }
         // 1. Test chức năng điều hướng tới Assignment
 
@@ -34,7 +34,7 @@ namespace TestCompa.Production.Learn.Assignments
             Login();
 
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
@@ -101,7 +101,7 @@ namespace TestCompa.Production.Learn.Assignments
         //5. 
         public void Login()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 

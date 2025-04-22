@@ -1,10 +1,6 @@
 ﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using NUnit.Framework;
 
 namespace TestCompa.Server.TestCourse.Teacher
@@ -12,12 +8,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;  
+        private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
         {
-            ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new();
 
             if (headless)
             {
@@ -35,12 +31,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Xem nội dung trang overview
         [Test]
-        public void runOverviewContent()
+        public void RunOverviewContent()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                content();
+                Content();
             }
             catch (Exception ex)
             {
@@ -49,7 +45,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                content();
+                Content();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -61,12 +57,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Tìm kiếm & Sort Đánh giá
         [Test]
-        public void runSearchComment()
+        public void RunSearchComment()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                searchComment();
+                SearchComment();
             }
             catch (Exception ex)
             {
@@ -75,7 +71,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                searchComment();
+                SearchComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -88,7 +84,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Thêm câu hỏi
         [Test]
-        public void addQuestion()
+        public void AddQuestion()
         {
             try
             {
@@ -114,7 +110,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Check trang điểm của học viên ( Hiển thị toàn bộ điểm của lớp ) 
         [Test]
-        public void checkGrade()
+        public void CheckGrade()
         {
             try
             {
@@ -139,12 +135,12 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
         //Check theo tên chương
         [Test]
-        public void checkGradeChapter()
+        public void CheckGradeChapter()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                runCheckGradeChapter();
+                RunCheckGradeChapter();
             }
             catch (Exception ex)
             {
@@ -164,12 +160,12 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
         //Check theo tên 
         [Test]
-        public void checkGradeName()
+        public void CheckGradeName()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                runCheckGradeName();
+                RunCheckGradeName();
             }
             catch (Exception ex)
             {
@@ -178,7 +174,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                runCheckGradeName();
+                RunCheckGradeName();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -190,12 +186,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Đi đến học
         [Test]
-        public void runGotoLearn()
+        public void RunGotoLearn()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                gotoLearn();
+                GotoLearn();
             }
             catch (Exception ex)
             {
@@ -204,7 +200,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                gotoLearn();
+                GotoLearn();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -217,12 +213,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Thêm comment
         [Test]
-        public void runCommentLearningCanvas()
+        public void RunCommentLearningCanvas()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                addComment();
+                AddComment();
             }
             catch (Exception ex)
             {
@@ -231,7 +227,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addComment();
+                AddComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -243,12 +239,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Xóa comment
         [Test]
-        public void runDeleteCommentLearningCanvas()
+        public void RunDeleteCommentLearningCanvas()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                deleteComment();
+                DeleteComment();
             }
             catch (Exception ex)
             {
@@ -257,7 +253,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                deleteComment();
+                DeleteComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -269,12 +265,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Tìm kiếm comment LearningCanvas
         [Test]
-        public void runSerachCommentLC()
+        public void RunSerachCommentLC()
         {
             try
             {
                 InitDriver(headless: true);
-                searchCommentLC();
+                SearchCommentLC();
             }
             catch (Exception ex)
             {
@@ -283,7 +279,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                deleteComment();
+                SearchCommentLC();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -294,12 +290,12 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         [Test]
-        public void runFinishLesson()
+        public void RunFinishLesson()
         {
             try
             {
                 InitDriver(headless: false);
-                finishLesson();
+                FinishLesson();
             }
             catch (Exception ex)
             {
@@ -308,7 +304,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false);
-                finishLesson();
+                FinishLesson();
             }
             finally
             {
@@ -317,12 +313,12 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         [Test]
-        public void runVideoTest()
+        public void RunVideoTest()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                videoTest();
+                VideoTest();
             }
             catch (Exception ex)
             {
@@ -331,19 +327,19 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                videoTest();
+                VideoTest();
 
                 throw; // vẫn throw để log biết test bị fail
             }
         }
         //Thêm bài đăng
         [Test]
-        public void runAddPost()
+        public void RunAddPost()
         {
             try
             {
                 InitDriver(headless: true);
-                addPost();
+                AddPost();
             }
             catch (Exception ex)
             {
@@ -352,7 +348,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addPost();
+                AddPost();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -361,12 +357,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Sửa bài đăng 
         [Test]
-        public void runEditPost()
+        public void RunEditPost()
         {
             try
             {
                 InitDriver(headless: true);
-                editPost();
+                EditPost();
             }
             catch (Exception ex)
             {
@@ -375,7 +371,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                editPost();
+                EditPost();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -384,12 +380,12 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         //Sửa bài đăng 
         [Test]
-        public void runDeletePost()
+        public void RunDeletePost()
         {
             try
             {
                 InitDriver(headless: true);
-                deletePost();
+                DeletePost();
             }
             catch (Exception ex)
             {
@@ -398,7 +394,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                deletePost();
+                DeletePost();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -447,7 +443,7 @@ namespace TestCompa.Server.TestCourse.Teacher
                 return elements.Count > 0 ? elements : null;
             });
 
-            Random rnd = new Random();
+            Random rnd = new();
             int index = rnd.Next(options.Count);
             options.ElementAt(index).Click();
             Thread.Sleep(3000);
@@ -509,7 +505,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
 
-        private void runCheckGradeChapter()
+        private void RunCheckGradeChapter()
         {
             RunCheckGradeTest();
             IWebElement chapter = driver.FindElement(By.XPath("//span[@class='flex-1 text-start font-bold text-white line-clamp-1 ']"));
@@ -517,7 +513,7 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(3000);
         }
 
-        private void runCheckGradeName()
+        private void RunCheckGradeName()
         {
             RunCheckGradeTest();
             IWebElement serach = driver.FindElement(By.XPath("(//input[@placeholder='Tìm kiếm'])[2]"));
@@ -548,7 +544,7 @@ namespace TestCompa.Server.TestCourse.Teacher
             discovery.Click();
             Thread.Sleep(2000);
 
-            IWebElement course = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bảnn')]"));
+            IWebElement course = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản update')]"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].scrollIntoView(true);", course);
             Thread.Sleep(1000);
@@ -557,7 +553,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Test Dropdown Overview ( Nội dung học tập ) 
-        private void content()
+        private void Content()
         {
             Login();
             Navigate();
@@ -596,7 +592,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Tìm kiếm & Sort đánh giá ()
-        private void searchComment()
+        private void SearchComment()
         {
             Login();
             Navigate();
@@ -652,7 +648,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));
@@ -666,7 +662,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         private void Grade()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Điểm số']"));
@@ -680,7 +676,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         private void Post()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Bài đăng']"));
@@ -691,7 +687,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Đi đến học
-        private void gotoLearn()
+        private void GotoLearn()
         {
             Login();
             Navigate();
@@ -701,9 +697,9 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //comment learning canvas 
-        private void addComment()
+        private void AddComment()
         {
-            gotoLearn();
+            GotoLearn();
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(3000);
 
@@ -729,9 +725,9 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //delete comment 
-        private void deleteComment()
+        private void DeleteComment()
         {
-            addComment();
+            AddComment();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(2000);
@@ -743,9 +739,9 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(2000);
         }
         //Serach comment LearningCanvas
-        private void searchCommentLC()
+        private void SearchCommentLC()
         {
-            addComment();
+            AddComment();
             var searchInputs = driver.FindElements(By.CssSelector("input[placeholder='Tìm kiếm'][role='combobox']"));
             if (searchInputs.Count >= 2)
             {
@@ -773,9 +769,9 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(2000);
         }
         //Finish lesson 
-        private void finishLesson()
+        private void FinishLesson()
         {
-            gotoLearn();
+            GotoLearn();
 
             // Tìm nút "Hoàn thành"
             IWebElement finish = driver.FindElement(By.XPath("//button[normalize-space()='Hoàn thành']"));
@@ -789,9 +785,9 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(2000);
         }
         //Xem video
-        private void videoTest()
+        private void VideoTest()
         {
-            gotoLearn();
+            GotoLearn();
             IWebElement playVideo = driver.FindElement(By.XPath("//div[@class='vds-blocker']"));
             playVideo.Click();
             Thread.Sleep(3000);
@@ -823,7 +819,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Add Posts
-        private void addPost()
+        private void AddPost()
         {
             Login();
             Navigate();
@@ -842,9 +838,9 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(2000);
         }
         //Edit Posts
-        private void editPost()
+        private void EditPost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(3000);
 
             driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group")).Click();
@@ -870,9 +866,9 @@ namespace TestCompa.Server.TestCourse.Teacher
 
         }
         //Delete Post
-        private void deletePost()
+        private void DeletePost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(2000);
             IWebElement svg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
             svg.Click();

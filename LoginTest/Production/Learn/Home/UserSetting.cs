@@ -3,38 +3,55 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using NUnit.Framework;
 
 namespace TestCompa.Production.Learn.UserSetting
-
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "https://compaclass.com/learn/home";
+        private readonly string courseUrl = "https://compaclass.com/learn/course";
+        private readonly string email = "info@kpim.vn";
+        private readonly string password = "KPIM@123";
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
 
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
             driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignIn");
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
-        //Test 1: Truy cập, bấm tiếp tục học -> Mục đã học
 
+        //Test 1: Truy cập, bấm tiếp tục học -> Mục đã học
         [Test]
-        public void testContinueLearn()
+        public void TestContinueLearn()
         {
-            driver.Navigate().GoToUrl("http://compaclass.com/learn/home");
+            driver.Navigate().GoToUrl(homeUrl);
             Thread.Sleep(5000);
             Login();
             Thread.Sleep(2000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/home"));
+            Assert.That(driver.Url.Contains(homeUrl));
             Thread.Sleep(5000);
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
@@ -42,14 +59,14 @@ namespace TestCompa.Production.Learn.UserSetting
             Thread.Sleep(2000);
             continueLearn.Click();
             Thread.Sleep(10000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
         }
 
         //Test 2: Bấm Tiếp tục học -> bấm tiếp theo trên thanh
         [Test]
-        public void testBtnCourse()
+        public void TestBtnCourse()
         {
-            driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
+            driver.Navigate().GoToUrl(homeUrl);
             Thread.Sleep(5000);
             Login();
             /*IWebElement course = driver.FindElement(By.XPath("//a[contains(@class, 'absolute') and contains(@class, 'bg-dark')]"));
@@ -58,23 +75,23 @@ namespace TestCompa.Production.Learn.UserSetting
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
             //Bấm nút <- và ->
             /*IWebElement btnContinue = driver.FindElement(By.XPath("//button[contains(text(),'Đi đến học')]"));
             btnContinue.Click();*/
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
             Thread.Sleep(2000);
             IWebElement previousButton = driver.FindElement(By.XPath("//button[span[text()='Trước đó']]"));
             IWebElement nextButton = driver.FindElement(By.XPath("//button[span[text()='Tiếp theo']]"));
-            clickBtn(previousButton, 3);
-            clickBtn(nextButton, 5);
-
+            ClickBtn(previousButton, 3);
+            ClickBtn(nextButton, 5);
         }
+
         //Test 3: Bấm hoàn thành sau khi học xong
         [Test]
-        public void finishCourse()
+        public void FinishCourse()
         {
-            driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
+            driver.Navigate().GoToUrl(homeUrl);
             Thread.Sleep(5000);
             Login();
             Thread.Sleep(5000);
@@ -84,11 +101,11 @@ namespace TestCompa.Production.Learn.UserSetting
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
             //Bấm nút <- và ->
             /*IWebElement btnContinue = driver.FindElement(By.XPath("//button[contains(text(),'Đi đến học')]"));
             btnContinue.Click();*/
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
             Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -97,21 +114,22 @@ namespace TestCompa.Production.Learn.UserSetting
             IWebElement finish = driver.FindElement(By.XPath("//button[contains(text(),'Hoàn thành') and contains(@class, 'bg-primary')]"));
             js2.ExecuteScript("arguments[0].click();", finish);
             Thread.Sleep(5000);
-
         }
+
         //Test 4: Bấm hoàn thành -> Bấm tiếp tục để điều hướng tới bài tiếp theo
         [Test]
-        public void finishNContinue()
+        public void FinishAndContinue()
         {
-            finishCourse();
+            FinishCourse();
             IWebElement continueLesson = driver.FindElement(By.XPath("//button[contains(text(),'Tiếp tục')]"));
             continueLesson.Click();
         }
+
         //Test 5: Bấm các tab trên scroll bar
         [Test]
-        public void testScrollBar()
+        public void TestScrollBar()
         {
-            driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
+            driver.Navigate().GoToUrl(homeUrl);
             Thread.Sleep(5000);
             Login();
             Thread.Sleep(2000);
@@ -122,7 +140,7 @@ namespace TestCompa.Production.Learn.UserSetting
             string startUrl = "https://compaclass.com/learn/course/";
             string endUrl = "overview";
             string actualUrl = driver.Url;
-            Assert.IsTrue(actualUrl.StartsWith(startUrl) && actualUrl.EndsWith(endUrl), $"URL không đúng . Url hiện tại là {actualUrl}");
+            Assert.That(actualUrl.StartsWith(startUrl) && actualUrl.EndsWith(endUrl), $"URL không đúng . Url hiện tại là {actualUrl}");
             IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
             member.Click();
             Thread.Sleep(1000);
@@ -141,24 +159,22 @@ namespace TestCompa.Production.Learn.UserSetting
             IWebElement certificate = driver.FindElement(By.XPath("//a[text()='Chứng chỉ']"));
             certificate.Click();
             Thread.Sleep(1000);
-
         }
-        /*//Test 6: Kiểm tra việc bấm các tab trên tablist ( chỉ có trên production)
 
+        /*//Test 6: Kiểm tra việc bấm các tab trên tablist ( chỉ có trên production)
         [Test]
         public void testTablist()
         {
             testContinueLearn();
             
-
             Thread.Sleep(5000);
-
         }*/
+
         //Test 6: Kiểm tra việc comment trong phần QA
         [Test]
-        public void addcomnentQA()
+        public void AddCommentQA()
         {
-            driver.Navigate().GoToUrl("https://compaclass.com/learn/course");
+            driver.Navigate().GoToUrl(courseUrl);
             Thread.Sleep(2000);
             // Nhập email
             IWebElement emailInput = driver.FindElement(By.Id("email"));
@@ -219,9 +235,9 @@ namespace TestCompa.Production.Learn.UserSetting
 
         //Test 7: Sửa bình luận ( Viết thêm vào bình luận cũ ) -> Lưu
         [Test]
-        public void editcommentQA()
+        public void EditCommentQA()
         {
-            addcomnentQA();
+            AddCommentQA();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(4000);
@@ -236,11 +252,12 @@ namespace TestCompa.Production.Learn.UserSetting
             Thread.Sleep(5000);
             Console.WriteLine("Sửa thành công");
         }
+
         //Test 8: Sửa bình luận ( Xóa bình luận cũ -> Viết bình luận mới ) -> Lưu
         [Test]
-        public void editNewComment()
+        public void EditNewComment()
         {
-            addcomnentQA();
+            AddCommentQA();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(4000);
@@ -256,11 +273,12 @@ namespace TestCompa.Production.Learn.UserSetting
             Thread.Sleep(5000);
             Console.WriteLine("Sửa thành công");
         }
+
         //Test 9: Xóa bình luận 
         [Test]
-        public void deleteComment()
+        public void DeleteComment()
         {
-            addcomnentQA();
+            AddCommentQA();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(4000);
@@ -272,20 +290,20 @@ namespace TestCompa.Production.Learn.UserSetting
             Thread.Sleep(5000);
         }
 
-        public void Login()
+        private void Login()
         {
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("info@kpim.vn");
+            emailInput.SendKeys(email);
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("KPIM@123");
+            passwordInput.SendKeys(password);
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
-
         }
-        public void clickBtn(IWebElement button, int times)
+
+        private void ClickBtn(IWebElement button, int times)
         {
             for (int i = 0; i < times; i++)
             {
@@ -293,7 +311,8 @@ namespace TestCompa.Production.Learn.UserSetting
                 Thread.Sleep(1000);
             }
         }
-        /*public void clickScrollBar()
+
+        /*private void clickScrollBar()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             string baseCourseUrl = driver.Url; // Lưu lại URL ban đầu
@@ -347,8 +366,6 @@ namespace TestCompa.Production.Learn.UserSetting
                 }
             }
         }*/
-
-
 
         [TearDown]
         public void Teardown()

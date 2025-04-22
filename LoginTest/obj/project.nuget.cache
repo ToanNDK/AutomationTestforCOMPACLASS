@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Pguy9J2UknBs9bSOSOukNwDwZ3Fgy9mX09iLIBzaK244sCXHQFLV4GWCom+gB1DKVR4YJMo3UKZNUhymxG0Czw==",
+  "dgSpecHash": "V30S7d0RTbLYPbUrjjQmRBJ/IUamdYJ3bjnSrl5EmgHwhzYAkBs06EtZ1jV1GGHXfSihzaeiVZ8tcex9P4QMrA==",
   "success": true,
   "projectFilePath": "D:\\KPIM\\LoginTest\\LoginTest\\TestCompa.csproj",
   "expectedPackageFiles": [
@@ -21,7 +21,7 @@
     "C:\\Users\\Hello\\.nuget\\packages\\nunit3testadapter\\4.3.0\\nunit3testadapter.4.3.0.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\selenium.support\\4.29.0\\selenium.support.4.29.0.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver\\4.29.0\\selenium.webdriver.4.29.0.nupkg.sha512",
-    "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver.chromedriver\\135.0.7049.8400\\selenium.webdriver.chromedriver.135.0.7049.8400.nupkg.sha512",
+    "C:\\Users\\Hello\\.nuget\\packages\\selenium.webdriver.chromedriver\\135.0.7049.9500\\selenium.webdriver.chromedriver.135.0.7049.9500.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.collections\\4.0.11\\system.collections.4.0.11.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.diagnostics.debug\\4.0.11\\system.diagnostics.debug.4.0.11.nupkg.sha512",
     "C:\\Users\\Hello\\.nuget\\packages\\system.diagnostics.tools\\4.0.1\\system.diagnostics.tools.4.0.1.nupkg.sha512",
