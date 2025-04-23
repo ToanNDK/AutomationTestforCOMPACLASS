@@ -10,7 +10,7 @@ namespace TestCompa.Production.CourseBuilder.Activity.Video
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "https://studio.compaclass.com";
+        private readonly string devUrl = "https://studio.compaclass.com";
         
         [SetUp]
         public void Setup()
@@ -117,7 +117,7 @@ namespace TestCompa.Production.CourseBuilder.Activity.Video
         {
             UploadVideoURL();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement video = wait.Until(driver => driver.FindElement(By.XPath("//video[@preload='metadata']")));
 
             // Dùng JavaScript để click, bỏ qua overlay

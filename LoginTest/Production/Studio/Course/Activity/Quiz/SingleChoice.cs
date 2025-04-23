@@ -7,11 +7,11 @@ using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
 {
-    public class addCourse
+    public class SingleChoiceQuiz
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
-        private string devUrl = "https://studio.compaclass.com";
+        private readonly string devUrl = "https://studio.compaclass.com";
         private void InitDriver(bool headless = false)
         {
             ChromeOptions options = new();
@@ -152,7 +152,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value='00:25:700';", time);  // Nhập giá trị mới
             time.SendKeys(Keys.Space);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[@class='text-sm text-red-500']")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị");
         }
         //Test 4: Nhập content cho câu hỏi:
         [Test]
@@ -184,14 +184,14 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
             submit.Click();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             try
             {
                 
                 IWebElement toastMessage = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@class, 'group toast') and contains(., 'Please select exactly one correct answer')]")));
 
                 // Kiểm tra thông báo đã đúng
-                Assert.AreEqual("Please select exactly one correct answer for single choice question", toastMessage.Text.Trim(), "Thông báo không chính xác");
+                Assert.That(toastMessage.Text.Trim(), Is.EqualTo("Please select exactly one correct answer for single choice question"), "Thông báo không chính xác");
             }
             catch (WebDriverTimeoutException)
             {

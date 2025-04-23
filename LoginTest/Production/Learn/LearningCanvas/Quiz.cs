@@ -203,7 +203,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
             Thread.Sleep(4000);
             IWebElement popup = driver.FindElement(By.XPath("//div[@role='alertdialog']"));
 
-            Assert.IsTrue(popup.Displayed, "Không hiển thị thông báo");
+            Assert.That(popup.Displayed, Is.True, "Không hiển thị thông báo");
             Thread.Sleep(5000);
         }
 

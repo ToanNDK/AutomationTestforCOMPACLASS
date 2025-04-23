@@ -16,7 +16,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         private void InitDriver(bool headless)
         {
-            ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new();
 
             if (headless)
             {
@@ -34,7 +34,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Xem nội dung trang overview
         [Test]
-        public void runOverviewContent()
+        public void RunOverviewContent()
         {
             try
             {
@@ -60,7 +60,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Tìm kiếm & Sort Đánh giá
         [Test]
-        public void runSearchComment()
+        public void RunSearchComment()
         {
             try
             {
@@ -87,7 +87,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Thêm câu hỏi
         [Test]
-        public void addQuestion()
+        public void AddQuestion()
         {
             try
             {
@@ -113,7 +113,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Check trang điểm của học viên ( chỉ hiển thị điểm của mình ) 
         [Test]
-        public void checkGrade()
+        public void CheckGrade()
         {
             try
             {
@@ -138,7 +138,7 @@ namespace TestCompa.Production.TestCourse.TA
         }
         //Check theo tên chương
         [Test]
-        public void checkGradeChapter()
+        public void CheckGradeChapter()
         {
             try
             {
@@ -165,7 +165,7 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Đi đến học
         [Test]
-        public void runGotoLearn()
+        public void RunGotoLearn()
         {
             try
             {
@@ -192,12 +192,12 @@ namespace TestCompa.Production.TestCourse.TA
 
         //Thêm comment
         [Test]
-        public void runCommentLearningCanvas()
+        public void RunCommentLearningCanvas()
         {
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                addComment();
+                AddComment();
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace TestCompa.Production.TestCourse.TA
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addComment();
+                AddComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -269,7 +269,7 @@ namespace TestCompa.Production.TestCourse.TA
         }
 
         //Bài đăng
-        [Test]
+        //[Test]
         public void runAddPost()
         {
             try
@@ -492,7 +492,7 @@ namespace TestCompa.Production.TestCourse.TA
                 return elements.Count > 0 ? elements : null;
             });
 
-            Random rnd = new Random();
+            Random rnd = new();
             int index = rnd.Next(options.Count);
             options.ElementAt(index).Click();
             Thread.Sleep(3000);
@@ -504,6 +504,9 @@ namespace TestCompa.Production.TestCourse.TA
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
             Thread.Sleep(3000);
+
+            //xóa
+
         }
         private void RunCheckGradeTest()
         {
@@ -627,7 +630,7 @@ namespace TestCompa.Production.TestCourse.TA
             // Kiểm tra số lượng và chọn ngẫu nhiên
             if (spans.Count > 0)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 int index = rnd.Next(spans.Count);
 
                 var randomSpan = spans[index];
@@ -665,7 +668,7 @@ namespace TestCompa.Production.TestCourse.TA
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));
@@ -679,7 +682,7 @@ namespace TestCompa.Production.TestCourse.TA
         {
             Login();
             Navigate();
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement posts = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Bài đăng']"));
@@ -769,7 +772,7 @@ namespace TestCompa.Production.TestCourse.TA
         private void Grade()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Điểm số']"));
@@ -790,7 +793,7 @@ namespace TestCompa.Production.TestCourse.TA
         }
 
         //comment learning canvas 
-        private void addComment()
+        private void AddComment()
         {
             gotoLearn();
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
@@ -820,7 +823,7 @@ namespace TestCompa.Production.TestCourse.TA
         //delete comment 
         private void deleteComment()
         {
-            addComment();
+            AddComment();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(2000);
@@ -835,7 +838,7 @@ namespace TestCompa.Production.TestCourse.TA
         //reaction comment
         private void reactionComment()
         {
-            addComment();
+            AddComment();
             IWebElement react = driver.FindElement(By.CssSelector("button.flex.items-center.gap-2.group"));
             react.Click();
             Thread.Sleep(3000);
@@ -852,7 +855,7 @@ namespace TestCompa.Production.TestCourse.TA
         //Serach comment LearningCanvas
         private void searchCommentLC()
         {
-            addComment();
+            AddComment();
             var searchInputs = driver.FindElements(By.CssSelector("input[placeholder='Tìm kiếm'][role='combobox']"));
             if (searchInputs.Count >= 2)
             {

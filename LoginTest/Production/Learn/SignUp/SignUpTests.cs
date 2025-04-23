@@ -34,7 +34,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             wait.Until(d => d.Url.Contains("/Auth/SignIn"));
-            Assert.IsTrue(driver.Url.Contains("/Auth/SignIn"), "User không được chuyển đến trang đăng nhập sau khi đăng ký thành công!");
+            Assert.That(driver.Url.Contains("/Auth/SignIn"), Is.True, "User không được chuyển đến trang đăng nhập sau khi đăng ký thành công!");
         }
 
         //Test 2: Đăng ký với email đã tồn tại
@@ -53,7 +53,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("Email 'lozy564@gmail.com' is already taken"), "Không tìm thấy thông báo lỗi email đã tồn tại!");
+            Assert.That(errorMessage.Text.Contains("Email 'lozy564@gmail.com' is already taken"), Is.True, "Không tìm thấy thông báo lỗi email đã tồn tại!");
         }
 
         // Test 3: Đăng ký với mật khẩu không hợp lệ
@@ -67,7 +67,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The Password must be at least 6 and at max 100 characters long."), "Không hiển thị thông báo lỗi mật khẩu không hợp lệ!");
+            Assert.That(errorMessage.Text.Contains("The Password must be at least 6 and at max 100 characters long."), Is.True, "Không hiển thị thông báo lỗi mật khẩu không hợp lệ!");
         }
 
         //Test 4: Đăng ký với mật khẩu không khớp
@@ -81,7 +81,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The password and confirmation password do not match."), "Không hiển thị thông báo lỗi mật khẩu không khớp!");
+            Assert.That(errorMessage.Text.Contains("The password and confirmation password do not match."), Is.True, "Không hiển thị thông báo lỗi mật khẩu không khớp!");
         }
 
         //Test 5: Kiểm tra nút SIGN UP hoạt động
@@ -89,7 +89,7 @@ namespace TestCompa.Production.Learn.SignUp
         public void TestSignUpButtonExists()
         {
             IWebElement signUpButton = wait.Until(d => d.FindElement(By.XPath("//button[text()='SIGN UP']")));
-            Assert.IsTrue(signUpButton.Displayed && signUpButton.Enabled, "Nút SIGN UP không hiển thị hoặc không thể bấm!");
+            Assert.That(signUpButton.Displayed && signUpButton.Enabled, Is.True, "Nút SIGN UP không hiển thị hoặc không thể bấm!");
         }
         // Test 6: Đăng ký với username quá ngắn
         [Test]
@@ -102,7 +102,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The Username must be at least 6 and at max 100 characters long."),
+            Assert.That(errorMessage.Text.Contains("The Username must be at least 6 and at max 100 characters long."), Is.True,
                 "Không hiển thị thông báo lỗi username quá ngắn!");
         }
 
@@ -110,7 +110,7 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUp_UsernameTooLong()
         {
-            string longUsername = new string('a', 101); // Username dài 101 ký tự
+            string longUsername = new('a', 101); // Username dài 101 ký tự
             driver.FindElement(By.Id("username")).SendKeys(longUsername);
             driver.FindElement(By.Id("email")).SendKeys("longuser@example.com");
             driver.FindElement(By.Id("password")).SendKeys("ValidPass123@");
@@ -118,7 +118,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The Username must be at least 6 and at max 100 characters long."),
+            Assert.That(errorMessage.Text.Contains("The Username must be at least 6 and at max 100 characters long."), Is.True,
                 "Không hiển thị thông báo lỗi username quá dài!");
             Thread.Sleep(10000);
         }
@@ -134,7 +134,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The Password must be at least 6 and at max 100 characters long."),
+            Assert.That(errorMessage.Text.Contains("The Password must be at least 6 and at max 100 characters long."), Is.True,
                 "Không hiển thị thông báo lỗi psw quá ngắn!");
         }
 
@@ -142,7 +142,7 @@ namespace TestCompa.Production.Learn.SignUp
         //Test 9: Đăng ký với password quá dài
         public void TestSignUp_PasswordTooLong()
         {
-            string pswLong = new string('a', 101);
+            string pswLong = new('a', 101);
             driver.FindElement(By.Id("username")).SendKeys("correctUsername");
             driver.FindElement(By.Id("email")).SendKeys("longuser@example.com");
             driver.FindElement(By.Id("password")).SendKeys(pswLong);
@@ -150,7 +150,7 @@ namespace TestCompa.Production.Learn.SignUp
             driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
-            Assert.IsTrue(errorMessage.Text.Contains("The password and confirmation password do not match."),
+            Assert.That(errorMessage.Text.Contains("The password and confirmation password do not match."), Is.True,
                 "Không hiển thị thông báo lỗi psw quá dài!");
         }
 

@@ -14,7 +14,7 @@ namespace TestCompa.Server.Learn.MyClassProgress
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/learn/home";
+        private readonly string devUrl = "http://10.10.10.30/learn/home";
         [SetUp]
         public void Setup()
         {
@@ -34,7 +34,7 @@ namespace TestCompa.Server.Learn.MyClassProgress
             Login();
 
             // Đợi trang load và click vào nút để chuyển trang
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();  // Nhấn vào để chuyển trang
             Thread.Sleep(3000);
@@ -74,12 +74,12 @@ namespace TestCompa.Server.Learn.MyClassProgress
         {
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/home");
             Login();
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/home"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/learn/home"), Is.True);
             Thread.Sleep(5000);
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(10000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
         }
 
         public void Login()

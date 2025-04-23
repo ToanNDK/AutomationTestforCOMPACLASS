@@ -19,7 +19,7 @@ namespace TestCompa.Server.Studio
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -64,7 +64,7 @@ namespace TestCompa.Server.Studio
         [Test]
         public void changeClassName()
         {
-            string longname = new string('a', 150); 
+            string longname = new('a', 150); 
             btnSettingClass();
             IWebElement classNametxt = driver.FindElement(By.CssSelector("input[placeholder='Enter class name']"));
             classNametxt.Click();
@@ -115,7 +115,7 @@ namespace TestCompa.Server.Studio
         [Test]
         public void changeDescription()
         {
-            string longname = new string('a', 301);
+            string longname = new('a', 301);
             btnSettingClass();
             IWebElement classDesctxt = driver.FindElement(By.CssSelector("textarea[placeholder='Class description']"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
@@ -186,7 +186,7 @@ namespace TestCompa.Server.Studio
         public void toggleTest()
         {
             btnSettingClass();
-            Random random = new Random();
+            Random random = new();
             IReadOnlyList<IWebElement> toggles = driver.FindElements(By.CssSelector("button.switch"));
 
             if (toggles.Count > 0)

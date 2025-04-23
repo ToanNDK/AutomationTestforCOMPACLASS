@@ -15,7 +15,7 @@ namespace TestCompa.Server.Studio
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -42,7 +42,7 @@ namespace TestCompa.Server.Studio
         {
             studioTest();
             IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > section:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(create).Perform();
             Thread.Sleep(5000);
         }

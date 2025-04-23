@@ -14,7 +14,7 @@ namespace TestCompa.Production.Learn.Assignments
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "https://compaclass.com/learn/home";
+        private readonly string devUrl = "https://compaclass.com/learn/home";
         [SetUp]
         public void Setup()
         {

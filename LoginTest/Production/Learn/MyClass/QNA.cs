@@ -15,7 +15,6 @@ namespace TestCompa.Production.Learn.QNA
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-        private readonly string courseUrl = "https://compaclass.com/learn/course";
 
 
         private void InitDriver(bool headless = false)
@@ -47,7 +46,7 @@ namespace TestCompa.Production.Learn.QNA
         {
             driver.Navigate().GoToUrl(homeUrl);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(5000);

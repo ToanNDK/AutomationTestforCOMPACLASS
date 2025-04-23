@@ -6,11 +6,11 @@ using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Overview
 {
-    public class AddCourse
+    public class CourseOverview
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string StudioUrl = "http://10.10.10.30:3000/";
+        private readonly string StudioUrl = "http://10.10.10.30:3000/";
 
         [SetUp]
         public void Setup()
@@ -101,7 +101,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
             Thread.Sleep(2000);
             IList<IWebElement> headingOptions = driver.FindElements(By.CssSelector("span.flex-1"));
 
-            Random random = new Random();
+            Random random = new();
             int randomIndex = random.Next(headingOptions.Count);
 
             IWebElement randomHeading = headingOptions[randomIndex];

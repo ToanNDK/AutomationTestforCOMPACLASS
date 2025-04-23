@@ -15,7 +15,6 @@ namespace TestCompa.Server.Production.MyClassProgress
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-        private readonly string courseUrl = "https://compaclass.com/learn/course";
 
 
         private void InitDriver(bool headless = false)
@@ -90,12 +89,12 @@ namespace TestCompa.Server.Production.MyClassProgress
         {
             driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
             Login();
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/home"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/learn/home"), Is.True);
             Thread.Sleep(2000);
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(10000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/vn/learn/course"), Is.True);
         }
 
         public void Login()

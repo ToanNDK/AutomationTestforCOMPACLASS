@@ -12,7 +12,7 @@ namespace TestCompa.Server.Learn.Cart
         private IWebDriver driver;
         private WebDriverWait wait;
 
-        private string devUrl = "http://10.10.10.30/academy/kpim";
+        private readonly string devUrl = "http://10.10.10.30/academy/kpim";
         [SetUp]
         public void Setup()
         {
@@ -33,7 +33,7 @@ namespace TestCompa.Server.Learn.Cart
             course.Click();
 
             wait.Until(d => d.Url.Contains("http://10.10.10.30/vn/learn/course/"));
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"), Is.True);
         }
 
         //Test 2: Truy cập OverView khi đã đăng nhập
@@ -69,7 +69,7 @@ namespace TestCompa.Server.Learn.Cart
             Thread.Sleep(5000);
 
             // Kiểm tra kết quả
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"), Is.True);
         }
 
         //Test 3: Thêm vào giỏ hàng khi chưa đăng nhập
@@ -87,7 +87,7 @@ namespace TestCompa.Server.Learn.Cart
             Thread.Sleep(5000);
 
             // Bắt buộc chuyển hướng sang trang login
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/Auth/SignIn"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/Auth/SignIn"), Is.True);
 
         }
         //Test 4 : Thêm vào giỏ hàng khi đã đăng nhập
@@ -103,14 +103,14 @@ namespace TestCompa.Server.Learn.Cart
             cart.Click();
             Thread.Sleep(3000);
 
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/Auth/SignIn"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/Auth/SignIn"), Is.True);
             Thread.Sleep(3000);
 
             //Đăng nhập
             Login();
             Thread.Sleep(1000);
 
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course/"), Is.True);
             //Bấm lại nút giỏ hàng sau khi login
             IWebElement cartAfterLogin = driver.FindElement(By.XPath("//button[span[text()='Thêm vào giỏ hàng']]"));
             cartAfterLogin.Click();
@@ -120,7 +120,7 @@ namespace TestCompa.Server.Learn.Cart
             cartAfterLogin.Click();
             Thread.Sleep(1000);
 
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
         }
         //Test 5: Xóa khóa học khỏi giỏ hàng
         [Test, Order(5)]
@@ -139,7 +139,7 @@ namespace TestCompa.Server.Learn.Cart
             cart.Click();
             Thread.Sleep(1000);
 
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
 
 
             IWebElement editCart = driver.FindElement(By.XPath("//button[span[text()='Chỉnh sửa giỏ hàng']]"));
@@ -149,9 +149,9 @@ namespace TestCompa.Server.Learn.Cart
             IWebElement checkbox = driver.FindElement(By.XPath("//input[@type='checkbox']"));
             checkbox.Click();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(2));
             wait.Until(d => checkbox.Selected);
-            Assert.IsTrue(checkbox.Selected, "Checkbox chưa được chọn");
+            Assert.That(checkbox.Selected, Is.True, "Checkbox chưa được chọn");
 
 
             IWebElement deleteCourse = driver.FindElement(By.XPath("//button[text()='Xóa khỏi giỏ hàng']"));
@@ -159,7 +159,7 @@ namespace TestCompa.Server.Learn.Cart
 
 
             IWebElement confirmPopup = wait.Until(d => d.FindElement(By.XPath("//div[@role='alertdialog']")));
-            Assert.IsTrue(confirmPopup.Displayed, "Popup xác nhận không xuất hiện!");
+            Assert.That(confirmPopup.Displayed, Is.True, "Popup xác nhận không xuất hiện!");
 
             IWebElement closePopup = wait.Until(d => d.FindElement(By.XPath("//button[text()='Quay lại']")));
             closePopup.Click();
@@ -207,7 +207,7 @@ namespace TestCompa.Server.Learn.Cart
                     Console.WriteLine("Thêm thành công. Chuyển đến giỏ hàng...");
                     buttonAddCart.Click();
                     Thread.Sleep(2000);
-                    Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+                    Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
                 }
                 else
                 {
@@ -219,7 +219,7 @@ namespace TestCompa.Server.Learn.Cart
                 Console.WriteLine("Sản phẩm đã có trong giỏ hàng. Chuyển đến giỏ hàng...");
                 buttonAddCart.Click();
                 Thread.Sleep(2000);
-                Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+                Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
             }
             else
             {

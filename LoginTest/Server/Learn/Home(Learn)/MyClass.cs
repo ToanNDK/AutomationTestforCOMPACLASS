@@ -12,7 +12,7 @@ namespace TestCompa.Server.Learn.MyClass
 
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/learn/home";
+        private readonly string devUrl = "http://10.10.10.30/learn/home";
         [SetUp]
         public void Setup()
         {
@@ -29,7 +29,7 @@ namespace TestCompa.Server.Learn.MyClass
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
-            Assert.IsTrue(driver.Url.Contains(devUrl));
+            Assert.That(driver.Url.Contains(devUrl), Is.True);
             IWebElement testclass = driver.FindElement(By.XPath("//a[@href='/learn/class']"));
             testclass.Click();
             Thread.Sleep(2000);
@@ -42,11 +42,11 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
             Login();
-            Assert.IsTrue(driver.Url.Contains(devUrl));
+            Assert.That(driver.Url.Contains(devUrl), Is.True);
             IWebElement testclass = driver.FindElement(By.XPath("//a[@href='/learn/class']"));
             testclass.Click();
             Thread.Sleep(1000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/class"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/learn/class"), Is.True);
             Thread.Sleep(5000);
             IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'ClassTest')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", classes);
@@ -123,7 +123,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
 
-            Assert.IsTrue(driver.Url.Contains("/learn/public-profile/"), "Không chuyển đến trang hồ sơ học viên!");
+            Assert.That(driver.Url.Contains("/learn/public-profile/"), Is.True, "Không chuyển đến trang hồ sơ học viên!");
 
 
 
@@ -154,7 +154,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
             IWebElement addMember = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > main:nth-child(2) > div:nth-child(1) > div:nth-child(2) > section:nth-child(1) > div:nth-child(1) > button:nth-child(2)"));
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.MoveToElement(addMember).Click().Perform();
 
             Thread.Sleep(5000);
@@ -231,7 +231,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
             IWebElement addMember = driver.FindElement(By.CssSelector("div div div div div div div:nth-child(1) div:nth-child(2) div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(2) button:nth-child(1) svg"));
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.MoveToElement(addMember).Click().Perform();
 
             Thread.Sleep(5000);
@@ -265,7 +265,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
             IWebElement addMember = driver.FindElement(By.CssSelector("div div div div div div div:nth-child(1) div:nth-child(2) div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(2) button:nth-child(1) svg"));
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.MoveToElement(addMember).Click().Perform();
 
             Thread.Sleep(5000);

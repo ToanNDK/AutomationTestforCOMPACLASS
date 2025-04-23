@@ -1,15 +1,7 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Image
 {
@@ -17,7 +9,7 @@ namespace TestCompa.Server.CourseBuilder.Image
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -28,7 +20,7 @@ namespace TestCompa.Server.CourseBuilder.Image
 
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
-        
+
         public void studioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
@@ -39,17 +31,17 @@ namespace TestCompa.Server.CourseBuilder.Image
 
             Thread.Sleep(5000);
         }
-        [Test]        
-        
+        [Test]
+
         public void courseBuilder()
         {
             studioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='5']"));
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
             tab.Click();
-            
+
             Thread.Sleep(5000);
 
             string expectedText = "CourseTest";
@@ -60,11 +52,11 @@ namespace TestCompa.Server.CourseBuilder.Image
             js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
             Thread.Sleep(3000);
             h2Element.Click();
-            
+
             Thread.Sleep(3000);
         }
         //Test 2: Test Image (UC-S108)
-        [Test] 
+        [Test]
         public void imgDragNDrop()
         {
             courseBuilder();
@@ -79,7 +71,7 @@ namespace TestCompa.Server.CourseBuilder.Image
 
             IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
 
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.DragAndDrop(textElement, targetElement).Perform();
 
             Thread.Sleep(4000);
@@ -91,7 +83,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             imgDragNDrop();
 
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(2000);
 
@@ -102,7 +94,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             // Gửi đường dẫn ảnh vào input file
             inputFile.SendKeys(imgPath);
             Thread.Sleep(2000);
-            
+
         }
         //4. Test upload Ảnh ( Mutiple ) (UC-S110) (chưa có đang ở chế độ Disable) 
         //5. Xóa ảnh ( Single Mode ) (UC-S111)
@@ -167,10 +159,10 @@ namespace TestCompa.Server.CourseBuilder.Image
         public void changeSizeImg()
         {
             imgUpload();
-            
-            
 
-            Thread.Sleep(2000); 
+
+
+            Thread.Sleep(2000);
         }
 
 
@@ -180,7 +172,7 @@ namespace TestCompa.Server.CourseBuilder.Image
         {
             imgDragNDrop();
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
             IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
@@ -204,7 +196,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             imgDragNDrop();
 
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
 
@@ -240,7 +232,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             imgDragNDrop();
 
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
 
@@ -268,7 +260,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             Thread.Sleep(3000);
             //thông báo lỗi
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[@class='text-red text-xs']")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin!");
             Thread.Sleep(2000);
 
         }
@@ -279,7 +271,7 @@ namespace TestCompa.Server.CourseBuilder.Image
             imgDragNDrop();
             Thread.Sleep(2000);
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
 

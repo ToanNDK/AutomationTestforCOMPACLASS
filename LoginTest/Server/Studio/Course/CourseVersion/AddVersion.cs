@@ -16,7 +16,7 @@ namespace TestCompa.Server.Studio
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -47,7 +47,7 @@ namespace TestCompa.Server.Studio
         {
             studioTest();
             IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > div:nth-child(1) > button:nth-child(2)"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(create).Perform();
             Thread.Sleep(5000);
         }
@@ -107,7 +107,7 @@ namespace TestCompa.Server.Studio
             createVersion();
             string currentUrl = driver.Url;
 
-            Assert.IsTrue(currentUrl.Contains("http://10.10.10.30:3000/teach/builder"), "Chưa chuyển sang trang Course Builder!");
+            Assert.That(currentUrl.Contains("http://10.10.10.30:3000/teach/builder"), Is.True, "Chưa chuyển sang trang Course Builder!");
             Thread.Sleep(2000);
         }
         //Test 5: Không nhập thông tin ở các trường bắt buộc
@@ -127,7 +127,7 @@ namespace TestCompa.Server.Studio
            
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Name must be at least 2 characters.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi không nhập thông tin !");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi không nhập thông tin !");
         }
 
         // Test 5.2 Trường Description
@@ -146,7 +146,7 @@ namespace TestCompa.Server.Studio
 
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Description must be at least 10 characters.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi không nhập thông tin !");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi không nhập thông tin !");
         }
         // Test 5.3 Bỏ trống hoàn toàn 
         [Test]
@@ -161,8 +161,8 @@ namespace TestCompa.Server.Studio
             IWebElement descriptionError = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Description must be at least 10 characters.')]")));
             IWebElement nameError = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Name must be at least 2 characters.')]")));
 
-            Assert.IsTrue(descriptionError.Displayed, "Thông báo lỗi về Description không hiển thị!");
-            Assert.IsTrue(nameError.Displayed, "Thông báo lỗi về Name không hiển thị!");
+            Assert.That(descriptionError.Displayed, Is.True, "Thông báo lỗi về Description không hiển thị!");
+            Assert.That(nameError.Displayed, Is.True, "Thông báo lỗi về Name không hiển thị!");
 
 
         }

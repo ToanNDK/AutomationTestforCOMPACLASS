@@ -7,11 +7,11 @@ using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.CourseBuilder.Overview
 {
-    public class AddCourse
+    public class Overview
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
-        private string StudioUrl = "https://studio.compaclass.com";
+        private readonly string StudioUrl = "https://studio.compaclass.com";
 
 
         private void InitDriver(bool headless = false)
@@ -125,7 +125,7 @@ namespace TestCompa.Production.CourseBuilder.Overview
             Thread.Sleep(2000);
             IList<IWebElement> headingOptions = driver.FindElements(By.CssSelector("span.flex-1"));
 
-            Random random = new Random();
+            Random random = new();
             int randomIndex = random.Next(headingOptions.Count); 
 
             IWebElement randomHeading = headingOptions[randomIndex];
@@ -195,7 +195,7 @@ namespace TestCompa.Production.CourseBuilder.Overview
             profile.Click();
 
             // 3. Đợi tab mới mở ra
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             wait.Until(driver => driver.WindowHandles.Count > 1);
 
             // 4. Switch sang tab mới

@@ -13,7 +13,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/Auth/SignIn?login_challenge=a635429bdb604fb08d123fff4bbb1add";
+        private readonly string devUrl = "http://10.10.10.30/Auth/SignIn?login_challenge=a635429bdb604fb08d123fff4bbb1add";
         [SetUp]
         public void Setup()
         {
@@ -31,12 +31,12 @@ namespace TestCompa.Server.Learn.LearningCanvas
         {
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/home");
             Login();
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/home"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/learn/home"), Is.True);
             Thread.Sleep(5000);
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(10000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
         }
 
         //Test 2: Bấm Tiếp tục học -> bấm tiếp theo trên thanh ( FE-L21) 
@@ -51,11 +51,11 @@ namespace TestCompa.Server.Learn.LearningCanvas
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
             //Bấm nút <- và ->
             /*IWebElement btnContinue = driver.FindElement(By.XPath("//button[contains(text(),'Đi đến học')]"));
             btnContinue.Click();*/
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
             Thread.Sleep(2000);
             IWebElement previousButton = driver.FindElement(By.XPath("//button[span[text()='Trước đó']]"));
             IWebElement nextButton = driver.FindElement(By.XPath("//button[span[text()='Tiếp theo']]"));
@@ -75,11 +75,11 @@ namespace TestCompa.Server.Learn.LearningCanvas
             IWebElement continueLearn = driver.FindElement(By.XPath("//a[span[text()='Tiếp tục học']]"));
             continueLearn.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
             //Bấm nút <- và ->
             /*IWebElement btnContinue = driver.FindElement(By.XPath("//button[contains(text(),'Đi đến học')]"));
             btnContinue.Click();*/
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
             Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -110,7 +110,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
             string startUrl = "http://10.10.10.30/learn/course/";
             string endUrl = "overview";
             string actualUrl = driver.Url;
-            Assert.IsTrue(actualUrl.StartsWith(startUrl) && actualUrl.EndsWith(endUrl), $"URL không đúng . Url hiện tại là {actualUrl}");
+            Assert.That(actualUrl.StartsWith(startUrl) && actualUrl.EndsWith(endUrl), Is.True, $"URL không đúng . Url hiện tại là {actualUrl}");
             IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
             member.Click();
             Thread.Sleep(1000);

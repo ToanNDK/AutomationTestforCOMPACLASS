@@ -10,7 +10,7 @@ namespace TestCompa.Production.Learn.Login
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string productionUrl = "https://auth.compaclass.com/Auth/SignIn";
+        private readonly string productionUrl = "https://auth.compaclass.com/Auth/SignIn";
         [SetUp]
         public void Setup()
         {
@@ -40,8 +40,8 @@ namespace TestCompa.Production.Learn.Login
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
             bool isPasswordInvalid = passwordInput.GetAttribute("validationMessage").Length > 0;
 
-            Assert.IsTrue(isEmailInvalid, "Trường email không hiển thị cảnh báo required!");
-            Assert.IsTrue(isPasswordInvalid, "Trường password không hiển thị cảnh báo required!");
+            Assert.That(isEmailInvalid, Is.True, "Trường email không hiển thị cảnh báo required!");
+            Assert.That(isPasswordInvalid, Is.True, "Trường password không hiển thị cảnh báo required!");
         }
         //Test 1 : Đăng nhập thành công -> chuyển về trang chủ
 
@@ -61,7 +61,7 @@ namespace TestCompa.Production.Learn.Login
             string currentUrl = driver.Url;
 
             Thread.Sleep(2000);
-            Assert.IsTrue(currentUrl.Contains("https://compaclass.com/vn/learn/home"));
+            Assert.That(currentUrl.Contains("https://compaclass.com/vn/learn/home"), Is.True);
         }
 
         //Test 2: Lỗi 
@@ -75,7 +75,7 @@ namespace TestCompa.Production.Learn.Login
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
         // Test 3 : Nhập đúng định dạng email nhưng password có độ dài quá ngắn
         [Test]
@@ -87,7 +87,7 @@ namespace TestCompa.Production.Learn.Login
             driver.FindElement(By.Id("password")).SendKeys("123");
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in. Check your email and password or create an account.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
 
         //Test 4: Nhập đúng định dạng email nhưng password có độ dài quá dài
@@ -101,7 +101,7 @@ namespace TestCompa.Production.Learn.Login
             driver.FindElement(By.Id("password")).SendKeys(longPsw);
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in. Check your email and password or create an account.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
         // Test 5  : Quên mk
         [Test]
@@ -112,7 +112,7 @@ namespace TestCompa.Production.Learn.Login
             IWebElement forgotPasswordLink = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(), 'Forgot password?')]")));
             forgotPasswordLink.Click();
 
-            Assert.AreEqual("https://auth.compaclass.com/Auth/ForgotPassword", driver.Url, "Không điều hướng đến trang quên mật khẩu!");
+            Assert.That(driver.Url, Is.EqualTo("https://auth.compaclass.com/Auth/ForgotPassword"), "Không điều hướng đến trang quên mật khẩu!");
 
 
         }
@@ -124,7 +124,7 @@ namespace TestCompa.Production.Learn.Login
             IWebElement btnGoogle = driver.FindElement(By.XPath("//a[contains(@href, 'ExternalLogin') and contains(@href, 'Google')]"));
             btnGoogle.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("https://accounts.google.com/"));
+            Assert.That(driver.Url.Contains("https://accounts.google.com/"), Is.True);
             Thread.Sleep(5000);
         }
         //Test 7: Đăng nhập bằng Microsoft
@@ -135,7 +135,7 @@ namespace TestCompa.Production.Learn.Login
             IWebElement btnMicrosoft = driver.FindElement(By.XPath("//a[contains(@href, 'ExternalLogin') and contains(@href, 'Microsoft')]"));
             btnMicrosoft.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("https://login.microsoftonline.com/"));
+            Assert.That(driver.Url.Contains("https://login.microsoftonline.com/"), Is.True);
             Thread.Sleep(5000);
         }
         [TearDown]

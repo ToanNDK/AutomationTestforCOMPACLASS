@@ -116,7 +116,7 @@ namespace TestCompa.Server.Learn.LearningCanvas.Lesson
         {
             addcomnentQA(); // Gọi hàm thêm comment trước khi trả lời
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
 
             // Tìm và click nút "Trả lời"
             IWebElement rep = driver.FindElement(By.XPath("//button[.//span[text()='Trả lời']]"));

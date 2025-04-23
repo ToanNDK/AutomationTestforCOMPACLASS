@@ -14,7 +14,7 @@ namespace TestCompa.Server.Learn.Assignments
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/learn/home";
+        private readonly string devUrl = "http://10.10.10.30/learn/home";
         [SetUp]
         public void Setup()
         {
@@ -34,7 +34,7 @@ namespace TestCompa.Server.Learn.Assignments
             Login();
 
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
@@ -74,7 +74,7 @@ namespace TestCompa.Server.Learn.Assignments
             mark.Click();
             mark.Clear();
 
-            Random random = new Random();
+            Random random = new();
             int randomNumber = random.Next(0, 101);
 
             mark.SendKeys(randomNumber.ToString());

@@ -16,7 +16,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
 
         private void InitDriver(bool headless)
         {
-            ChromeOptions options = new ChromeOptions();
+            ChromeOptions options = new();
 
             if (headless)
             {
@@ -483,7 +483,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
                 return elements.Count > 0 ? elements : null;
             });
 
-            Random rnd = new Random();
+            Random rnd = new();
             int index = rnd.Next(options.Count);
             var option = options.ElementAt(index);
 
@@ -625,7 +625,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
             // Kiểm tra số lượng và chọn ngẫu nhiên
             if (spans.Count > 0)
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 int index = rnd.Next(spans.Count);
 
                 var randomSpan = spans[index];
@@ -663,7 +663,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));
@@ -677,7 +677,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
         private void Grade()
         {
 
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement Grade = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Điểm số']"));
@@ -775,7 +775,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
         {
             Login();
             Navigate();
-            WebDriverWait localWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement posts = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Bài đăng']"));

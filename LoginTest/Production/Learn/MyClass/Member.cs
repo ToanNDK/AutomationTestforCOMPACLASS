@@ -15,7 +15,6 @@ namespace TestCompa.Production.Learn.MyClassMember
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-        private readonly string courseUrl = "https://compaclass.com/learn/course";
         
 
         private void InitDriver(bool headless = false)

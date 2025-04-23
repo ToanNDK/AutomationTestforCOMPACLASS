@@ -12,11 +12,11 @@ using System.Xml.Linq;
 
 namespace TestCompa.Server.Studio
 {
-    public class addCourse
+    public class AddCourse
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -44,7 +44,7 @@ namespace TestCompa.Server.Studio
         {
             studioTest();
             IWebElement create = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > section:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.DoubleClick(create).Perform();
             Thread.Sleep(5000);
         }
@@ -94,7 +94,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Name must be at least 2 characters.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
         //Test 4: Không nhập thumbnail
         [Test]
@@ -118,7 +118,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Please enter a valid URL for the thumbnail.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
         //Test 5: Không nhập descrition
         [Test]
@@ -142,7 +142,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Description must be at least 10 characters.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
         //Test 6: Không nhập estimateHour
         [Test]
@@ -166,7 +166,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Estimated hours must be at least 1.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
         //Test 7: Không nhập banner
         [Test]
@@ -192,7 +192,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(5000);
             
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Please enter a valid URL for the banner.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
         //Test 8: Nhập name quá dài
         [Test]
@@ -203,7 +203,7 @@ namespace TestCompa.Server.Studio
             btnCreate.Click();
             Thread.Sleep(5000);
             IWebElement name = driver.FindElement(By.XPath("//input[@name='name']"));
-            string longname = new string('a', 150);
+            string longname = new('a', 150);
             name.SendKeys(longname);
             IWebElement thumbnailUrl = driver.FindElement(By.XPath("//input[@name='thumbnail']"));
             thumbnailUrl.SendKeys("https://picsum.photos/200/300");
@@ -220,7 +220,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(5000);
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Name must be at least 2 and at max 50 characters long.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
             Thread.Sleep(5000);
         }
        

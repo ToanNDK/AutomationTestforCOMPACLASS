@@ -6,11 +6,11 @@ using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Activity.Video
 {
-    public class addCourse
+    public class Video
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         
         [SetUp]
         public void Setup()
@@ -117,7 +117,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         {
             UploadVideoURL();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement video = wait.Until(driver => driver.FindElement(By.XPath("//video[@preload='metadata']")));
 
             // Dùng JavaScript để click, bỏ qua overlay

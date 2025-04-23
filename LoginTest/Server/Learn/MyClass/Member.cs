@@ -14,7 +14,7 @@ namespace TestCompa.Server.Learn.MyClassMember
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/learn/home";
+        private readonly string devUrl = "http://10.10.10.30/learn/home";
         [SetUp]
         public void Setup()
         {
@@ -35,7 +35,7 @@ namespace TestCompa.Server.Learn.MyClassMember
             Login();
 
             
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();  
             Thread.Sleep(3000);
@@ -53,7 +53,7 @@ namespace TestCompa.Server.Learn.MyClassMember
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
@@ -75,7 +75,7 @@ namespace TestCompa.Server.Learn.MyClassMember
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
@@ -89,7 +89,7 @@ namespace TestCompa.Server.Learn.MyClassMember
             member.Click();
             Thread.Sleep(5000);
             //Hover
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             IList<IWebElement> profileElements = driver.FindElements(By.CssSelector("div.col-span-2.flex.gap-2.items-center a[href*='/learn/public-profile']"));
             foreach(var profile in profileElements)
             {
@@ -105,7 +105,7 @@ namespace TestCompa.Server.Learn.MyClassMember
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);

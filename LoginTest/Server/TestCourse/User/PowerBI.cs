@@ -11,8 +11,8 @@ namespace TestCompa.Server.TestCourse.User
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
         {
@@ -87,7 +87,7 @@ namespace TestCompa.Server.TestCourse.User
 
         //Thêm câu hỏi
         [Test]
-        public void addQuestion()
+        public void AddQuestion()
         {
             try
             {
@@ -197,7 +197,7 @@ namespace TestCompa.Server.TestCourse.User
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                addComment();
+                AddComment();
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace TestCompa.Server.TestCourse.User
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addComment();
+                AddComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -563,7 +563,7 @@ namespace TestCompa.Server.TestCourse.User
         }
 
         //comment learning canvas 
-        private void addComment()
+        private void AddComment()
         {
             gotoLearn();
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
@@ -593,7 +593,7 @@ namespace TestCompa.Server.TestCourse.User
         //delete comment 
         private void deleteComment()
         {
-            addComment();
+            AddComment();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(2000);
@@ -607,7 +607,7 @@ namespace TestCompa.Server.TestCourse.User
         //Serach comment LearningCanvas
         private void searchCommentLC()
         {
-            addComment();
+            AddComment();
             var searchInputs = driver.FindElements(By.CssSelector("input[placeholder='Tìm kiếm'][role='combobox']"));
             if (searchInputs.Count >= 2)
             {

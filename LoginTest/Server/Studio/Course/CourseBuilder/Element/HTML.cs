@@ -1,15 +1,7 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.HTML
 {
@@ -17,7 +9,7 @@ namespace TestCompa.Server.CourseBuilder.HTML
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -43,7 +35,7 @@ namespace TestCompa.Server.CourseBuilder.HTML
         public void courseBuilder()
         {
             studioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='5']"));
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
@@ -77,14 +69,14 @@ namespace TestCompa.Server.CourseBuilder.HTML
 
             IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
 
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.DragAndDrop(textElement, targetElement).Perform();
 
             Thread.Sleep(4000);
         }
         //Test 2: Add content (UC-S168)
         [Test]
-        public void addContent()
+        public void AddContent()
         {
             markdownDragNDrop();
             IWebElement click = driver.FindElement(By.XPath("//div[@class='relative ']"));

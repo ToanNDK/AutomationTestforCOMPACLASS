@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
 {
@@ -322,7 +317,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                addComment();
+                AddComment();
             }
             catch (Exception ex)
             {
@@ -331,7 +326,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addComment();
+                AddComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -453,7 +448,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
                 }
                 catch (NoSuchElementException)
                 {
-                    return true; 
+                    return true;
                 }
             });
 
@@ -698,7 +693,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
         }
 
         //comment learning canvas 
-        private void addComment()
+        private void AddComment()
         {
             gotoLearn();
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
@@ -728,7 +723,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
         //delete comment 
         private void deleteComment()
         {
-            addComment();
+            AddComment();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(2000);
@@ -742,7 +737,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
         //Serach comment LearningCanvas
         private void searchCommentLC()
         {
-            addComment();
+            AddComment();
             var searchInputs = driver.FindElements(By.CssSelector("input[placeholder='Tìm kiếm'][role='combobox']"));
             if (searchInputs.Count >= 2)
             {
@@ -819,6 +814,16 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
             Thread.Sleep(2000);
+
+            //xóa
+            IWebElement svgg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
+            svgg.Click();
+            Thread.Sleep(1000);
+            IWebElement delete = driver.FindElement(By.XPath("//button[span[text()='Xóa bài đăng']]"));
+            delete.Click();
+            Thread.Sleep(1000);
+            IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Xóa']"));
+            confirm.Click();
         }
 
         private void deletePost()
@@ -843,7 +848,17 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
             Thread.Sleep(1000);
             IWebElement search = driver.FindElement(By.XPath("(//input[@placeholder='Tìm kiếm'])[2]"));
             search.SendKeys("POWERBI");
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
+            IWebElement svg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
+            svg.Click();
+            Thread.Sleep(1000);
+            IWebElement delete = driver.FindElement(By.XPath("//button[span[text()='Xóa bài đăng']]"));
+            delete.Click();
+            Thread.Sleep(1000);
+            IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Xóa']"));
+            confirm.Click();
+
+            Thread.Sleep(1000);
         }
 
         private void sortPost()
@@ -859,7 +874,17 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
             sort.Click();
             IWebElement latest = driver.FindElement(By.XPath("//span[@class='text-left whitespace-nowrap'][contains(text(),'Mới nhất')]"));
             latest.Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
+            IWebElement svg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
+            svg.Click();
+            Thread.Sleep(1000);
+            IWebElement delete = driver.FindElement(By.XPath("//button[span[text()='Xóa bài đăng']]"));
+            delete.Click();
+            Thread.Sleep(1000);
+            IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Xóa']"));
+            confirm.Click();
+
+            Thread.Sleep(1000);
         }
         //Finish lesson 
         private void finishLesson()

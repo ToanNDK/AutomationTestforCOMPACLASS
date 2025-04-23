@@ -42,7 +42,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         }
 
         // Helper method for login
-        private void Login(string userEmail = null, string userPassword = null)
+        private void Login(string? userEmail = null, string? userPassword = null)
         {
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));

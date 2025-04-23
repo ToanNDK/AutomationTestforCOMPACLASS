@@ -36,7 +36,7 @@ namespace TestCompa
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", startButton);
             Thread.Sleep(2000);
             wait.Until(d => d.Url == "http://10.10.10.30/vn/academy/kpim");
-            Assert.AreEqual("http://10.10.10.30/vn/academy/kpim", driver.Url, "Không chuyển hướng thành công");
+            Assert.That(driver.Url, Is.EqualTo("http://10.10.10.30/vn/academy/kpim"), "Không chuyển hướng thành công");
 
         }
         //Test 2: Test các nút trên sidebar
@@ -115,7 +115,7 @@ namespace TestCompa
             Thread.Sleep(5000);
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", course0);
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course/power-bi-fundamental/overview"));
+            Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course/power-bi-fundamental/overview"), Is.True);
             var registerCourse = driver.FindElement(By.CssSelector("button.group\\/btn"));
 
             if (registerCourse != null)
@@ -125,13 +125,13 @@ namespace TestCompa
                 if (buttonText == "Ghi danh")
                 {
                     registerCourse.Click();
-                    Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/checkout"));
+                    Assert.That(driver.Url.Contains("http://10.10.10.30/learn/checkout"), Is.True);
                     Thread.Sleep(5000);
                 }
                 else if (buttonText == "Đi đến học")
                 {
                     registerCourse.Click();
-                    Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/vn/learn/course"));
+                    Assert.That(driver.Url.Contains("http://10.10.10.30/vn/learn/course"), Is.True);
                     Thread.Sleep(5000);
 
                 }

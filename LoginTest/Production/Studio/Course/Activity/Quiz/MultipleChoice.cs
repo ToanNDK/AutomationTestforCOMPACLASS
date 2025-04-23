@@ -7,11 +7,11 @@ using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
 {
-    public class addCourse
+    public class MulitpleChoice
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
-        private string devUrl = "https://studio.compaclass.com";
+        private readonly string devUrl = "https://studio.compaclass.com";
         private void InitDriver(bool headless = false)
         {
             ChromeOptions options = new();
@@ -153,7 +153,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].value='00:25:700';", time);  // Nhập giá trị mới
             time.SendKeys(Keys.Space);
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[@class='text-sm text-red-500']")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị");
         }
         //Test 4: Nhập content cho câu hỏi:
         [Test]
@@ -185,14 +185,14 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
             IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
             submit.Click();
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             try
             {
 
                 IWebElement toastMessage = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@class, 'group toast') and contains(., 'Please select at least one correct answer')]")));
 
                 // Kiểm tra thông báo đã đúng
-                Assert.AreEqual("Please select at least one correct answer", toastMessage.Text.Trim(), "Thông báo không chính xác");
+                Assert.That(toastMessage.Text.Trim(), Is.EqualTo("Please select at least one correct answer"), "Thông báo không chính xác");
             }
             catch (WebDriverTimeoutException)
             {
@@ -335,7 +335,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         {
             ChangeQuestion();
             Thread.Sleep(1000);
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
 
             // Lấy tất cả các ô (question và answer)
             var allBoxes = driver.FindElements(By.XPath("//p[@data-placeholder='Start typing your question' or contains(@data-placeholder, 'Answer')]"));
@@ -367,7 +367,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         {
             ChooseCorrectAnswers(); 
 
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(30));
 
             // Đợi nút Preview sẵn sàng
             IWebElement preview = wait.Until(driver => driver.FindElement(By.XPath("//button[normalize-space()='Preview']")));

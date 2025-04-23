@@ -13,7 +13,6 @@ namespace TestCompa.Production.Learn.MyClass
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/vn/academy/kpim";
-        private readonly string courseUrl = "https://compaclass.com/learn/course";
 
 
         private void InitDriver(bool headless = false)
@@ -51,11 +50,11 @@ namespace TestCompa.Production.Learn.MyClass
             loginBtn.Click();
             Thread.Sleep(2000);
             Login();
-            Assert.IsTrue(driver.Url.Contains(homeUrl));
+            Assert.That(driver.Url.Contains(homeUrl), Is.True);
             IWebElement testclass = driver.FindElement(By.XPath("//a[@href='/learn/class']"));
             testclass.Click();
             Thread.Sleep(1000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/class"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/learn/class"), Is.True);
             Thread.Sleep(2000);
         }
         //Test 2 : Truy cập class 
@@ -68,11 +67,11 @@ namespace TestCompa.Production.Learn.MyClass
             loginBtn.Click();
             Thread.Sleep(2000);
             Login();
-            Assert.IsTrue(driver.Url.Contains(homeUrl));
+            Assert.That(driver.Url.Contains(homeUrl), Is.True);
             IWebElement testclass = driver.FindElement(By.XPath("//a[@href='/learn/class']"));
             testclass.Click();  
             Thread.Sleep(3000);
-            Assert.IsTrue(driver.Url.Contains("https://compaclass.com/learn/class"));
+            Assert.That(driver.Url.Contains("https://compaclass.com/learn/class"), Is.True);
             Thread.Sleep(3000);
             IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản - DMVN')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollBy(0, 200);");
@@ -152,14 +151,14 @@ namespace TestCompa.Production.Learn.MyClass
             Thread.Sleep(2000);
 
 
-            Assert.IsTrue(driver.Url.Contains("/learn/public-profile/"), "Không chuyển đến trang hồ sơ học viên!");
+            Assert.That(driver.Url.Contains("/learn/public-profile/"), Is.True, "Không chuyển đến trang hồ sơ học viên!");
 
 
 
         }
         //Test 5: Click nút "Thêm thành viên" trong tab Thành viên
         [Test]
-        public void addMember()
+        public void AddMember()
         {
             driver.Navigate().GoToUrl(homeUrl);
             Thread.Sleep(3000); // Đợi trang load
@@ -259,7 +258,7 @@ namespace TestCompa.Production.Learn.MyClass
             Thread.Sleep(2000);
 
             IWebElement addMember = driver.FindElement(By.CssSelector("div div div div div div div:nth-child(1) div:nth-child(2) div:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(2) button:nth-child(1) svg"));
-            Actions actions = new Actions(driver);
+            Actions actions = new(driver);
             actions.MoveToElement(addMember).Click().Perform();
 
             Thread.Sleep(2000);

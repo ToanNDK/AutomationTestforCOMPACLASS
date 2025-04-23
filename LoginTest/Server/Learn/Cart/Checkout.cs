@@ -13,7 +13,7 @@ namespace TestCompa.Server.Learn.Cart
         private IWebDriver driver;
         private WebDriverWait wait;
 
-        private string devUrl = "http://10.10.10.30/vn/academy/kpim";
+        private readonly string devUrl = "http://10.10.10.30/vn/academy/kpim";
         [SetUp]
         public void Setup()
         {
@@ -59,7 +59,7 @@ namespace TestCompa.Server.Learn.Cart
                     Console.WriteLine("Thêm thành công. Chuyển đến giỏ hàng...");
                     buttonAddCart.Click();
                     Thread.Sleep(2000);
-                    Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+                    Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace TestCompa.Server.Learn.Cart
                 Console.WriteLine("Sản phẩm đã có trong giỏ hàng. Chuyển đến giỏ hàng...");
                 buttonAddCart.Click();
                 Thread.Sleep(2000);
-                Assert.IsTrue(driver.Url.Contains("http://10.10.10.30/learn/cart"));
+                Assert.That(driver.Url.Contains("http://10.10.10.30/learn/cart"), Is.True);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace TestCompa.Server.Studio
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -46,7 +46,7 @@ namespace TestCompa.Server.Studio
         {
             classTest();
             IWebElement create = driver.FindElement(By.CssSelector("button[class='py-[10px] px-5 group w-fit flex items-center justify-start gap-2 bg-white rounded-xl hover:bg-primary transition-all']"));
-            Actions action = new Actions(driver);
+            Actions action = new(driver);
             action.Click(create).Perform();
             Thread.Sleep(5000);
         }
@@ -79,7 +79,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = driver.FindElement(By.XPath("//span[@class='text-red font-sm' and contains(text(), 'Please provide at least one email address')]"));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
             
         }
         //Test 5: Không nhập tên class
@@ -95,7 +95,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(5000);
             IWebElement errorMessage = driver.FindElement(By.XPath("//span[contains(@class, 'text-red') and contains(text(), 'You must not leave this field blank')]"));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
         }
         //Test 6:Không nhập description
         [Test]
@@ -111,7 +111,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(8000);
             IWebElement errorMessage = driver.FindElement(By.XPath("div[class='flex space-x-1 items-center' and contains(text(), 'You must not leave this field blank')]"));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
         }
         //Test 7: Không chọn course và version
         [Test]
@@ -152,7 +152,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(8000);
             IWebElement errorMessage = driver.FindElement(By.XPath("//span[contains(@class, 'text-red') and contains(text(), 'You must not leave this field blank')]"));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
 
         }
         //Test 8: Nhập description quá dài
@@ -160,7 +160,7 @@ namespace TestCompa.Server.Studio
         public void createNewClassDescriptionTooLong()
         {
             Create();
-            string longDes = new string('a', 301);
+            string longDes = new('a', 301);
             IWebElement clear = driver.FindElement(By.CssSelector("textarea[placeholder='Enter Description']"));
             clear.Click();
             Thread.Sleep(5000);
@@ -173,7 +173,7 @@ namespace TestCompa.Server.Studio
             submit.Click();
             Thread.Sleep(8000);
             IWebElement errorMessage = driver.FindElement(By.XPath("div[class='flex space-x-1 items-center' and contains(text(), 'You must not leave this field blank')]"));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
         }// chỉ cho phép nhập đúng 300 kí tự -> Passed
 
         

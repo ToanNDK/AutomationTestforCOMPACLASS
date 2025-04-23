@@ -6,11 +6,11 @@ using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Activity.Quiz
 {
-    public class addCourse
+    public class Quiz
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
 
         [SetUp]
         public void Setup()
@@ -61,7 +61,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
 
 
         
-        public void addQuestion()
+        public void AddQuestion()
         {
             courseBuilder();
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'QuizBlock')]"));
@@ -87,7 +87,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
         [Test]
         public void singleChoice()
         {
-            addQuestion();
+            AddQuestion();
             IWebElement single = driver.FindElement(By.XPath("//p[normalize-space()='Single Choice']"));
             single.Click();
             Thread.Sleep(1000);

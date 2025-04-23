@@ -10,7 +10,7 @@ namespace TestCompa.Server.Learn.Login
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/Auth/SignIn?login_challenge=a635429bdb604fb08d123fff4bbb1add";
+        private readonly string devUrl = "http://10.10.10.30/Auth/SignIn?login_challenge=a635429bdb604fb08d123fff4bbb1add";
         [SetUp]
         public void Setup()
         {
@@ -52,7 +52,7 @@ namespace TestCompa.Server.Learn.Login
             // Kiểm tra URL chuyển hướng đúng không
             string currentUrl = driver.Url;
 
-            Assert.IsTrue(currentUrl.Contains("10.10.10.30"));
+            Assert.That(currentUrl.Contains("10.10.10.30"), Is.True);
         }
 
         //Test 2: Lỗi 
@@ -66,7 +66,7 @@ namespace TestCompa.Server.Learn.Login
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
 
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
         // Test 3 : Nhập đúng định dạng email nhưng password có độ dài quá ngắn
         [Test]
@@ -78,7 +78,7 @@ namespace TestCompa.Server.Learn.Login
             driver.FindElement(By.Id("password")).SendKeys("123");
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in. Check your email and password or create an account.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
 
         //Test 4: Nhập đúng định dạng email nhưng password có độ dài quá dài
@@ -86,13 +86,13 @@ namespace TestCompa.Server.Learn.Login
         public void TestLogin_PasswordTooLong()
         {
 
-            string longPsw = new string('a', 100);
+            string longPsw = new('a', 100);
             driver.Navigate().GoToUrl(devUrl);
             driver.FindElement(By.Id("email")).SendKeys("ValidEmail@example.com");
             driver.FindElement(By.Id("password")).SendKeys(longPsw);
             driver.FindElement(By.XPath("//button[text()='SIGN IN']")).Click();
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'There was a problem logging in. Check your email and password or create an account.')]")));
-            Assert.IsTrue(errorMessage.Displayed, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
+            Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thông tin đăng nhập!");
         }
         // Test 5  : Quên mk
         [Test]
@@ -103,7 +103,7 @@ namespace TestCompa.Server.Learn.Login
             IWebElement forgotPasswordLink = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(), 'Forgot password?')]")));
             forgotPasswordLink.Click();
 
-            Assert.AreEqual("http://10.10.10.30/Auth/ForgotPassword", driver.Url, "Không điều hướng đến trang quên mật khẩu!");
+            Assert.That(driver.Url, Is.EqualTo("http://10.10.10.30/Auth/ForgotPassword"), "Không điều hướng đến trang quên mật khẩu!");
         }
         //Test 6 : Đăng nhập bằng google
         [Test]
@@ -114,7 +114,7 @@ namespace TestCompa.Server.Learn.Login
             IWebElement btnGoogle = driver.FindElement(By.XPath("//img[@alt='google']"));
             btnGoogle.Click();
             Thread.Sleep(5000);
-            Assert.IsTrue(driver.Url.Contains("https://accounts.google.com"));
+            Assert.That(driver.Url.Contains("https://accounts.google.com"), Is.True);
             Thread.Sleep(1000);
         }
         [TearDown]

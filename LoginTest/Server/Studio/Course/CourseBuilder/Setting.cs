@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
 {
-    public class Structure
+    public class Setting
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
+        private readonly string devUrl = "http://10.10.10.30:3000/";
         [SetUp]
         public void Setup()
         {
@@ -117,7 +117,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             IReadOnlyCollection<IWebElement> options = driver.FindElements(By.XPath("//select/option"));
             if (options.Count > 0)
             {
-                Random rand = new Random();
+                Random rand = new();
                 int randomIndex = rand.Next(options.Count); 
 
                
@@ -143,7 +143,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
 
             IWebElement Topic = driver.FindElement(By.XPath("(//button[contains(@role,'combobox')])[3]"));
             Topic.Click();
-            Random rand = new Random();
+            Random rand = new();
             int randomValue = rand.Next(1, 4);
 
             string optionSelector = $"option[value='{randomValue}']";
@@ -163,7 +163,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             IWebElement fieldTag = driver.FindElement(By.XPath("//input[@placeholder='Search tag...']"));
 
             fieldTag.Click();
-            Random tagRandom = new Random();
+            Random tagRandom = new();
 
             fieldTag.SendKeys(tagRandom.ToString());
             fieldTag.SendKeys(Keys.Enter);

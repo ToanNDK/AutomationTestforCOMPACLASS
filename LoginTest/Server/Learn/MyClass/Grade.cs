@@ -14,7 +14,7 @@ namespace TestCompa.Server.Learn.Grade
     {
         private IWebDriver driver;
         private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30/learn/home";
+        private readonly string devUrl = "http://10.10.10.30/learn/home";
 
         [SetUp]
         public void Setup()

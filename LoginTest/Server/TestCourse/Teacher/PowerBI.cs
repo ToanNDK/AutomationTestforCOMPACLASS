@@ -1,14 +1,13 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using NUnit.Framework;
 
 namespace TestCompa.Server.TestCourse.Teacher
 
 {
     public class CourseTests
     {
-        private IWebDriver driver = null!;  
+        private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
 
         private void InitDriver(bool headless)
@@ -521,8 +520,8 @@ namespace TestCompa.Server.TestCourse.Teacher
             Thread.Sleep(2000);
         }
 
-        
-       
+
+
         //Login
         private void Login()
         {
