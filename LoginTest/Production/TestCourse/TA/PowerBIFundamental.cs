@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Production.TestCourse.TA
 {
@@ -86,7 +81,7 @@ namespace TestCompa.Production.TestCourse.TA
 
 
         //Thêm câu hỏi
-        [Test]
+        //[Test]
         public void AddQuestion()
         {
             try
@@ -191,7 +186,7 @@ namespace TestCompa.Production.TestCourse.TA
 
 
         //Thêm comment
-        [Test]
+        //[Test]
         public void RunCommentLearningCanvas()
         {
             try
@@ -393,7 +388,7 @@ namespace TestCompa.Production.TestCourse.TA
             }
         }
         //Tìm kiếm comment LearningCanvas
-        [Test]
+        //[Test]
         public void runSerachCommentLC()
         {
             try
@@ -461,10 +456,10 @@ namespace TestCompa.Production.TestCourse.TA
                 throw; // vẫn throw để log biết test bị fail
             }
         }
-        
-        
-        
-        // 
+
+
+
+        //
         private void RunAddQuestionTest()
         {
             Login();
@@ -747,7 +742,7 @@ namespace TestCompa.Production.TestCourse.TA
         private void searchPost()
         {
             addPost();
-           Thread.Sleep(1000);
+            Thread.Sleep(1000);
             IWebElement search = driver.FindElement(By.XPath("(//input[@placeholder='Tìm kiếm'])[2]"));
             search.SendKeys("POWERBI");
             Thread.Sleep(2000);

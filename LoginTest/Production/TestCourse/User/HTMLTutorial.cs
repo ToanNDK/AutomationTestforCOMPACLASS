@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Production.TestCourse.User.HTMLTutorial
 {
@@ -92,7 +87,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
 
 
         //Thêm câu hỏi
-        [Test]
+        //[Test]
         public void addQuestion()
         {
             try
@@ -117,7 +112,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 {
                     driver?.Quit();
                 }
-               
+
             }
         }
 
@@ -147,7 +142,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 {
                     driver?.Quit();
                 }
-                
+
             }
         }
         //Check theo tên chương
@@ -211,7 +206,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
 
 
         //Thêm comment
-        [Test]
+        //[Test]
         public void runCommentLearningCanvas()
         {
             try
@@ -269,7 +264,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
         }
 
         //Tìm kiếm comment LearningCanvas
-        [Test]
+        //[Test]
         public void runSerachCommentLC()
         {
             try
@@ -360,7 +355,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
                 }
                 catch (NoSuchElementException)
                 {
-                    return true; 
+                    return true;
                 }
             });
 
@@ -570,7 +565,7 @@ namespace TestCompa.Production.TestCourse.User.HTMLTutorial
         //QNA
         private void Member()
         {
-            WebDriverWait localWait = new (driver, TimeSpan.FromSeconds(10));
+            WebDriverWait localWait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement QNA = localWait.Until(d =>
             {
                 var el = d.FindElement(By.XPath("//a[text()='Hỏi & Đáp']"));

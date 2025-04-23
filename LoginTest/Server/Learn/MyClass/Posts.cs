@@ -1,35 +1,44 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Server.Learn.Posts
 {
     public class ClassTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private readonly string devUrl = "http://10.10.10.30/learn/home";
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "http://10.10.10.30/learn/home";
+
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+            driver.Navigate().GoToUrl("http://10.10.10.30/Auth/SignIn");
         }
         // 1. Test chức năng điều hướng tới Post
         [Test, Order(1)]
         public void Posts()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(homeUrl);
             Login();
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
@@ -38,7 +47,7 @@ namespace TestCompa.Server.Learn.Posts
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(5000);
-            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
             testclass.Click();
             Thread.Sleep(5000);
             IWebElement assign = driver.FindElement(By.XPath("//a[text()='Bài đăng']"));
@@ -92,8 +101,8 @@ namespace TestCompa.Server.Learn.Posts
             submit.Click();
             Thread.Sleep(2000);
 
-            
-            
+
+
         }
         //4. Xóa bài đăng
         [Test, Order(4)]
@@ -109,12 +118,12 @@ namespace TestCompa.Server.Learn.Posts
             Thread.Sleep(4000);
             IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Xóa']"));
             confirm.Click();
-            
+
             Thread.Sleep(2000);
 
         }
         //5.React bài đăng
-        [Test,Order(5)]
+        [Test, Order(5)]
         public void reactPosts()
         {
             addPost();

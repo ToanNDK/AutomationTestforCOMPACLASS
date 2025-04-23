@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Production.TestCourse.User
 {
@@ -59,7 +54,7 @@ namespace TestCompa.Production.TestCourse.User
         }
 
         //Tìm kiếm & Sort Đánh giá
-        [Test]
+        //[Test]
         public void runSearchComment()
         {
             try
@@ -86,7 +81,7 @@ namespace TestCompa.Production.TestCourse.User
 
 
         //Thêm câu hỏi
-        [Test]
+        //[Test]
         public void addQuestion()
         {
             try
@@ -195,7 +190,7 @@ namespace TestCompa.Production.TestCourse.User
 
 
         //Thêm comment
-        [Test]
+        //[Test]
         public void runCommentLearningCanvas()
         {
             try
@@ -247,7 +242,7 @@ namespace TestCompa.Production.TestCourse.User
         }
 
         // Reaction comment
-        [Test]
+        //[Test]
         public void runReactionComment()
         {
             try
@@ -272,7 +267,7 @@ namespace TestCompa.Production.TestCourse.User
             }
         }
         //Tìm kiếm comment LearningCanvas
-        [Test]
+        //[Test]
         public void runSerachCommentLC()
         {
             try

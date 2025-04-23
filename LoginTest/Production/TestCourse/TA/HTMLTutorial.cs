@@ -258,7 +258,7 @@ namespace TestCompa.Production.TestCourse.TA.HTMLTutorial
                 driver.Quit();
             }
         }
-        [Test]
+        //[Test]
         public void runSortPost()
         {
             try

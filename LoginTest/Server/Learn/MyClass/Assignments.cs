@@ -1,36 +1,45 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Server.Learn.Assignments
 {
     public class ClassTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private readonly string devUrl = "http://10.10.10.30/learn/home";
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "http://10.10.10.30/learn/home";
+
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+            driver.Navigate().GoToUrl("http://10.10.10.30/Auth/SignIn");
         }
         // 1. Test chức năng điều hướng tới Assignment
 
         [Test, Order(1)]
         public void Assignments()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(homeUrl);
             Login();
 
 
@@ -41,13 +50,18 @@ namespace TestCompa.Server.Learn.Assignments
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(5000);
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='2']"));
+            tab.Click();
+            Thread.Sleep(2000);
             IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", testclass);
+            Thread.Sleep(2000);
             testclass.Click();
             Thread.Sleep(5000);
             IWebElement assign = driver.FindElement(By.XPath("//a[text()='Bài tập']"));
             assign.Click();
             Thread.Sleep(2000);
-            
+
 
 
 
@@ -92,7 +106,8 @@ namespace TestCompa.Server.Learn.Assignments
             IWebElement feedback = driver.FindElement(By.XPath("//textarea[@name='feedbackComment' and @maxlength='1000']"));
             feedback.Click();
             feedback.Clear();
-            feedback.SendKeys("Excellent!");
+            Random rd = new();
+            feedback.SendKeys($"Excellent{rd}!");
             Thread.Sleep(5000);
             IWebElement submit = driver.FindElement(By.XPath("//button[contains(text(),'Lưu')]"));
             submit.Click();
@@ -119,7 +134,7 @@ namespace TestCompa.Server.Learn.Assignments
             inputField.SendKeys("Link");
 
             IWebElement fileInput = driver.FindElement(By.Id("file-input"));
-            fileInput.SendKeys(@"D:\KPIM\Blog\Blog HTML\HTML Form\HTML_Form_Action.pdf");
+            fileInput.SendKeys(@"D:\KPIM\ĐỒ ÁN TT\Thông tin Quản lý Final.pdf");
             Thread.Sleep(3000);
         }
         public void Login()

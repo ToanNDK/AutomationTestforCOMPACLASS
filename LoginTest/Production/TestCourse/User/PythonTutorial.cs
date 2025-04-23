@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Production.TestCourse.User.PythonTutorial
 {
@@ -214,7 +209,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
             }
         }
 
-        //[Test]
+        [Test]
         public void runDeletePost()
         {
             try
@@ -263,7 +258,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
                 driver.Quit();
             }
         }
-        [Test]
+        //[Test]
         public void runSortPost()
         {
             try

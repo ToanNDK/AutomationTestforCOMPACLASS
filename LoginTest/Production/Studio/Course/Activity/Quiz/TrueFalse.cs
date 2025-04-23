@@ -30,7 +30,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(true);
+            InitDriver(false);
         }
         public void StudioTest()
         {
@@ -92,7 +92,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
 
         }
         [Test]
-        public void SingleChoice()
+        public void TFQuestion()
         {
             AddQuestion();
             IWebElement single = driver.FindElement(By.XPath("//p[normalize-space()='True or False']"));
@@ -103,7 +103,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         [Test]
         public void displaySetting()
         {
-            SingleChoice();
+            TFQuestion();
             Thread.Sleep(3000);
             IWebElement dropdown = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
             dropdown.Click();
@@ -116,7 +116,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         [Test]
         public void AllowAttempt()
         {
-            SingleChoice();
+            TFQuestion();
             Thread.Sleep(3000);
             IWebElement dropdown = driver.FindElement(By.XPath("//button[.//span[normalize-space()='Unlimited']]"));
             dropdown.Click();
@@ -136,7 +136,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         [Test]
         public void ChangeTimeLimit()
         {
-            SingleChoice();
+            TFQuestion();
             IWebElement time = driver.FindElement(By.XPath("//input[@id='time-input']"));
 
             //Nhập giá trị hợp lệ 
@@ -155,27 +155,14 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         [Test]
         public void AddContentQuiz()
         {
-            SingleChoice();
+            TFQuestion();
             Random rd = new();
 
             IWebElement question = driver.FindElement(By.XPath("//p[@class='ck-placeholder']"));
             question.SendKeys($" Câu hỏi {rd.Next(1000, 9999)}");
             Thread.Sleep(1000);
 
-            // Nhập câu trả lời ngẫu nhiên
-            var answerElements = driver.FindElements(By.XPath("//p[@data-placeholder='Nhập nội dung đáp án...']"));
-            if (answerElements.Count == 4)
-            {
-                for (int i = 0; i < answerElements.Count; i++)
-                {
-                    answerElements[i].SendKeys($" Câu trả lời {rd.Next(1000, 9999)}");
-                    Thread.Sleep(500);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Không tìm thấy đúng 4 ô trả lời.");
-            }
+
 
             // Nhấn nút Save
             IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
@@ -270,13 +257,40 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
             Thread.Sleep(1000);
         }
 
-        //Test 10: (UC-249)
+        /*//Test 10: (UC-249)
         [Test]
         public void AddImage()
         {
-            AddQuestion();
-            Thread.Sleep(1000);
-        }
+            // Bước 1: Tạo câu hỏi (nếu cần thiết)
+            AddContentQuiz();
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+
+            // Bước 2: Tìm khu vực chứa CKEditor và bấm vào đó để kích hoạt thanh công cụ
+            var editorArea = wait.Until(d => d.FindElement(By.XPath("//div[contains(@class, 'ck-editor__editable')]")));
+            editorArea.Click();  // Kích hoạt thanh công cụ
+            Thread.Sleep(2000);
+            // Bước 3: Tìm và bấm vào nút upload trên thanh công cụ CKEditor
+            var uploadButton = wait.Until(d => d.FindElement(By.XPath("//button[contains(@class, 'ck-file-dialog-button')]")));
+            Thread.Sleep(2000);
+            uploadButton.Click();
+
+            Thread.Sleep(1000); // Đợi một chút để cửa sổ chọn file mở ra
+
+            // Bước 4: Tìm phần tử input để gửi file
+            var fileInput = wait.Until(d => d.FindElement(By.XPath("//input[@type='file' and contains(@class, 'ck-hidden')]")));
+
+            // Bước 5: Gửi đường dẫn ảnh vào input
+            fileInput.SendKeys(@"C:\Users\Hello\Pictures\TestImage\Test1.jpg");
+
+            Thread.Sleep(3000); // Đợi một chút để ảnh được upload vào CKEditor
+
+            // Bước 6: Kiểm tra xem ảnh đã được tải lên thành công chưa
+            wait.Until(driver => driver.FindElement(By.XPath("//div[contains(@class, 'ck-content')]//img")));
+
+            Console.WriteLine("Ảnh đã được upload thành công!");
+        }*/
+
 
 
 

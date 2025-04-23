@@ -1,8 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Overview
 {
@@ -153,7 +151,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
             teacherEmail.SendKeys("lozy564");
             Thread.Sleep(1000);
             IWebElement confirm = driver.FindElement(By.XPath("//div[contains(@class,'flex flex-col text-sm')]"));
-            teacherEmail.Click();
+            confirm.Click();
             Thread.Sleep(2000);
 
         }

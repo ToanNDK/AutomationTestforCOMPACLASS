@@ -1,36 +1,45 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Server.Learn.Feedback
 {
     public class ClassTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private readonly string devUrl = "http://10.10.10.30/learn/home";
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string homeUrl = "http://10.10.10.30/learn/home";
+
+
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new(driver, TimeSpan.FromSeconds(10));
+        }
+
         [SetUp]
         public void Setup()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+            driver.Navigate().GoToUrl("http://10.10.10.30/Auth/SignIn");
         }
         // 1. Test chức năng điều hướng tới Feedback
 
         [Test, Order(1)]
         public void Feedback()
         {
-            driver.Navigate().GoToUrl(devUrl);
+            driver.Navigate().GoToUrl(homeUrl);
             Login();
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
@@ -54,7 +63,7 @@ namespace TestCompa.Server.Learn.Feedback
 
         }
         //2. Sắp xếp
-        
+
         [Test, Order(2)]
         public void FeedbackSort()
         {
@@ -65,7 +74,7 @@ namespace TestCompa.Server.Learn.Feedback
 
         }
         //2.1 Mới nhất 
-        [Test,Order(3)]
+        [Test, Order(3)]
         public void latestFeedback()
         {
             FeedbackSort();
@@ -74,7 +83,7 @@ namespace TestCompa.Server.Learn.Feedback
             Thread.Sleep(5000);
         }
         //2.2 Cũ nhất
-        [Test,Order(4)]
+        [Test, Order(4)]
         public void oldestFeedback()
         {
             FeedbackSort();
