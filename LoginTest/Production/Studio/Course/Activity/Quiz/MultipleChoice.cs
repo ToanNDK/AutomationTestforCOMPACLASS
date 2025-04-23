@@ -365,7 +365,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         [Test]
         public void Preview()
         {
-            ChooseCorrectAnswers();
+            ChooseCorrectAnswers(); 
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 
@@ -377,7 +377,10 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
             js.ExecuteScript("arguments[0].click();", preview);
 
             Thread.Sleep(2000);
+
         }
+
+
 
 
 

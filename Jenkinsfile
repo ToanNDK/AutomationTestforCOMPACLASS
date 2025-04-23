@@ -2,13 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Clean entire workspace') {    // ✨ Thêm bước clean tổng trước checkout
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Checkout code') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Clean workspace') {    // ✨ Thêm bước clean ở đây
+        stage('Clean LoginTest') {    // ✨ Clean riêng thư mục LoginTest
             steps {
                 dir('LoginTest') {
                     bat '''
