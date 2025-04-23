@@ -2,20 +2,17 @@ pipeline {
     agent any
 
     stages {
-        stage('Clean entire workspace') {    // ✨ Thêm bước clean tổng trước checkout
-            steps {
+        stage('Clean entire workspace') {                steps {
                 deleteDir()
             }
         }
 
-        stage('Checkout code') {
-            steps {
+        stage('Checkout code') {                steps {
                 checkout scm
             }
         }
 
-        stage('Clean LoginTest') {    // ✨ Clean riêng thư mục LoginTest
-            steps {
+        stage('Clean LoginTest') {                steps {
                 dir('LoginTest') {
                     bat '''
                     if exist bin rmdir /s /q bin
@@ -25,26 +22,23 @@ pipeline {
             }
         }
 
-        stage('Restore Packages') {
-            steps {
+        stage('Restore Packages') {                steps {
                 dir('LoginTest') {
                     bat 'dotnet restore'
                 }
             }
         }
 
-        stage('Build Project') {
-            steps {
+        stage('Build Project') {                steps {
                 dir('LoginTest') {
                     bat 'dotnet build --configuration Release'
                 }
             }
         }
 
-        stage('Run Tests') {
-            steps {
+        stage('Run Tests') {                steps {
                 dir('LoginTest') {
-                    bat 'dotnet test --no-build --verbosity normal'
+                    bat 'dotnet test --no-build --configuration Release --verbosity normal'
                 }
             }
         }
