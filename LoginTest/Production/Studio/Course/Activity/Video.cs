@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.CourseBuilder.Activity.Video
 {
     [TestFixture]
-    [Category("Video")]
+    [Category("Login")]
     public class addCourse
     {
         private IWebDriver driver = null!;

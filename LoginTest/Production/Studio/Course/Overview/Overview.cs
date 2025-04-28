@@ -6,7 +6,7 @@ using SeleniumExtras.WaitHelpers;
 namespace TestCompa.Production.CourseBuilder.Overview
 {
     [TestFixture]
-    [Category("Overview")]
+    [Category("Login")]
     public class Overview
     {
         private IWebDriver driver = null!;

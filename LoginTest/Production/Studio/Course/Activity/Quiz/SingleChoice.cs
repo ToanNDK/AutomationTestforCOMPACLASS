@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
 {
     [TestFixture]
-    [Category("Quiz")]
+    [Category("Login")]
     public class SingleChoiceQuiz
     {
         private IWebDriver driver = null!;
@@ -271,10 +271,6 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             italic.Click();
             Thread.Sleep(1000);
         }
-
-
-
-
 
         public void Login()
         {
