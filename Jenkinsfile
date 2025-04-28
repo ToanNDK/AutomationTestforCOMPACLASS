@@ -20,6 +20,7 @@ pipeline {
                     bat '''
                     if exist bin rmdir /s /q bin
                     if exist obj rmdir /s /q obj
+                    if exist TestResults rmdir /s /q TestResults
                     '''
                 }
             }
@@ -48,9 +49,7 @@ pipeline {
                         def categories = ["Login", "Register", "Quiz", "Overview", "Blog", "Video"]
                         categories.each { cat ->
                             bat """
-                            dotnet test --no-build --configuration Release --verbosity normal ^
-                            --filter "Category=${cat}" ^
-                            --logger \"trx;LogFileName=test_results_${cat}.trx\"
+                            dotnet test --no-build --configuration Release --verbosity normal --filter "Category=${cat}" --logger "trx;LogFileName=test_results_${cat}.trx" --results-directory TestResults
                             """
                         }
                     }

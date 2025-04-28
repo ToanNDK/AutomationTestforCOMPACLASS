@@ -173,6 +173,13 @@ namespace TestCompa.Server.Studio.Blog
 
             Thread.Sleep(4000);
 
+            IWebElement edit = driver.FindElement(By.XPath("//p[@class='ck-placeholder']"));
+            edit.Click();
+            Thread.Sleep(2000);
+
+            edit.SendKeys("CONTENT");
+            Thread.Sleep(2000);
+
         }
         public void Login()
         {
