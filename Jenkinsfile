@@ -41,10 +41,19 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Tests by Category') {
             steps {
                 dir('LoginTest') {
-                    bat 'dotnet test --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"'
+                    script {
+                        def categories = ["Login", "Register", "Quiz", "Overview", "Blog", "Video"]
+                        categories.each { cat ->
+                            bat """
+                            dotnet test --no-build --configuration Release --verbosity normal ^
+                            --filter "Category=${cat}" ^
+                            --logger \"trx;LogFileName=test_results_${cat}.trx\"
+                            """
+                        }
+                    }
                 }
             }
         }
@@ -52,7 +61,6 @@ pipeline {
 
     post {
         always {
-            
             junit allowEmptyResults: true, testResults: '**/LoginTest/TestResults/*.trx'
         }
     }

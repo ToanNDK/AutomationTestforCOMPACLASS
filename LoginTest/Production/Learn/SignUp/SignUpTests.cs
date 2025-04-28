@@ -1,12 +1,12 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 
 
 namespace TestCompa.Production.Learn.SignUp
 {
+    [TestFixture]
+    [Category("Register")]
     public class SignUpTests
     {
         private IWebDriver driver;

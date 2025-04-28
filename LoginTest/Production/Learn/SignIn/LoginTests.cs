@@ -1,11 +1,11 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.Login
 {
+    [TestFixture]
+    [Category("Login")]
     public class LoginTests
     {
         private IWebDriver driver;
@@ -57,7 +57,7 @@ namespace TestCompa.Production.Learn.Login
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
             Thread.Sleep(5000);
-            
+
             string currentUrl = driver.Url;
 
             Thread.Sleep(2000);

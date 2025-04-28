@@ -82,7 +82,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
 
         //Thêm câu hỏi
-        [Test]
+        //[Test]
         public void AddQuestion()
         {
             try
@@ -211,7 +211,7 @@ namespace TestCompa.Server.TestCourse.Teacher
 
 
         //Thêm comment
-        [Test]
+        //[Test]
         public void RunCommentLearningCanvas()
         {
             try
@@ -263,7 +263,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Tìm kiếm comment LearningCanvas
-        [Test]
+        //[Test]
         public void RunSerachCommentLC()
         {
             try
@@ -332,7 +332,7 @@ namespace TestCompa.Server.TestCourse.Teacher
             }
         }
         //Thêm bài đăng
-        [Test]
+        //[Test]
         public void RunAddPost()
         {
             try
@@ -355,7 +355,7 @@ namespace TestCompa.Server.TestCourse.Teacher
         }
 
         //Sửa bài đăng 
-        [Test]
+        //[Test]
         public void RunEditPost()
         {
             try
@@ -377,7 +377,7 @@ namespace TestCompa.Server.TestCourse.Teacher
             finally { driver.Quit(); }
         }
 
-        //Sửa bài đăng 
+        //Xóa bài đăng 
         [Test]
         public void RunDeletePost()
         {

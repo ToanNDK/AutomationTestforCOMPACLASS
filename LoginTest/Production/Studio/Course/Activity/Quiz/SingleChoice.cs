@@ -1,12 +1,11 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
 {
+    [TestFixture]
+    [Category("Quiz")]
     public class SingleChoiceQuiz
     {
         private IWebDriver driver = null!;
@@ -172,7 +171,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
                 for (int i = 0; i < answerElements.Count; i++)
                 {
                     answerElements[i].SendKeys($" Câu trả lời {rd.Next(1000, 9999)}");
-                    Thread.Sleep(500); 
+                    Thread.Sleep(500);
                 }
             }
             else
@@ -187,7 +186,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             try
             {
-                
+
                 IWebElement toastMessage = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@class, 'group toast') and contains(., 'Please select exactly one correct answer')]")));
 
                 // Kiểm tra thông báo đã đúng
@@ -209,7 +208,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             if (answer.Count > 0)
             {
                 Random rd = new();
-                int RdIndex = rd.Next(0,answer.Count);
+                int RdIndex = rd.Next(0, answer.Count);
                 answer[RdIndex].Click();
                 Thread.Sleep(1000);
             }
@@ -264,15 +263,15 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.SC
             SelectAll.SendKeys(Keys.Control + 'a');
             var boldButton = driver.FindElement(By.XPath("//button[@data-cke-tooltip-text='Bold (Ctrl+B)']"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", boldButton); 
-            Thread.Sleep(500); 
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", boldButton);
+            Thread.Sleep(500);
             js.ExecuteScript("arguments[0].click();", boldButton);
 
             IWebElement italic = driver.FindElement(By.XPath("//button[@data-cke-tooltip-text='Italic (Ctrl+I)']"));
             italic.Click();
             Thread.Sleep(1000);
         }
-       
+
 
 
 

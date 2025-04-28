@@ -1,12 +1,12 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
 {
+    [TestFixture]
+    [Category("Quiz")]
     public class MulitpleChoice
     {
         private IWebDriver driver = null!;
@@ -31,9 +31,10 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         [SetUp]
         public void SetUp()
         {
+
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
 
         public void StudioTest()
@@ -231,11 +232,11 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
                 {
                     selectedIndexes.Add(index);
                     answers[index].Click();
-                    Thread.Sleep(500); 
+                    Thread.Sleep(500);
                 }
             }
 
-            Thread.Sleep(2000); 
+            Thread.Sleep(2000);
             IWebElement submitButton = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
             submitButton.Click();
 
@@ -365,7 +366,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         [Test]
         public void Preview()
         {
-            ChooseCorrectAnswers(); 
+            ChooseCorrectAnswers();
 
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(30));
 

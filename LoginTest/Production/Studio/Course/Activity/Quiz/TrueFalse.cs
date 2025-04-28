@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
 {
+    [TestFixture]
+    [Category("Quiz")]
     public class TrueFalse
     {
         private IWebDriver driver = null!;
@@ -30,7 +32,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
         public void StudioTest()
         {
