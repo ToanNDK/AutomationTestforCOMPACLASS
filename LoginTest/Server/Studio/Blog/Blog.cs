@@ -74,6 +74,43 @@ namespace TestCompa.Server.Studio.Blog
             Thread.Sleep(2000);
 
         }
+        //Edit Thumbnail 
+        [Test]
+        public void EditThumbnail()
+        {
+
+            SelectThumbnail();
+            Thread.Sleep(2000);
+            IWebElement edit = driver.FindElement(By.XPath("//button[text()='Edit image']"));
+            edit.Click();
+            Thread.Sleep(2000);
+
+            IWebElement changeImg = driver.FindElement(By.XPath("//div[text()='Change image']"));
+            changeImg.Click();
+            Thread.Sleep(1000);
+
+            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
+            //ảnh test
+            string imgPath = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
+
+            // Gửi đường dẫn ảnh vào input file
+            inputFile.SendKeys(imgPath);
+            Thread.Sleep(2000);
+        }
+        //Delete Thumbnail
+
+        [Test]
+        public void DeleteThumbnail()
+        {
+            SelectThumbnail();
+            IWebElement edit = driver.FindElement(By.XPath("//button[text()='Edit image']"));
+            edit.Click();
+            Thread.Sleep(2000);
+
+            IWebElement changeImg = driver.FindElement(By.XPath("//div[text()='Delete']"));
+            changeImg.Click();
+
+        }
         //Setting Blog
         public void EditSetting()
         {
@@ -81,7 +118,7 @@ namespace TestCompa.Server.Studio.Blog
             //Mở Setting
             IWebElement btnSetting = driver.FindElement(By.CssSelector("button.group\\/btn.absolute.left-0.top-2"));
             btnSetting.Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         [Test]
@@ -90,7 +127,7 @@ namespace TestCompa.Server.Studio.Blog
             SelectThumbnail();
             IWebElement des = driver.FindElement(By.XPath("//textarea[@id='description']"));
             des.SendKeys("Description");
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
         [Test]
         public void AddCategory()
@@ -114,7 +151,7 @@ namespace TestCompa.Server.Studio.Blog
                 string text = randomItem.Text;
                 Console.WriteLine("Vừa bấm vào ->" + text);
             }
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         [Test]
@@ -126,7 +163,7 @@ namespace TestCompa.Server.Studio.Blog
             Thread.Sleep(2000);
             IWebElement ReadTime = driver.FindElement(By.XPath("//input[@id='estimatedReadTime']"));
             ReadTime.SendKeys("20");
-            Thread.Sleep(3000);
+            Thread.Sleep(500);
         }
 
         [Test]
@@ -145,6 +182,7 @@ namespace TestCompa.Server.Studio.Blog
             tagField.SendKeys("Tag");
             Thread.Sleep(1000);
             tagField.SendKeys(Keys.Enter);
+
 
         }
         [Test]
@@ -184,8 +222,6 @@ namespace TestCompa.Server.Studio.Blog
             edit.SendKeys(Keys.Control + 'b');//bold
             edit.SendKeys(Keys.Control + 'i');//italic
             edit.SendKeys(Keys.Control + 'u');//underline
-
-
         }
         public void Login()
         {

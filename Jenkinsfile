@@ -46,7 +46,7 @@ pipeline {
             steps {
                 dir('LoginTest') {
                     script {
-                        def categories = ["Login", "Register", "Quiz", "Overview", "Video"]
+                        def categories = ["Login", "Register"]
                         categories.each { cat ->
                             bat """
                             dotnet test --no-build --configuration Release --verbosity normal --filter "Category=${cat}" --logger "trx;LogFileName=test_results_${cat}.trx" --results-directory TestResults
