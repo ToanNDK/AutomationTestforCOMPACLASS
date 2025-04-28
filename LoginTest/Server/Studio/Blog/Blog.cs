@@ -171,14 +171,20 @@ namespace TestCompa.Server.Studio.Blog
             Actions actions = new(driver);
             actions.DragAndDrop(textElement, targetElement).Perform();
 
-            Thread.Sleep(4000);
+            Thread.Sleep(3000);
 
             IWebElement edit = driver.FindElement(By.XPath("//p[@class='ck-placeholder']"));
             edit.Click();
             Thread.Sleep(2000);
 
-            edit.SendKeys("CONTENT");
+            edit.SendKeys("CONTENT");//text
             Thread.Sleep(2000);
+            edit.SendKeys(Keys.Control + 'a');
+
+            edit.SendKeys(Keys.Control + 'b');//bold
+            edit.SendKeys(Keys.Control + 'i');//italic
+            edit.SendKeys(Keys.Control + 'u');//underline
+
 
         }
         public void Login()
