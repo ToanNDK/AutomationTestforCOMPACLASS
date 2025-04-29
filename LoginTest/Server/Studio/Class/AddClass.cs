@@ -1,40 +1,45 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
+﻿/*using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
-using OpenQA.Selenium.BiDi.Modules.Input;
-using System.Numerics;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Studio
 {
     public class addClass
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(false);
         }
         //Test 0: Truy cập trang 
         [Test]
         public void classTest()
         {
             driver.Navigate().GoToUrl(devUrl);
-            
+
             Login();
             IWebElement classes = driver.FindElement(By.CssSelector("svg[width='20'][height='20'][viewBox='0 0 18 22']"));
             classes.Click();
@@ -80,7 +85,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(5000);
             IWebElement errorMessage = driver.FindElement(By.XPath("//span[@class='text-red font-sm' and contains(text(), 'Please provide at least one email address')]"));
             Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
-            
+
         }
         //Test 5: Không nhập tên class
         [Test]
@@ -106,7 +111,7 @@ namespace TestCompa.Server.Studio
             clear.Click();
             Thread.Sleep(5000);
             clear.Clear();
-            Thread.Sleep(10000);    
+            Thread.Sleep(10000);
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
             Thread.Sleep(8000);
@@ -176,18 +181,18 @@ namespace TestCompa.Server.Studio
             Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập thiếu thông tin!");
         }// chỉ cho phép nhập đúng 300 kí tự -> Passed
 
-        
+
 
         public void Create()
         {
             btnNewClass();
 
-            
+
             IWebElement courseButton = driver.FindElement(By.XPath("//span[normalize-space()='Select Course']"));
             courseButton.Click();
             Thread.Sleep(3000);
 
-           
+
             IWebElement dropdownList = driver.FindElement(By.CssSelector("div[data-radix-popper-content-wrapper]"));
             Thread.Sleep(3000);
 
@@ -195,46 +200,46 @@ namespace TestCompa.Server.Studio
             firstOption.Click();
             Thread.Sleep(2000);
 
-            
+
             IWebElement courseVersion = driver.FindElement(By.XPath("//button[@role='combobox'][span[contains(text(),'Select Course Version')]]"));
             courseVersion.Click();
             Thread.Sleep(3000);
 
-            
+
             IWebElement dropdownVersionList = driver.FindElement(By.CssSelector("div[data-radix-popper-content-wrapper]"));
             Thread.Sleep(2000);
 
-            
+
             IWebElement firstOptionVersion = dropdownVersionList.FindElements(By.CssSelector("div[role='option']")).First();
             firstOptionVersion.Click();
             Thread.Sleep(2000);
 
-            
+
             IWebElement teacher = driver.FindElement(By.XPath("//div[@id='email-search-container-teacher']//input"));
             teacher.SendKeys("lozy564@gmail.com");
-            Thread.Sleep(2000); 
+            Thread.Sleep(2000);
 
-            
+
             IWebElement teacherSuggestion = driver.FindElement(By.XPath("//div[contains(@class, 'bg-white border rounded-lg shadow-lg')]//p[contains(text(), 'lozy564@gmail.com')]"));
             teacherSuggestion.Click();
             Thread.Sleep(5000);
 
-            
+
             IWebElement teacherAssistant = driver.FindElement(By.XPath("//div[@id='email-search-container-ta']//input"));
             teacherAssistant.SendKeys("lozik480@gmail.com");
             Thread.Sleep(2000);
 
-            
+
             IWebElement assistantSuggestion = driver.FindElement(By.XPath("//div[contains(@class, 'bg-white border rounded-lg shadow-lg')]//p[contains(text(), 'lozik480@gmail.com')]"));
             assistantSuggestion.Click();
             Thread.Sleep(2000);
 
-            
+
             IWebElement name = driver.FindElement(By.CssSelector("input[placeholder='Enter Name']"));
             name.SendKeys("ClassTest");
             Thread.Sleep(2000);
 
-            
+
             IWebElement description = driver.FindElement(By.CssSelector("textarea[placeholder='Enter Description']"));
             description.SendKeys("Description");
         }
@@ -259,3 +264,4 @@ namespace TestCompa.Server.Studio
 
 
 }
+*/

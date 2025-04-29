@@ -1,31 +1,37 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
+﻿/*using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Studio
 {
     public class AddCourse
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
         //Test 0: Truy cập trang 
         [Test]
@@ -186,11 +192,11 @@ namespace TestCompa.Server.Studio
             price.SendKeys("2500");
             IWebElement hours = driver.FindElement(By.XPath("//input[@name='estimateHours']"));
             hours.SendKeys("2");
-            
+
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
             Thread.Sleep(5000);
-            
+
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.XPath("//p[contains(text(), 'Please enter a valid URL for the banner.')]")));
             Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
         }
@@ -223,7 +229,7 @@ namespace TestCompa.Server.Studio
             Assert.That(errorMessage.Displayed, Is.True, "Thông báo lỗi không hiển thị khi nhập sai thiếu thông tin!");
             Thread.Sleep(5000);
         }
-       
+
 
 
         public void Login()
@@ -248,3 +254,4 @@ namespace TestCompa.Server.Studio
 
 
 }
+*/

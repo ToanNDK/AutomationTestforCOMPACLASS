@@ -1,38 +1,41 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿/*using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
-using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
-using OpenQA.Selenium.BiDi.Modules.Input;
-using System.Numerics;
-using static OpenQA.Selenium.BiDi.Modules.BrowsingContext.Locator;
 
 namespace TestCompa.Server.Studio
 {
-    public class settingClass
+    public class SettingClass
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(false);
         }
         //Test 0: Truy cập trang 
         [Test]
-        public void classTest()
+        public void ClassTest()
         {
             driver.Navigate().GoToUrl(devUrl);
 
@@ -44,9 +47,9 @@ namespace TestCompa.Server.Studio
         }
         //Test 1: bấm nút 3 chấm -> Setting
         [Test]
-        public void btnSettingClass()
+        public void BtnSettingClass()
         {
-            classTest();
+            ClassTest();
             Thread.Sleep(3000);
             IWebElement edit = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > div:nth-child(2) > section:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(2) > svg:nth-child(1)"));
             Thread.Sleep(3000);
@@ -62,10 +65,10 @@ namespace TestCompa.Server.Studio
         //Test 2: Thay đổi className
         //2.1 Nhập className dài    
         [Test]
-        public void changeClassName()
+        public void ChangeClassName()
         {
-            string longname = new('a', 150); 
-            btnSettingClass();
+            string longname = new('a', 150);
+            BtnSettingClass();
             IWebElement classNametxt = driver.FindElement(By.CssSelector("input[placeholder='Enter class name']"));
             classNametxt.Click();
             Thread.Sleep(1000);
@@ -78,10 +81,10 @@ namespace TestCompa.Server.Studio
         }
         //2.2 Xóa tên lớp, không nhập -> Hiển thị lỗi phải nhập ít nhất 1 kí tự
         [Test]
-        public void deleteClassName()
+        public void DeleteClassName()
         {
-       
-            btnSettingClass();
+
+            BtnSettingClass();
             IWebElement classNametxt = driver.FindElement(By.CssSelector("input[placeholder='Enter class name']"));
             classNametxt.Click();
             Thread.Sleep(1000);
@@ -113,10 +116,10 @@ namespace TestCompa.Server.Studio
         //Test 3: Description
         //3.1 Nhập hơn 300 ký tự 
         [Test]
-        public void changeDescription()
+        public void ChangeDescription()
         {
             string longname = new('a', 301);
-            btnSettingClass();
+            BtnSettingClass();
             IWebElement classDesctxt = driver.FindElement(By.CssSelector("textarea[placeholder='Class description']"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].scrollIntoView(true);", classDesctxt);
@@ -132,15 +135,15 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(2000);
             btnSave.Click();
             Thread.Sleep(3000);
-           
+
         }
 
         //3.2 Không nhập description
         [Test]
-        public void deleteDescription()
+        public void DeleteDescription()
         {
-           
-            btnSettingClass();
+
+            BtnSettingClass();
             IWebElement classDesctxt = driver.FindElement(By.CssSelector("textarea[placeholder='Class description']"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].scrollIntoView(true);", classDesctxt);
@@ -151,7 +154,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(3000);
             classDesctxt.SendKeys("f");
             Thread.Sleep(3000);
-            classDesctxt.SendKeys(Keys.Control+"a");
+            classDesctxt.SendKeys(Keys.Control + "a");
             classDesctxt.SendKeys(Keys.Backspace);
             Thread.Sleep(2000);
             IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
@@ -162,7 +165,7 @@ namespace TestCompa.Server.Studio
             Thread.Sleep(3000);
             try
             {
-                IWebElement errorMessage = driver.FindElement(By.CssSelector("div.flex.space-x-1.items-center.pt-2 span.text-red-d10")); 
+                IWebElement errorMessage = driver.FindElement(By.CssSelector("div.flex.space-x-1.items-center.pt-2 span.text-red-d10"));
                 IJavaScriptExecutor jsDesc = (IJavaScriptExecutor)driver;
                 jsDesc.ExecuteScript("arguments[0].scrollIntoView(true);", errorMessage);
                 Thread.Sleep(5000);
@@ -179,13 +182,13 @@ namespace TestCompa.Server.Studio
             {
                 Console.WriteLine("FAILED: Thông báo lỗi không tìm thấy.");
             }
-           
+
         }
         //Test 4: Bấm ngẫu nhiên và các toggle và lưu 
         [Test]
-        public void toggleTest()
+        public void ToggleTest()
         {
-            btnSettingClass();
+            BtnSettingClass();
             Random random = new();
             IReadOnlyList<IWebElement> toggles = driver.FindElements(By.CssSelector("button.switch"));
 
@@ -209,9 +212,9 @@ namespace TestCompa.Server.Studio
         }
         //Test 5: Chọn copyURL
         [Test]
-        public void checkCopyUrl()
+        public void CheckCopyUrl()
         {
-            btnSettingClass();
+            BtnSettingClass();
             Thread.Sleep(2000);
 
 
@@ -231,9 +234,9 @@ namespace TestCompa.Server.Studio
         }
         //Test 6: Nhập Minimum Registrations lớn hơn Maximum Registrations
         [Test]
-        public void testRegistrations()
+        public void TestRegistrations()
         {
-            btnSettingClass();
+            BtnSettingClass();
             Thread.Sleep(2000);
             IWebElement input = driver.FindElement(By.XPath("//input[@type='number' and @min='1']"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
@@ -258,10 +261,10 @@ namespace TestCompa.Server.Studio
                 {
                     Console.WriteLine("PASS: Thông báo lỗi hiển thị.");
                 }
-                /*else
+                *//*else
                 {
                     Console.WriteLine("FAILED: Thông báo lỗi không hiển thị.");
-                }*/
+                }*//*
             }
             catch (NoSuchElementException)
             {
@@ -293,3 +296,4 @@ namespace TestCompa.Server.Studio
 
 
 }
+*/

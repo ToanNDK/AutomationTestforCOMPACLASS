@@ -363,6 +363,7 @@ namespace TestCompa.Production.TestCourse.TA
                 driver.Quit();
             }
         }
+
         [Test]
         public void runSortPost()
         {
@@ -457,9 +458,6 @@ namespace TestCompa.Production.TestCourse.TA
             }
         }
 
-
-
-        //
         private void RunAddQuestionTest()
         {
             Login();

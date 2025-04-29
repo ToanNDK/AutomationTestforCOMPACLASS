@@ -1,32 +1,40 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCompa.Server.Learn.LearningCanvas
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30/Auth/SignIn?login_challenge=a635429bdb604fb08d123fff4bbb1add";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
         //Test 1: Truy cập, bấm tiếp tục học -> Mục đã học
 
-        [Test,Order(1)]
+        [Test, Order(1)]
         public void testContinueLearn()
         {
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/home");
@@ -131,7 +139,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
             Thread.Sleep(1000);
 
         }
-       
+
         //Test 6: Kiểm tra việc comment trong phần QA
         [Test, Order(6)]
         public void addcomnentQA()

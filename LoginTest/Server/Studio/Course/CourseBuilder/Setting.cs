@@ -1,32 +1,37 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
 {
     public class Setting
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
-        
-
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+        }
         //Test 0: Truy cập trang 
         [Test]
         public void studioTest()
@@ -82,8 +87,8 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
         public void settingBtn()
         {
             courseBuilder();
-            
-            IWebElement setting= driver.FindElement(By.XPath("//span[normalize-space()='Setting']"));
+
+            IWebElement setting = driver.FindElement(By.XPath("//span[normalize-space()='Setting']"));
             setting.Click();
             Thread.Sleep(5000);
         }
@@ -102,7 +107,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             IWebElement mThumbnail = driver.FindElement(By.Id("mThumbnail"));
             mThumbnail.SendKeys(imgPath);
             Thread.Sleep(5000);
-           
+
         }
         //Test 4: Course Level
 
@@ -111,16 +116,16 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
         {
             settingBtn();
             IWebElement courseLevel = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > form:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > button:nth-child(2)"));
-           
+
             courseLevel.Click();
             Thread.Sleep(2000);
             IReadOnlyCollection<IWebElement> options = driver.FindElements(By.XPath("//select/option"));
             if (options.Count > 0)
             {
                 Random rand = new();
-                int randomIndex = rand.Next(options.Count); 
+                int randomIndex = rand.Next(options.Count);
 
-               
+
                 IWebElement randomOption = options.ElementAt(randomIndex);
                 string optionValue = randomOption.GetAttribute("value");
 
@@ -133,7 +138,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             {
                 Console.WriteLine("Không có tùy chọn nào trong combobox!");
             }
-            
+
         }
         //Test 5: Sửa topic
         [Test]
@@ -192,7 +197,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             submit.Click();
             Thread.Sleep(3000);
         }
-           //
+        //
 
         /* //Test 6: Đổi tên Chapter
          [Test]

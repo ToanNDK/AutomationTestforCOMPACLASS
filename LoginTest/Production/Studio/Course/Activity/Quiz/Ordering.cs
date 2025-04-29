@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.Ordering
@@ -32,7 +33,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.Ordering
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
         public void StudioTest()
         {
@@ -185,21 +186,91 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.Ordering
 
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
-            // Sử dụng JavaScript để cuộn nút vào trong viewport (nếu cần thiết)
             js.ExecuteScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", submit);
 
-            // Chờ một chút để đảm bảo nút đã cuộn vào
             Thread.Sleep(1000);
 
-            // Sử dụng JavaScript để nhấn nút (thay vì sử dụng click thông thường)
             js.ExecuteScript("arguments[0].click();", submit);
 
-            Thread.Sleep(1000);  // Đợi một chút trước khi kết thúc
+            Thread.Sleep(1000);
+        }
+
+        //Test 5: Kéo thả 
+        [Test]
+        public void DragNDrop()
+        {
+            AddContentQuiz();
+            // Lấy tất cả các ô mục tiêu có class p-1 border-dashed
+            var targetElements = driver.FindElements(By.XPath("//div[@class='p-1 border-dashed transition-colors flex justify-center items-center w-10 h-10 rounded border']"));
+
+            // Kiểm tra nếu có ít nhất 4 ô mục tiêu
+            if (targetElements.Count > 0)
+            {
+                Random random = new();
+
+                // Danh sách lưu các ô mục tiêu đã được sử dụng
+                List<IWebElement> usedTargets = new List<IWebElement>();
+
+                // Lặp qua các đáp án và kéo từng phần tử vào ô mục tiêu ngẫu nhiên
+                for (int i = 0; i < 4; i++) // Giả sử bạn có 4 đáp án
+                {
+                    // Kiểm tra nếu còn ô mục tiêu để kéo vào
+                    if (usedTargets.Count < targetElements.Count)
+                    {
+                        // Chọn một ô mục tiêu ngẫu nhiên chưa được sử dụng
+                        IWebElement targetElement = null;
+                        do
+                        {
+                            int randomIndex = random.Next(0, targetElements.Count);
+                            targetElement = targetElements[randomIndex];
+                        } while (usedTargets.Contains(targetElement));
+
+                        // Thêm ô mục tiêu vào danh sách đã sử dụng
+                        usedTargets.Add(targetElement);
+
+                        // Tìm phần tử đáp án cần kéo (ví dụ: A, B, C, D)
+                        IWebElement answerTab = driver.FindElement(By.XPath($"//div[contains(text(),'{(char)('A' + i)}')]"));
+
+                        // Cuộn tới phần tử tab để đảm bảo phần tử có thể nhìn thấy
+                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+                        js.ExecuteScript("arguments[0].scrollIntoView(true);", answerTab);
+
+                        // Sử dụng Actions để kéo và thả
+                        Actions actions = new Actions(driver);
+                        actions.DragAndDrop(answerTab, targetElement).Perform();
+                        Thread.Sleep(1000); // Cho thời gian để hành động diễn ra
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Không đủ ô mục tiêu.");
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Không tìm thấy ô mục tiêu.");
+            }
+            Thread.Sleep(2000);
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
+            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
+            jss.ExecuteScript("arguments[0].click();", submit);
+            Thread.Sleep(1000);
         }
 
 
+        [Test]
+        public void PreviewCheckAnswerMode()
+        {
+            DragNDrop();
 
 
+            PreviewQuestion();
+
+            Thread.Sleep(1000);
+
+        }
         //Test 7: Add Guide (UC-S240)
         [Test]
         public void AddGuide()
@@ -275,7 +346,55 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.Ordering
         }*/
 
 
+        public void PreviewQuestion()
+        {
+            IWebElement btnPreview = driver.FindElement(By.XPath("//button[normalize-space()='Preview']"));
+            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
+            jss.ExecuteScript("arguments[0].click();", btnPreview);
 
+            IWebElement mode = driver.FindElement(By.XPath("//button[@role='combobox' and .//div[text()='Basic answer mode']]"));
+            mode.Click();
+
+            Thread.Sleep(2000);
+
+            // Lấy danh sách tất cả các item trong dropdown
+            var answerModes = driver.FindElements(By.XPath("//div[contains(@class,'font-medium')]"));
+
+            // Chọn ngẫu nhiên một chế độ
+            Random random = new Random();
+            int index = random.Next(answerModes.Count);
+
+            // Click vào chế độ được chọn
+            answerModes[index].Click();
+
+            Thread.Sleep(1000); // Chờ dropdown xử lý
+
+            var answers = driver.FindElements(By.XPath("//div[@role='button']"));
+
+            Actions actions = new(driver);
+
+            // Ví dụ: kéo A -> D
+            actions.ClickAndHold(answers[1])    // A
+                   .MoveToElement(answers[4])   // D
+                   .Release()
+                   .Build()
+                   .Perform();
+
+            Thread.Sleep(1000); // Chờ animation
+
+            // Ví dụ: kéo B -> C
+            actions.ClickAndHold(answers[2])    // B
+                   .MoveToElement(answers[3])   // C
+                   .Release()
+                   .Build()
+                   .Perform();
+
+            Thread.Sleep(1000);
+            IWebElement check = driver.FindElement(By.XPath("//button[normalize-space()='Check']"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].click();", check);
+            Thread.Sleep(1000);
+        }
 
         public void Login()
         {

@@ -1,28 +1,36 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Activity.Quiz
 {
     public class Quiz
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
-
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
 
         public void studioTest()
@@ -33,7 +41,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
         }
 
         public void courseBuilder()
@@ -44,7 +52,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
             tab.Click();
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
 
 
             string expectedText = "CourseTest";
@@ -60,7 +68,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
         }
 
 
-        
+
         public void AddQuestion()
         {
             courseBuilder();
@@ -96,7 +104,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
         [Test]
         public void displaySetting()
         {
-            singleChoice(); 
+            singleChoice();
             Thread.Sleep(3000);
             IWebElement dropdown = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
             dropdown.Click();

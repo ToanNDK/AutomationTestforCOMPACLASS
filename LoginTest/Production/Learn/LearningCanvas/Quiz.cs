@@ -1,28 +1,37 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCompa.Production.Learn.LearningCanvas
 {
     public class Quiz
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
 
-        [SetUp]
-        public void Setup()
+
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-           // driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignIn");
-
-            wait = new(driver, TimeSpan.FromSeconds(10));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
         //Test 1: Truy cập learning canvas
         [Test]
@@ -31,11 +40,11 @@ namespace TestCompa.Production.Learn.LearningCanvas
             driver.Navigate().GoToUrl("http://compaclass.com/learn/class");
             Thread.Sleep(5000);
             Login();
-            WebDriverWait wait = new (driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(2000);
-            
+
             Thread.Sleep(5000);
             IWebElement testclass = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản - BSC')]")));
             ScrollToElement(testclass);
@@ -46,7 +55,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
             IWebElement gotoLearn = driver.FindElement(By.XPath("//button[@class='group/btn inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-white hover:bg-primary/90 h-10 px-4 py-2 w-full relative']//a[@class='absolute inset-0']"));
             gotoLearn.Click();
             Thread.Sleep(5000);
-            
+
         }
 
         //Test 2: Truy cập tới CourseContent
@@ -82,29 +91,29 @@ namespace TestCompa.Production.Learn.LearningCanvas
         public void testScrollBar()
         {
             startQuiz();
-            int questionCount = 0; 
+            int questionCount = 0;
 
-            while (questionCount < 12) 
+            while (questionCount < 12)
             {
-                
+
                 IList<IWebElement> answerOptions = driver.FindElements(By.XPath("//button[contains(@class, 'p-2 h-full rounded-md')]"));
 
                 if (answerOptions.Count > 0)
                 {
                     Random random = new();
 
-                    
-                    int numberOfChoices = random.Next(1, answerOptions.Count + 1);
-                   // Console.WriteLine($"Câu {questionCount + 1}: Chọn {numberOfChoices} đáp án");
 
-                    
+                    int numberOfChoices = random.Next(1, answerOptions.Count + 1);
+                    // Console.WriteLine($"Câu {questionCount + 1}: Chọn {numberOfChoices} đáp án");
+
+
                     List<IWebElement> selectedOptions = answerOptions.OrderBy(x => random.Next()).Take(numberOfChoices).ToList();
 
-                    
+
                     foreach (var option in selectedOptions)
                     {
                         option.Click();
-                      //  Console.WriteLine($"Chọn đáp án: {option.Text}");
+                        //  Console.WriteLine($"Chọn đáp án: {option.Text}");
                     }
                 }
                 else
@@ -112,16 +121,16 @@ namespace TestCompa.Production.Learn.LearningCanvas
                     Console.WriteLine($"Câu {questionCount + 1}: Không tìm thấy đáp án nào!");
                 }
 
-                Thread.Sleep(2000); 
+                Thread.Sleep(2000);
 
                 try
                 {
-                    
+
                     IWebElement submit = driver.FindElement(By.XPath("//button[contains(text(),'Nộp bài')]"));
 
                     if (!submit.Enabled || submit.GetAttribute("disabled") != null)
                     {
-                       // Console.WriteLine("Nút 'Nộp bài' đã bị vô hiệu hóa. Kết thúc bài kiểm tra.");
+                        // Console.WriteLine("Nút 'Nộp bài' đã bị vô hiệu hóa. Kết thúc bài kiểm tra.");
                         break;
                     }
 
@@ -135,30 +144,30 @@ namespace TestCompa.Production.Learn.LearningCanvas
                 }
                 catch (ElementClickInterceptedException)
                 {
-                   // Console.WriteLine("Nút 'Nộp bài' bị che khuất hoặc không thể click. Kết thúc bài kiểm tra.");
+                    // Console.WriteLine("Nút 'Nộp bài' bị che khuất hoặc không thể click. Kết thúc bài kiểm tra.");
                     break;
                 }
 
-                questionCount++; 
+                questionCount++;
 
                 if (questionCount == 12)
                 {
-                   // Console.WriteLine("Hoàn thành 12 câu hỏi. Tìm nút 'Hoàn thành'...");
+                    // Console.WriteLine("Hoàn thành 12 câu hỏi. Tìm nút 'Hoàn thành'...");
 
                     try
                     {
                         IWebElement completeButton = driver.FindElement(By.XPath("//button[contains(text(),'Hoàn thành')]"));
                         completeButton.Click();
-                      //  Console.WriteLine("Đã nhấn nút 'Hoàn thành'.");
+                        //  Console.WriteLine("Đã nhấn nút 'Hoàn thành'.");
                         Thread.Sleep(3000);
                     }
                     catch (NoSuchElementException)
                     {
-                       // Console.WriteLine("Không tìm thấy nút 'Hoàn thành'.");
+                        // Console.WriteLine("Không tìm thấy nút 'Hoàn thành'.");
                     }
                     catch (ElementClickInterceptedException)
                     {
-                       // Console.WriteLine("Nút 'Hoàn thành' bị che khuất hoặc không thể click.");
+                        // Console.WriteLine("Nút 'Hoàn thành' bị che khuất hoặc không thể click.");
                     }
 
                     break; // Dừng vòng lặp sau khi hoàn thành

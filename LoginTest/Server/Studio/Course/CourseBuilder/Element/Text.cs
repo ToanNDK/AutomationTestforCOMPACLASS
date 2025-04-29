@@ -5,23 +5,36 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Text
 {
-    public class addCourse
+    public class Text
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(false);
+        }
 
-        public void studioTest()
+        public void StudioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
@@ -32,9 +45,9 @@ namespace TestCompa.Server.CourseBuilder.Text
             Thread.Sleep(5000);
         }
 
-        public void courseBuilder()
+        public void CourseBuilder()
         {
-            studioTest();
+            StudioTest();
             IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
@@ -59,9 +72,9 @@ namespace TestCompa.Server.CourseBuilder.Text
 
         //Test 2: Drag&Drop Text (UC-S154)
         [Test]
-        public void textDragNDrop()
+        public void TextDragNDrop()
         {
-            courseBuilder();
+            CourseBuilder();
 
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'TextBlock')]"));
             title.Click();
@@ -81,9 +94,9 @@ namespace TestCompa.Server.CourseBuilder.Text
         }
         //Test 3 Nhập text sau khi kéo text vào (UC-S155)
         [Test]
-        public void editText()
+        public void EditText()
         {
-            textDragNDrop();
+            TextDragNDrop();
             IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
             Actions DBclick = new(driver);
             DBclick.DoubleClick(textEditor);
@@ -93,7 +106,7 @@ namespace TestCompa.Server.CourseBuilder.Text
         }
         //Test 4 Thay đổi cài đặt liên quan đến font (typeface) của chữ (UC-S156) (Chưa có)
         [Test]
-        public void chaneFont()
+        public void ChangeFont()
         {
 
 
@@ -106,9 +119,9 @@ namespace TestCompa.Server.CourseBuilder.Text
         }*/
         //Test 6: Thay đổi Format ( in đậm, nghiêng, ...) (UC-S158)
         [Test]
-        public void changeFormat()
+        public void ChangeFormat()
         {
-            editText();
+            EditText();
             IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
             textEditor.Click();
             Thread.Sleep(2000);
@@ -126,9 +139,9 @@ namespace TestCompa.Server.CourseBuilder.Text
         }
         //Test 7: Thay đổi alignment (UC-S159)
         [Test]
-        public void changeAlignment()
+        public void ChangeAlignment()
         {
-            changeFormat();
+            ChangeFormat();
             IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
             Thread.Sleep(2000);
             textEditor.SendKeys(Keys.Control + 'a');
@@ -148,7 +161,7 @@ namespace TestCompa.Server.CourseBuilder.Text
         [Test]
         public void ChangeHeading()
         {
-            changeFormat();
+            ChangeFormat();
 
             // Chọn toàn bộ nội dung trong editor
             IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
@@ -157,9 +170,9 @@ namespace TestCompa.Server.CourseBuilder.Text
             textEditor.SendKeys(Keys.Control + "a");
 
             // Mở dropdown "Paragraph"
-            IWebElement headingDropdown = driver.FindElement(By.XPath("//button[span[normalize-space()='Paragraph']]"));
+            IWebElement headingDropdown = driver.FindElement(By.CssSelector("svg.lucide-type"));
             headingDropdown.Click();
-            Thread.Sleep(1000); // Đợi dropdown hiển thị
+            Thread.Sleep(3000); // Đợi dropdown hiển thị
 
             // Random một heading từ 1 đến 6
             Random random = new();
@@ -168,7 +181,7 @@ namespace TestCompa.Server.CourseBuilder.Text
             // Tạo XPath dùng text (normalize-space) của heading
             string headingText = $"Heading {headingLevel}";
             string headingXPath = $"//span[normalize-space()='{headingText}']/ancestor::div[@role='menuitem']";
-
+            Thread.Sleep(2000);
             // Tìm và click vào heading tương ứng
             IWebElement heading = driver.FindElement(By.XPath(headingXPath));
             heading.Click();
@@ -180,9 +193,9 @@ namespace TestCompa.Server.CourseBuilder.Text
 
         //2.2 Xóa  
         [Test]
-        public void removeText()
+        public void RemoveText()
         {
-            editText();
+            EditText();
             IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
             remove.Click();
             Thread.Sleep(2000);
@@ -192,7 +205,7 @@ namespace TestCompa.Server.CourseBuilder.Text
         [Test]
         public void ChangeLocation()
         {
-            editText();
+            EditText();
 
             IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Text Block Icon']]"));
             IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));

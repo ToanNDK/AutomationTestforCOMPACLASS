@@ -1,29 +1,37 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCompa.Server.Studio.Course.CourseBuilder
 {
     public class Structure
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
         //Test 0: Truy cập trang 
         [Test]
@@ -89,7 +97,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             IWebElement chapterDelete = driver.FindElement(By.XPath("//p[normalize-space()='Chapter 2: Untitled']"));
             chapterDelete.Click();
             Thread.Sleep(2000);
-            Actions acitons = new (driver);
+            Actions acitons = new(driver);
 
             acitons.MoveToElement(chapterDelete);
             Thread.Sleep(5000);
@@ -101,7 +109,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             btnCreate.Click();
             Thread.Sleep(2000);
         }
-       
+
         //Test 3: Nhập title, des, cho overview
         [Test]
         public void Overview()
@@ -152,23 +160,23 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             Thread.Sleep(2000);
         }
 
-       /* //Test 6: Đổi tên Chapter
-        [Test]
-        public void createNewCoursewithoutName()
-        {
-            courseBuilder();
-            IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'Chapter 1:')]"));
-            title.Click();
-            Thread.Sleep(1000);
-            IWebElement titleField = driver.FindElement(By.Id("rowTitleControl"));
-            titleField.SendKeys(Keys.Control + 'a');
-            titleField.SendKeys(Keys.Backspace);
-            titleField.SendKeys("TextBlock");
-            titleField.SendKeys(Keys.Enter);
-            Thread.Sleep(5000);
-        }*/
+        /* //Test 6: Đổi tên Chapter
+         [Test]
+         public void createNewCoursewithoutName()
+         {
+             courseBuilder();
+             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'Chapter 1:')]"));
+             title.Click();
+             Thread.Sleep(1000);
+             IWebElement titleField = driver.FindElement(By.Id("rowTitleControl"));
+             titleField.SendKeys(Keys.Control + 'a');
+             titleField.SendKeys(Keys.Backspace);
+             titleField.SendKeys("TextBlock");
+             titleField.SendKeys(Keys.Enter);
+             Thread.Sleep(5000);
+         }*/
         //Test 7: Thêm Unit
-        
+
         [Test]
         public void UnitTest()
         {
@@ -196,7 +204,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             IWebElement addActivity = driver.FindElement(By.XPath("//button[normalize-space()='Activity']"));
             addActivity.Click();
             Thread.Sleep(3000);
-            
+
         }
         //8.1 Thêm Lesson
         [Test]
@@ -206,12 +214,12 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
             IWebElement confirm = driver.FindElement(By.XPath("//button[normalize-space()='Continue']"));
             confirm.Click();
             Thread.Sleep(5000);
-            
+
         }
 
         //8.2 Video 
-        [Test]        
-        
+        [Test]
+
         public void AddVideo()
         {
             AddActivity();

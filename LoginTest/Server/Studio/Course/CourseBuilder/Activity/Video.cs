@@ -1,31 +1,39 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Server.CourseBuilder.Activity.Video
 {
     public class Video
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
-
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
 
-        public void studioTest()
+        public void StudioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
@@ -33,19 +41,19 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
         }
 
-        public void courseBuilder()
+        public void CourseBuilder()
         {
-            studioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='5']"));
+            StudioTest();
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
             tab.Click();
-            Thread.Sleep(5000);
-            
+            Thread.Sleep(2000);
+
 
             string expectedText = "CourseTest";
 
@@ -58,12 +66,12 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
 
             Thread.Sleep(3000);
         }
-        
-        
+
+
         [Test]
-        public void videoActivity()
+        public void VideoActivity()
         {
-            courseBuilder();
+            CourseBuilder();
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'VideoBlock')]"));
             title.Click();
             Thread.Sleep(1000);
@@ -79,8 +87,9 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             IWebElement elementTab = driver.FindElement(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]"));
             elementTab.Click();
             Thread.Sleep(2000);
-            IWebElement uploadField = driver.FindElement(By.XPath("//p[@class='text-xs truncate flex-1 ']"));
-            uploadField.Click();
+
+            IWebElement clickAddVideo = driver.FindElement(By.XPath("//button[.//p[text()='Click to add video']]"));
+            clickAddVideo.Click();
             Thread.Sleep(1000);
 
         }
@@ -88,7 +97,9 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         [Test]
         public void UploadVideo()
         {
-            videoActivity();
+            VideoActivity();
+
+
             IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
 
             string vidPath = @"C:\Users\Hello\Videos\Screen Recordings\15-2-2025.mp4";
@@ -100,7 +111,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         [Test]
         public void UploadVideoURL()
         {
-            videoActivity();
+            VideoActivity();
             IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
             embed.Click();
             IWebElement link = driver.FindElement(By.XPath("//input[@id='video-link']"));
@@ -113,7 +124,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //3. Preview Video (UC-S193)
         [Test]
-        public void previewVideo()
+        public void PreviewVideo()
         {
             UploadVideoURL();
 
@@ -128,13 +139,13 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //4. Replace video (UC-S198)
         [Test]
-        public void replaceVideo()
+        public void ReplaceVideo()
         {
             UploadVideoURL();
             IWebElement upload = driver.FindElement(By.XPath("//div[normalize-space(text())='Upload']"));
             upload.Click();
             Thread.Sleep(3000);
-            
+
             IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
 
             string vidPath = @"C:\Users\Hello\Videos\Screen Recordings\15-2-2025.mp4";
@@ -144,14 +155,14 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //5. Replace video (Embed) (UC-S199)
         [Test]
-        public void replaceVideoURL()
+        public void ReplaceVideoURL()
         {
             UploadVideoURL();
-            
+
 
             IWebElement remove = driver.FindElement(By.XPath("//div[@title='Remove']"));
             remove.Click();
-            
+
             Thread.Sleep(3000);
             IWebElement upload = driver.FindElement(By.XPath("//div[normalize-space(text())='Upload']"));
             upload.Click();
@@ -168,7 +179,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //6. Remove video (UC-S200)
         [Test]
-        public void removeVid()
+        public void RemoveVid()
         {
             UploadVideoURL();
 
@@ -180,7 +191,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //7. Add custom Thumbnail (UC-S202)
         [Test]
-        public void addThumbnail()
+        public void AddThumbnail()
         {
             UploadVideoURL();
             IWebElement uploadButton = driver.FindElement(By.XPath("//div[div[text()='Custom thumbnail']]//div[text()='Upload']"));
@@ -195,7 +206,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         //8.Replace thumbnail (UC-S203)
         [Test]
-        public void editThumbnail()
+        public void EditThumbnail()
         {
             UploadVideoURL();
             IWebElement uploadButton = driver.FindElement(By.XPath("//div[div[text()='Custom thumbnail']]//div[text()='Upload']"));
@@ -206,7 +217,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             string thumbnail = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
             // Gửi đường dẫn ảnh vào input file
             inputFile.SendKeys(thumbnail);
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             uploadButton.Click();
             IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
             embed.Click();
@@ -220,7 +231,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             Thread.Sleep(3000);
         }//9. Custom Description (UC-S205)
         [Test]
-        public void customDescription()
+        public void CustomDescription()
         {
             UploadVideoURL();
             IWebElement txtDes = driver.FindElement(By.XPath("//textarea[@id='message-Description']"));
@@ -237,7 +248,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             Thread.Sleep(1000);
             txtDes.SendKeys("00:40");
             txtDes.SendKeys(Keys.Enter);
-            Thread.Sleep(1000); 
+            Thread.Sleep(1000);
             txtDes.SendKeys("00:40");
             txtDes.SendKeys(Keys.Enter);
             Thread.Sleep(3000);

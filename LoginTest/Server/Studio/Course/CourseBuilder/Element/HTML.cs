@@ -5,23 +5,36 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.HTML
 {
-    public class addCourse
+    public class HTML
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+        }
 
-        public void studioTest()
+        public void StudioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
@@ -32,9 +45,9 @@ namespace TestCompa.Server.CourseBuilder.HTML
             Thread.Sleep(5000);
         }
         [Test]
-        public void courseBuilder()
+        public void CourseBuilder()
         {
-            studioTest();
+            StudioTest();
             IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
@@ -55,9 +68,9 @@ namespace TestCompa.Server.CourseBuilder.HTML
         }
         //Test 1: Test HTML (UC-S167)
         [Test]
-        public void markdownDragNDrop()
+        public void MarkdownDragNDrop()
         {
-            courseBuilder();
+            CourseBuilder();
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'HTMLBlock')]"));
             title.Click();
             Thread.Sleep(1000);
@@ -78,7 +91,7 @@ namespace TestCompa.Server.CourseBuilder.HTML
         [Test]
         public void AddContent()
         {
-            markdownDragNDrop();
+            MarkdownDragNDrop();
             IWebElement click = driver.FindElement(By.XPath("//div[@class='relative ']"));
             click.Click();
             Thread.Sleep(2000);

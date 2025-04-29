@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 
@@ -9,14 +8,30 @@ namespace TestCompa.Server.Learn.Mission
     public class Mission
     {
         private IWebDriver driver = null!;
-        private readonly WebDriverWait wait = null!;
+        private WebDriverWait wait = null!;
         private readonly string devUrl = "http://10.10.10.30/learn/mission";
+        private void InitDriver(bool headless = false)
+        {
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
+            driver.Manage().Window.Maximize();
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
         [SetUp]
         public void SetUp()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(2));
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
 
         //Test 1: Kiểm tra truy cập trang mission khi chưa đăng nhập -> Chuyển về trang đăng nhập
@@ -33,7 +48,7 @@ namespace TestCompa.Server.Learn.Mission
         public void AccessMissionLogin()
         {
             driver.Navigate().GoToUrl(devUrl);
-            
+
             Thread.Sleep(2000);
             Login();
             Assert.That(driver.Url, Does.Contain(devUrl));

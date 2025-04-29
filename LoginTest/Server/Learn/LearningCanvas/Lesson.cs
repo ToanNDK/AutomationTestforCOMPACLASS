@@ -1,28 +1,36 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCompa.Server.Learn.LearningCanvas.Lesson
 {
     public class CourseTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        
-        [SetUp]
-        public void Setup()
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
         //UC-L258: Add new In-line Q&A
 
@@ -166,8 +174,8 @@ namespace TestCompa.Server.Learn.LearningCanvas.Lesson
             loginButton.Click();
 
         }
-        
-       
+
+
 
 
 

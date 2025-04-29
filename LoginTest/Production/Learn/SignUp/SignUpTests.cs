@@ -9,23 +9,40 @@ namespace TestCompa.Production.Learn.SignUp
     [Category("Register")]
     public class SignUpTests
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string productionUrl = "https://auth.compaclass.com/Auth/SignUp";
 
-        [SetUp]
-        public void Setup()
+        private void InitDriver(bool headless = false)
         {
+            ChromeOptions options = new();
 
-            driver = new ChromeDriver();
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://auth.compaclass.com/Auth/SignUp");
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        }
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
         }
 
         // Test 1: Kiểm tra đăng ký thành công
         [Test]
         public void TestSignUp_Success()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             driver.FindElement(By.Id("username")).SendKeys("new_user_123");
             driver.FindElement(By.Id("email")).SendKeys("newuser123@example.com");
             driver.FindElement(By.Id("password")).SendKeys("NewPass123@");
@@ -60,6 +77,8 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUp_InvalidPassword()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             driver.FindElement(By.Id("username")).SendKeys("invalid_pass_user");
             driver.FindElement(By.Id("email")).SendKeys("invalidpass@example.com");
             driver.FindElement(By.Id("password")).SendKeys("123");
@@ -74,6 +93,8 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUp_PasswordMismatch()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             driver.FindElement(By.Id("username")).SendKeys("mismatch_user");
             driver.FindElement(By.Id("email")).SendKeys("mismatch@example.com");
             driver.FindElement(By.Id("password")).SendKeys("ValidPass123@");
@@ -88,6 +109,8 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUpButtonExists()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             IWebElement signUpButton = wait.Until(d => d.FindElement(By.XPath("//button[text()='SIGN UP']")));
             Assert.That(signUpButton.Displayed && signUpButton.Enabled, Is.True, "Nút SIGN UP không hiển thị hoặc không thể bấm!");
         }
@@ -95,6 +118,8 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUp_UsernameTooShort()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             driver.FindElement(By.Id("username")).SendKeys("usr");
             driver.FindElement(By.Id("email")).SendKeys("shortuser@example.com");
             driver.FindElement(By.Id("password")).SendKeys("ValidPass123@");
@@ -110,6 +135,8 @@ namespace TestCompa.Production.Learn.SignUp
         [Test]
         public void TestSignUp_UsernameTooLong()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             string longUsername = new('a', 101); // Username dài 101 ký tự
             driver.FindElement(By.Id("username")).SendKeys(longUsername);
             driver.FindElement(By.Id("email")).SendKeys("longuser@example.com");
@@ -126,6 +153,8 @@ namespace TestCompa.Production.Learn.SignUp
         //Test 8: Đăng ký với password quá ngắn
         public void TestSignUp_PasswordTooShort()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             string pswShort = "abc";
             driver.FindElement(By.Id("username")).SendKeys("correctUsername");
             driver.FindElement(By.Id("email")).SendKeys("longuser@example.com");
@@ -142,6 +171,8 @@ namespace TestCompa.Production.Learn.SignUp
         //Test 9: Đăng ký với password quá dài
         public void TestSignUp_PasswordTooLong()
         {
+            driver.Navigate().GoToUrl(productionUrl);
+
             string pswLong = new('a', 101);
             driver.FindElement(By.Id("username")).SendKeys("correctUsername");
             driver.FindElement(By.Id("email")).SendKeys("longuser@example.com");
