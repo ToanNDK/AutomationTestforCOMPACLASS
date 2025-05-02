@@ -226,6 +226,7 @@ namespace TestCompa.Server.Learn.MyClass
         [Test]
         public void ClickSvgAndViewProfile()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(3000);
 
@@ -234,7 +235,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(2000);
 
 
-            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", classes);
             Thread.Sleep(2000);
             classes.Click();
@@ -268,7 +269,7 @@ namespace TestCompa.Server.Learn.MyClass
             Thread.Sleep(5000);
 
 
-            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", classes);
             Thread.Sleep(4000);
             classes.Click();
@@ -299,7 +300,7 @@ namespace TestCompa.Server.Learn.MyClass
             driver.FindElement(By.XPath("//a[@href='/learn/class']")).Click();
             Thread.Sleep(5000);
 
-            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
+            IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", classes);
             Thread.Sleep(4000);
             classes.Click();

@@ -687,7 +687,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
         {
             Login();
             Navigate();
-            IWebElement gotoLearn = driver.FindElement(By.XPath("//a[@href='/learn/course/python-tutorial-version-1?action=continue_learning']"));
+            IWebElement gotoLearn = driver.FindElement(By.XPath("//a[@href='/learn/course/python-tutorial-v1?action=continue_learning']"));
             gotoLearn.Click();
             Thread.Sleep(2000);
         }

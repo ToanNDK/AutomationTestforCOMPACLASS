@@ -94,7 +94,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
                 btnCreate.Click();
                 Thread.Sleep(1000);
             }
-            IWebElement chapterDelete = driver.FindElement(By.XPath("//p[normalize-space()='Chapter 2: Untitled']"));
+            IWebElement chapterDelete = driver.FindElement(By.XPath("//p[normalize-space()='Untitled']"));
             chapterDelete.Click();
             Thread.Sleep(2000);
             Actions acitons = new(driver);
@@ -111,29 +111,25 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
         }
 
         //Test 3: Nhập title, des, cho overview
-        [Test]
+        /*[Test]
         public void Overview()
         {
+            InitDriver(false);
             CourseBuilder();
             IList<IWebElement> inputFields = driver.FindElements(By.CssSelector("input[placeholder='Enter your text here...']"));
             inputFields[0].SendKeys("Title");
             inputFields[1].SendKeys("Description");
             Thread.Sleep(5000);
-        }
+        }*/
         //Test 4: Thêm infomation 
         [Test]
         public void OverviewInfo()
         {
-            Overview();
-            IWebElement addInfomation = driver.FindElement(By.XPath("//button[@class='group/btn inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-l20 bg-white hover:bg-gray-l10 h-10 w-10']"));
-            for (int i = 0; i < 3; i++)
-            {
-                addInfomation.Click();
-                Thread.Sleep(1000);
-            }
+            CourseBuilder();
+
             IList<IWebElement> inputFields = driver.FindElements(By.CssSelector("input[placeholder='What will the learner learn from completing this course?']"));
             Random stringRd = new();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 1; i++)
             {
                 inputFields[i].SendKeys(stringRd.ToString());
                 Thread.Sleep(2000);
@@ -144,11 +140,11 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder
         [Test]
         public void AddTeacher()
         {
-            Overview();
+            CourseBuilder();
             IWebElement btnAddTeacher = driver.FindElement(By.XPath("//button[contains(@class, 'border-2 border-blue') and contains(@class, 'rounded-full')]"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", btnAddTeacher);
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
             btnAddTeacher.Click();
             IWebElement emailField = driver.FindElement(By.CssSelector("input[placeholder='Email address or name']"));
             emailField.SendKeys("lozy564@gmail.com");

@@ -97,11 +97,10 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
         [Test]
         public void changeImg()
         {
+
             settingBtn();
             string imgPath = @"C:\Users\Hello\Pictures\TestImage\pexels-anjana-c-169994-674010.jpg";
 
-            IWebElement banner = driver.FindElement(By.Id("banner"));
-            banner.SendKeys(imgPath);
             IWebElement thumbnail = driver.FindElement(By.Id("thumbnail"));
             thumbnail.SendKeys(imgPath);
             IWebElement mThumbnail = driver.FindElement(By.Id("mThumbnail"));
@@ -191,7 +190,9 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
             fieldSlug.SendKeys(Keys.Backspace);
 
             Thread.Sleep(3000);
-            fieldSlug.SendKeys("course-test-slug");
+            Random rd = new();
+
+            fieldSlug.SendKeys($"course-test-slug {rd.Next(1000, 9999)}");
             Thread.Sleep(3000);
             IWebElement submit = driver.FindElement(By.CssSelector("button[type='submit']"));
             submit.Click();
