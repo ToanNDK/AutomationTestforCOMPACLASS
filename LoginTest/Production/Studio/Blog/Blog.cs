@@ -34,11 +34,38 @@ namespace TestCompa.Production.Studio.Blog
             InitDriver(true);
         }
 
-
+        //Truy cập Blog từ Discovery 
+        [Test]
+        public void BlogInDiscovery()
+        {
+            driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
+            Login();
+            Thread.Sleep(1000);
+            IWebElement discovery = wait.Until(d => d.FindElement(By.CssSelector("a[href='/discovery']")));
+            discovery.Click();
+            Thread.Sleep(2000);
+            IWebElement blog = driver.FindElement(By.XPath("//a[contains(text(),'JavaScript có còn cần thiết trong thời đại AI và N')]"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", blog);
+            Thread.Sleep(1000);
+            blog.Click();
+            Thread.Sleep(2000);
+        }
+        //Truy cập qua tab Blog
+        [Test]
+        public void BlogTab()
+        {
+            driver.Navigate().GoToUrl("https://compaclass.com/learn/home");
+            Login();
+            Thread.Sleep(1000);
+            IWebElement blog = wait.Until(d => d.FindElement(By.CssSelector("a[href='/blog']")));
+            blog.Click();
+            Thread.Sleep(2000);
+        }
         [Test]
         public void CreateNew()
         {
-            InitDriver(false);
+
             driver.Navigate().GoToUrl(blogUrl);
             Login();
             Thread.Sleep(2000);

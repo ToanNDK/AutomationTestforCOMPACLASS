@@ -33,7 +33,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.Typing
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
         public void StudioTest()
         {
