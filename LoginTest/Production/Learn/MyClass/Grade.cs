@@ -1,12 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Learn.Grade
 {
@@ -15,7 +9,7 @@ namespace TestCompa.Production.Learn.Grade
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-       
+
 
         private void InitDriver(bool headless = false)
         {
@@ -54,7 +48,7 @@ namespace TestCompa.Production.Learn.Grade
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(2000);
-            IWebElement testclass = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(),'Class Test')]")));
+            IWebElement testclass = wait.Until(d => d.FindElement(By.XPath("//a[contains(text(),'SQL Cơ Bản - NCB')]")));
             testclass.Click();
             Thread.Sleep(2000);
             IWebElement grade = driver.FindElement(By.XPath("//a[text()='Điểm số']"));
@@ -100,7 +94,7 @@ namespace TestCompa.Production.Learn.Grade
         public void assignmentView()
         {
             Grade();
-            IWebElement user = driver.FindElement(By.XPath("//a[normalize-space()='KPIM Academy']"));
+            IWebElement user = driver.FindElement(By.XPath("//a[normalize-space()='oanhntk7']"));
             user.Click();
             Thread.Sleep(3000);
             IWebElement btnView = driver.FindElement(By.XPath("//button[@type='button']//span[contains(text(),'Loại bài tập')]"));

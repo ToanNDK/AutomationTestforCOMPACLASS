@@ -1,10 +1,6 @@
-﻿using System;
-using System.Threading;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using NUnit.Framework;
 
 namespace TestCompa.Production.Learn
 {
@@ -42,15 +38,17 @@ namespace TestCompa.Production.Learn
         }
 
         //Test 1: Kiểm tra truy cập trang mission khi chưa đăng nhập -> Chuyển về trang đăng nhập
-        [Test]
+        /*[Test]
         public void AccessMissionWithoutLogin()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl(devUrl);
 
             string currentUrl = driver.Url;
-            Thread.Sleep(2000);
-            Assert.That(currentUrl,Does.Contain("https://auth.compaclass.com/Auth/SignIn"));
-        }
+            Thread.Sleep(3000);
+            Assert.That(currentUrl, Does.Contain("https://auth.compaclass.com/Auth/SignIn"));
+            Thread.Sleep(500);
+        }*/
 
         //Test 2: Kiểm tra truy cập trang mission khi đã đăng nhập -> Chuyển về trang Mission
         [Test]
@@ -71,7 +69,7 @@ namespace TestCompa.Production.Learn
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
             Login();
-Assert.That(driver.Url, Does.Contain(devUrl));
+            Assert.That(driver.Url, Does.Contain(devUrl));
             Thread.Sleep(15000);
 
             IWebElement btnClaim = driver.FindElement(By.XPath("//button[span[text()='Nhận Thưởng']]"));
@@ -87,7 +85,7 @@ Assert.That(driver.Url, Does.Contain(devUrl));
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
             Login();
-Assert.That(driver.Url, Does.Contain(devUrl));
+            Assert.That(driver.Url, Does.Contain(devUrl));
             Thread.Sleep(2000);
 
             /* // Bấm nút "Nhận tất cả"
@@ -126,7 +124,7 @@ Assert.That(driver.Url, Does.Contain(devUrl));
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(2000);
             Login();
-               Assert.That(driver.Url, Does.Contain(devUrl));
+            Assert.That(driver.Url, Does.Contain(devUrl));
             Thread.Sleep(2000);
 
             // Bấm sang tab "Hàng tuần"

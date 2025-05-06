@@ -159,6 +159,7 @@ namespace TestCompa.Production.CourseBuilder.Activity.Video
         [Test]
         public void replaceVideoURL()
         {
+            InitDriver(false);
             UploadVideoURL();
 
 

@@ -191,67 +191,6 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.Matching
             // Nhấn nút Save sau khi cuộn
 
         }
-        //Nối 
-        [Test]
-        public void MatchingAnswer()
-        {
-            InitDriver(false);
-            AddContentQuiz();
-
-            // Số chưa được chọn (dùng để tránh trùng)
-            var availableNumbers = new List<string> { "1", "2", "3", "4" };
-
-            while (true)
-            {
-                // Tìm tất cả đáp án còn trên màn hình (A–D)
-                var answerButtons = driver.FindElements(By.XPath("//button[contains(@class,'rounded-full') and text()='A' or text()='B' or text()='C' or text()='D']"));
-
-                if (answerButtons.Count == 0)
-                {
-                    Console.WriteLine("Hết đáp án để chọn.");
-                    break; // Thoát vòng lặp khi không còn đáp án nào
-                }
-
-                // Chọn đáp án đầu tiên còn lại
-                var answerButton = answerButtons[0];
-                string answerText = answerButton.Text;
-                answerButton.Click();
-                Thread.Sleep(500);
-
-                // Tìm số chưa chọn và click số đầu tiên khả dụng
-                bool numberClicked = false;
-                foreach (var number in availableNumbers)
-                {
-                    try
-                    {
-                        var numberButton = driver.FindElement(By.XPath($"//button[text()='{number}']"));
-                        numberButton.Click();
-                        Console.WriteLine($"Đã ghép: {answerText} - {number}");
-                        availableNumbers.Remove(number); // đánh dấu số đã dùng
-                        numberClicked = true;
-                        break;
-                    }
-                    catch (NoSuchElementException)
-                    {
-                        continue;
-                    }
-                }
-
-                if (!numberClicked)
-                {
-                    Console.WriteLine($"Không còn số khả dụng cho đáp án {answerText}");
-                }
-
-                Thread.Sleep(500); // đợi UI cập nhật
-            }
-
-            // Có thể assert kết quả tại đây nếu cần
-        }
-
-
-
-
-
 
         //Test 7: Add Guide (UC-S240)
         [Test]

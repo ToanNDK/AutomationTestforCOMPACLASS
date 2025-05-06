@@ -62,6 +62,7 @@ namespace TestCompa.Production.Learn.Login
         [Test]
         public void TestLoginSuccess()
         {
+            driver.Navigate().GoToUrl(productionUrl);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 

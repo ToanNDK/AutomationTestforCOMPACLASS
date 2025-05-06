@@ -147,7 +147,7 @@ namespace TestCompa.Production.Learn.SignUp
             IWebElement errorMessage = wait.Until(d => d.FindElement(By.CssSelector("p.text-xs.font-medium.text-red-500")));
             Assert.That(errorMessage.Text.Contains("The Username must be at least 6 and at max 100 characters long."), Is.True,
                 "Không hiển thị thông báo lỗi username quá dài!");
-            Thread.Sleep(10000);
+
         }
         [Test]
         //Test 8: Đăng ký với password quá ngắn

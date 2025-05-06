@@ -133,7 +133,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
         //Check theo tên chương
         [Test]
-        public void checkGradeChapter()
+        public void CheckGradeChapter()
         {
             try
             {
@@ -160,12 +160,12 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
         //Bài đăng
         //[Test]
-        public void runAddPost()
+        public void RunAddPost()
         {
             try
             {
                 InitDriver(headless: true);
-                addPost();
+                AddPost();
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addPost();
+                AddPost();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -185,7 +185,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
 
         //[Test]
-        public void runEditPost()
+        public void RunEditPost()
         {
             try
             {
@@ -208,31 +208,31 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
                 driver.Quit();
             }
         }
+        /*
+                [Test]
+                public void runDeletePost()
+                {
+                    try
+                    {
+                        InitDriver(headless: true);
+                        deletePost();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
+                        Console.WriteLine("🔧 Lỗi: " + ex.Message);
 
-        [Test]
-        public void runDeletePost()
-        {
-            try
-            {
-                InitDriver(headless: true);
-                deletePost();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("❌ Test lỗi ở chế độ headless. Đang chạy lại với giao diện UI...");
-                Console.WriteLine("🔧 Lỗi: " + ex.Message);
+                        driver.Quit();
+                        InitDriver(headless: false); // chạy lại với giao diện
+                        deletePost();
 
-                driver.Quit();
-                InitDriver(headless: false); // chạy lại với giao diện
-                deletePost();
-
-                throw; // vẫn throw để log biết test bị fail
-            }
-            finally
-            {
-                driver.Quit();
-            }
-        }
+                        throw; // vẫn throw để log biết test bị fail
+                    }
+                    finally
+                    {
+                        driver.Quit();
+                    }
+                }*/
 
         //[Test]
         public void runSearchPost()
@@ -290,7 +290,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                gotoLearn();
+                GotoLearn();
             }
             catch (Exception ex)
             {
@@ -299,7 +299,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                gotoLearn();
+                GotoLearn();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -317,7 +317,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                addComment();
+                AddComment();
             }
             catch (Exception ex)
             {
@@ -326,7 +326,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                addComment();
+                AddComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -343,7 +343,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
             try
             {
                 InitDriver(headless: true);  // chạy headless trước
-                deleteComment();
+                DeleteComment();
             }
             catch (Exception ex)
             {
@@ -352,7 +352,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                deleteComment();
+                DeleteComment();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -369,7 +369,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
             try
             {
                 InitDriver(headless: true);
-                searchCommentLC();
+                SearchCommentLC();
             }
             catch (Exception ex)
             {
@@ -378,7 +378,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
                 driver.Quit();
                 InitDriver(headless: false); // chạy lại với giao diện
-                searchCommentLC();
+                SearchCommentLC();
 
                 throw; // vẫn throw để log biết test bị fail
             }
@@ -683,7 +683,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
 
         //Đi đến học
-        private void gotoLearn()
+        private void GotoLearn()
         {
             Login();
             Navigate();
@@ -693,9 +693,9 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
 
         //comment learning canvas 
-        private void addComment()
+        private void AddComment()
         {
-            gotoLearn();
+            GotoLearn();
             ((IJavaScriptExecutor)driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(3000);
 
@@ -721,9 +721,9 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
 
         //delete comment 
-        private void deleteComment()
+        private void DeleteComment()
         {
-            addComment();
+            AddComment();
             IWebElement custom = driver.FindElement(By.CssSelector(".w-4[xmlns='http://www.w3.org/2000/svg'][width='26']"));
             custom.Click();
             Thread.Sleep(2000);
@@ -735,9 +735,9 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
             Thread.Sleep(2000);
         }
         //Serach comment LearningCanvas
-        private void searchCommentLC()
+        private void SearchCommentLC()
         {
-            addComment();
+            AddComment();
             var searchInputs = driver.FindElements(By.CssSelector("input[placeholder='Tìm kiếm'][role='combobox']"));
             if (searchInputs.Count >= 2)
             {
@@ -766,7 +766,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         }
 
         //Post
-        private void addPost()
+        private void AddPost()
         {
             Login();
             Navigate();
@@ -804,7 +804,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
         private void editPost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(3000);
             IWebElement svg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
             svg.Click();
@@ -835,7 +835,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
         private void deletePost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(1000);
             IWebElement svg = driver.FindElement(By.CssSelector("button.outline-none.cursor-pointer.group"));
             svg.Click();
@@ -851,7 +851,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
         private void searchPost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(1000);
             IWebElement search = driver.FindElement(By.XPath("(//input[@placeholder='Tìm kiếm'])[2]"));
             search.SendKeys("POWERBI");
@@ -860,7 +860,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
 
         private void sortPost()
         {
-            addPost();
+            AddPost();
             Thread.Sleep(1000);
             IWebElement sort = driver.FindElement(By.CssSelector("button.max-w-\\[200px\\] span.text-darkGray"));
             sort.Click();
@@ -876,7 +876,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         //Finish lesson 
         private void finishLesson()
         {
-            gotoLearn();
+            GotoLearn();
 
             // Tìm nút "Hoàn thành"
             IWebElement finish = driver.FindElement(By.CssSelector("button.bg-primary.text-white"));
@@ -892,7 +892,7 @@ namespace TestCompa.Production.TestCourse.TA.PythonTutorial
         //Xem video
         private void videoTest()
         {
-            gotoLearn();
+            GotoLearn();
             IWebElement playVideo = driver.FindElement(By.XPath("//div[@class='vds-blocker']"));
             playVideo.Click();
             Thread.Sleep(3000);

@@ -1,9 +1,7 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using TestCompa.Utilities;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Studio.Course.Activity.Quiz.MC
 {
@@ -159,6 +157,7 @@ namespace TestCompa.Server.Studio.Course.Activity.Quiz.MC
         [Test]
         public void AddContentQuiz()
         {
+            InitDriver(false);
             MultipleChoice();
             Random rd = new();
 
@@ -231,11 +230,11 @@ namespace TestCompa.Server.Studio.Course.Activity.Quiz.MC
                 {
                     selectedIndexes.Add(index);
                     answers[index].Click();
-                    Thread.Sleep(500); 
+                    Thread.Sleep(500);
                 }
             }
 
-            Thread.Sleep(2000); 
+            Thread.Sleep(2000);
             IWebElement submitButton = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
             submitButton.Click();
 
@@ -365,7 +364,7 @@ namespace TestCompa.Server.Studio.Course.Activity.Quiz.MC
         [Test]
         public void Preview()
         {
-            ChooseCorrectAnswers(); 
+            ChooseCorrectAnswers();
 
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(30));
 

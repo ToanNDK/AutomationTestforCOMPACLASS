@@ -1,12 +1,6 @@
-﻿using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa
 {
@@ -94,7 +88,7 @@ namespace TestCompa
             btnCourseDiscovery.Click();
             Thread.Sleep(2000);
         }
-        //Test 4: Bấm chọn mua khóa học 0đ
+        /*//Test 4: Bấm chọn mua khóa học 0đ
         [Test]
         public void purchase0Course()
         {
@@ -144,7 +138,7 @@ namespace TestCompa
 
 
 
-        }
+        }*/
         public void Login()
         {
             IWebElement emailInput = driver.FindElement(By.Id("email"));

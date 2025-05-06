@@ -145,6 +145,7 @@ namespace TestCompa.Server.Learn.Cart
         [Test]
         public void purchaseSubinUserAvatar()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl(devUrl);
             Thread.Sleep(3000);
             IWebElement login = driver.FindElement(By.XPath("//button[text()='Đăng nhập']"));

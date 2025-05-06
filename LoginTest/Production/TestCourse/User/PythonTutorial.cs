@@ -538,7 +538,7 @@ namespace TestCompa.Production.TestCourse.User.PythonTutorial
         {
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozy564@gmail.com");
+            emailInput.SendKeys("lozik480@gmail.com");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
             passwordInput.SendKeys("Toanking2k3*");
