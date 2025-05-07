@@ -44,7 +44,7 @@ namespace TestCompa.Production.Learn.Blog
             IWebElement discovery = wait.Until(d => d.FindElement(By.CssSelector("a[href='/discovery']")));
             discovery.Click();
             Thread.Sleep(2000);
-            IWebElement blog = driver.FindElement(By.XPath("//a[contains(text(),'JavaScript có còn cần thiết trong thời đại AI và N')]"));
+            IWebElement blog = driver.FindElement(By.XPath("//a[contains(text(),'JavaScript là gì? Hướng dẫn cơ bản cho người mới bắt đầu')]"));
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].scrollIntoView(true);", blog);
             Thread.Sleep(1000);
@@ -70,7 +70,7 @@ namespace TestCompa.Production.Learn.Blog
             IWebElement btnNewBlog = driver.FindElement(By.CssSelector("button.bg-darkBlue.text-white"));
             btnNewBlog.Click();
             Thread.Sleep(2000);
-            Assert.That(driver.Url, Does.Contain("https://studio.compaclass.com/en/blog"), "Navigate failed!");
+            Assert.That(driver.Url, Does.Contain("https://studio.compaclass.com/blog"), "Navigate failed!");
             Thread.Sleep(500);
         }
         [Test]

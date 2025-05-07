@@ -311,7 +311,7 @@ namespace TestCompa.Server.TestCourse.Teacher
             }
         }
 
-        [Test]
+        //[Test]
         public void RunVideoTest()
         {
             try

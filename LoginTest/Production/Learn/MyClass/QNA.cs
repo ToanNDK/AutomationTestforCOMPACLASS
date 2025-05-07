@@ -1,12 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Learn.QNA
 {
@@ -67,6 +61,7 @@ namespace TestCompa.Production.Learn.QNA
         [Test, Order(2)]
         public void addQuestion()
         {
+            InitDriver(false);
             QNA();
             IWebElement addQuestion = driver.FindElement(By.XPath("//button[contains(@class,'relative bg-primary rounded-2xl flex items-center text-white')]"));
             addQuestion.Click();
@@ -74,7 +69,7 @@ namespace TestCompa.Production.Learn.QNA
             IWebElement Title = driver.FindElement(By.XPath("//span[@class='block truncate text-start text-darkGray ']"));
             Title.Click();
             Thread.Sleep(5000);
-           
+
 
 
             IWebElement chooseContent = driver.FindElement(By.XPath("//span[contains(text(),'Giới thiệu về hệ sinh thái PowerBI')]"));
@@ -140,7 +135,7 @@ namespace TestCompa.Production.Learn.QNA
         }
 
         //6.Trả lời 
-        [Test,Order(5)]
+        [Test, Order(5)]
         public void replyQNA()
         {
             addQuestion();

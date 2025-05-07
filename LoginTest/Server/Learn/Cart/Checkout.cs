@@ -161,7 +161,10 @@ namespace TestCompa.Server.Learn.Cart
             register.Click();
             Thread.Sleep(5000);
             IWebElement monthly = driver.FindElement(By.XPath("//button[@class='group/btn inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-white hover:bg-gray-l10 h-11 rounded-md px-8 w-full border-darkGray']"));
-            monthly.Click();
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", monthly);
+            Thread.Sleep(3000);
+            js.ExecuteScript("arguments[0].click();", monthly);
             Thread.Sleep(3000);
         }
         //Test 5: Test mua pass (monthly)

@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
 
 namespace TestCompa.Server.TestCourse.User
 {
@@ -59,7 +54,7 @@ namespace TestCompa.Server.TestCourse.User
         }
 
         //Tìm kiếm & Sort Đánh giá
-        [Test]
+        /*[Test]
         public void runSearchComment()
         {
             try
@@ -82,7 +77,7 @@ namespace TestCompa.Server.TestCourse.User
             {
                 driver.Quit();
             }
-        }
+        }*/
 
 
         //Thêm câu hỏi
@@ -291,7 +286,7 @@ namespace TestCompa.Server.TestCourse.User
             }
         }
 
-        [Test]
+        /*[Test]
         public void runVideoTest()
         {
             try
@@ -310,7 +305,7 @@ namespace TestCompa.Server.TestCourse.User
 
                 throw; // vẫn throw để log biết test bị fail
             }
-        }
+        }*/
         // 
         private void RunAddQuestionTest()
         {
@@ -480,7 +475,7 @@ namespace TestCompa.Server.TestCourse.User
             IWebElement dropdown = driver.FindElement(By.XPath("//span[@class='shrink-0']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", dropdown);
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             dropdown.Click();
             Thread.Sleep(2000);

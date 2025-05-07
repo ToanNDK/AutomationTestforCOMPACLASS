@@ -31,7 +31,7 @@ namespace TestCompa.Production.CourseBuilder.Text
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
 
         public void StudioTest()
@@ -170,7 +170,7 @@ namespace TestCompa.Production.CourseBuilder.Text
             textEditor.SendKeys(Keys.Control + "a");
 
             // Mở dropdown "Paragraph"
-            IWebElement headingDropdown = driver.FindElement(By.CssSelector("svg.lucide-type"));
+            IWebElement headingDropdown = driver.FindElement(By.XPath("//span[normalize-space(text())='Paragraph']"));
             headingDropdown.Click();
             Thread.Sleep(3000); // Đợi dropdown hiển thị
 

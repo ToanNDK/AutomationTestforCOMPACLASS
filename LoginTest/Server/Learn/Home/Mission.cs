@@ -58,6 +58,7 @@ namespace TestCompa.Server.Learn.Mission
         [Test]
         public void recievedMission()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl(devUrl);
             Login();
             Assert.That(driver.Url.Contains(devUrl), Is.True);
@@ -94,10 +95,13 @@ namespace TestCompa.Server.Learn.Mission
         }
         public void Login()
         {
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("lozik480@gmail.com");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("Toanking2k3*");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));

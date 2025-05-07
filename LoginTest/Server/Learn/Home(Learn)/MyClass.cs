@@ -168,7 +168,7 @@ namespace TestCompa.Server.Learn.MyClass
             memberTab.Click();
             Thread.Sleep(5000);
 
-            IWebElement addMember = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > main:nth-child(2) > div:nth-child(1) > div:nth-child(2) > section:nth-child(1) > div:nth-child(1) > button:nth-child(2)"));
+            IWebElement addMember = driver.FindElement(By.XPath("//button[contains(@class,'relative bg-primary rounded-2xl flex items-center text-white')]"));
             Actions actions = new(driver);
             actions.MoveToElement(addMember).Click().Perform();
 

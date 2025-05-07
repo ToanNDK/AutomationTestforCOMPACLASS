@@ -41,6 +41,7 @@ namespace TestCompa.Server.Learn.MyClassMember
         [Test, Order(1)]
         public void memberClass()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl(homeUrl);
             Login();
 
@@ -49,9 +50,11 @@ namespace TestCompa.Server.Learn.MyClassMember
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
-            IWebElement overview = wait.Until(d => d.FindElement(By.XPath("//div[contains(@class,'flex flex-col gap-2 lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 2xl:grid-cols-5')]//div[1]//div[1]//a[1]")));
-            overview.Click();
-            Thread.Sleep(5000);
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'ClassTest')]"));
+            ScrollToElement(testclass);
+            testclass.Click();
+
+            Thread.Sleep(2000);
 
             IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
             member.Click();
@@ -69,7 +72,7 @@ namespace TestCompa.Server.Learn.MyClassMember
             Thread.Sleep(3000);
 
 
-            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Test')]"));
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'ClassTest')]"));
             ScrollToElement(testclass);
             Thread.Sleep(4000);
             testclass.Click();

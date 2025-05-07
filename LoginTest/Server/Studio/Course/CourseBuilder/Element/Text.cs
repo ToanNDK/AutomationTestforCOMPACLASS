@@ -31,7 +31,7 @@ namespace TestCompa.Server.CourseBuilder.Text
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
 
         public void StudioTest()

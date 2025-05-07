@@ -38,41 +38,44 @@ namespace TestCompa.Server.CourseBuilder.Overview
             driver.Navigate().GoToUrl(StudioUrl);
             Login();
             Thread.Sleep(3000);
-            IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
+            IWebElement course = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[.//span[text()='Course']]")));
             course.Click();
 
             Thread.Sleep(2000);
         }
 
+
         public void CourseBuilder()
         {
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+
+            // chọn Course test
             StudioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
-            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
-            jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
-            Thread.Sleep(3000);
-            tab.Click();
-            Thread.Sleep(3000);
 
+            // Đợi nút tab "1" hiển thị và scroll đến
+            IWebElement tab = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                By.XPath("//button[normalize-space()='1']")));
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", tab);
 
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(tab)).Click();
+
+            // Đợi tiêu đề khoá học hiển thị
             string expectedText = "CourseTest";
+            IWebElement h2Element = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(
+                By.XPath($"//h3[contains(text(),'{expectedText}')]")));
 
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
 
-            IWebElement h2Element = driver.FindElement(By.XPath($"//h3[contains(text(),'{expectedText}')]"));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
-            Thread.Sleep(3000);
-            h2Element.Click();
-
-            Thread.Sleep(3000);
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(h2Element)).Click();
         }
 
         //Test 1: Add Description
         [Test]
         public void AddDescription()
         {
+
             CourseBuilder();
-            IWebElement description = driver.FindElement(By.XPath("//textarea[@id='description']"));
+            IWebElement description = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@id='description']")));
             description.Clear();
             description.SendKeys("Description Test");
             Thread.Sleep(2000);
@@ -82,7 +85,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
         public void AddInfomation()
         {
             CourseBuilder();
-            IWebElement info = driver.FindElement(By.XPath("//input[@class='flex w-full bg-white rounded-md border ring-offset-white border-gray-l20 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-darkGray focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-primary-l40 h-10 px-3 py-2 text-sm flex-1 opacity-70']"));
+            IWebElement info = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//input[@class='flex w-full bg-white rounded-md border ring-offset-white border-gray-l20 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-darkGray focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-primary-l40 h-10 px-3 py-2 text-sm flex-1 opacity-70']")));
             info.SendKeys("INFOMATION Test");
             Thread.Sleep(1000);
         }
@@ -93,7 +96,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
         {
             CourseBuilder();
             //nhập content vào ckeditor
-            IWebElement ckeditor = driver.FindElement(By.CssSelector("div.ck-editor__editable"));
+            IWebElement ckeditor = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("div.ck-editor__editable")));
             ckeditor.Clear();
             ckeditor.SendKeys("INFOMATION Test");
             Thread.Sleep(1000);
@@ -121,7 +124,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
         public void TextFormat()
         {
             AboutTheCourse();
-            IWebElement ckeditor = driver.FindElement(By.CssSelector("div.ck-editor__editable"));
+            IWebElement ckeditor = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("div.ck-editor__editable")));
             ckeditor.SendKeys(Keys.Control + 'a');
             Thread.Sleep(1000);
             ckeditor.SendKeys(Keys.Control + 'b');
@@ -130,7 +133,7 @@ namespace TestCompa.Server.CourseBuilder.Overview
             Thread.Sleep(1000);
             ckeditor.SendKeys(Keys.Control + 'i');
             Thread.Sleep(1000);
-            IWebElement strikethrough = driver.FindElement(By.CssSelector(".lucide.lucide-strikethrough"));
+            IWebElement strikethrough = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(".lucide.lucide-strikethrough")));
             strikethrough.Click();
             Thread.Sleep(2000);
         }
@@ -139,10 +142,9 @@ namespace TestCompa.Server.CourseBuilder.Overview
         public void Quote()
         {
             AboutTheCourse();
-            IWebElement Quote = driver.FindElement(By.CssSelector(".lucide.lucide-quote"));
+            IWebElement Quote = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(".lucide.lucide-quote")));
             Quote.Click();
-            Thread.Sleep(2000);
-            IWebElement List = driver.FindElement(By.CssSelector(".lucide.lucide-list"));
+            IWebElement List = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(".lucide.lucide-list")));
             List.Click();
             Thread.Sleep(2000);
         }
@@ -168,17 +170,18 @@ namespace TestCompa.Server.CourseBuilder.Overview
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
         }
-
         [TearDown]
         public void Teardown()
         {
