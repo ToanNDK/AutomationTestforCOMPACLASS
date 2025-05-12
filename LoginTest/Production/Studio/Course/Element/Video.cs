@@ -13,6 +13,8 @@ using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
 namespace TestCompa.Production.CourseBuilder.Video
 {
+    [TestFixture]
+    [Category("Element")]
     public class addCourse
     {
         private IWebDriver driver;

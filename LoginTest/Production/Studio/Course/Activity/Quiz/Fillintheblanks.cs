@@ -95,7 +95,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
 
         }
         [Test]
-        public void FILBQuestion()
+        public void FITBQuestion()
         {
             AddQuestion();
             IWebElement fill = driver.FindElement(By.XPath("//p[normalize-space()='Fill in the blank']"));
@@ -106,7 +106,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
         [Test]
         public void DisplaySetting()
         {
-            FILBQuestion();
+            FITBQuestion();
             Thread.Sleep(3000);
             IWebElement dropdown = driver.FindElement(By.CssSelector("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)"));
             dropdown.Click();
@@ -119,7 +119,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
         [Test]
         public void AllowAttempt()
         {
-            FILBQuestion();
+            FITBQuestion();
             Thread.Sleep(3000);
             IWebElement dropdown = driver.FindElement(By.XPath("//button[.//span[normalize-space()='Unlimited']]"));
             dropdown.Click();
@@ -139,7 +139,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
         [Test]
         public void ChangeTimeLimit()
         {
-            FILBQuestion();
+            FITBQuestion();
             IWebElement time = driver.FindElement(By.XPath("//input[@id='time-input']"));
 
             //Nhập giá trị hợp lệ 
@@ -158,7 +158,7 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
         [Test]
         public void AddContentQuiz()
         {
-            FILBQuestion();
+            FITBQuestion();
 
             // Tìm textarea
             IWebElement blank = driver.FindElement(By.XPath("//textarea[@placeholder='Paste question content here...']"));

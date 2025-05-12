@@ -6,6 +6,8 @@ using SeleniumExtras.WaitHelpers;
 
 namespace TestCompa.Production.CourseBuilder.Image
 {
+    [TestFixture]
+    [Category("Element")]
     public class Image
     {
         private IWebDriver driver = null!;

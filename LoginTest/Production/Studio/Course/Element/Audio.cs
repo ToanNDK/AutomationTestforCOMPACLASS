@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.CourseBuilder.Audio
 {
+    [TestFixture]
+    [Category("Element")]
     public class Audio
     {
         private IWebDriver driver = null!;
@@ -91,7 +93,6 @@ namespace TestCompa.Production.CourseBuilder.Audio
         [Test]
         public void addContent()
         {
-            InitDriver(false);
             PDFDragNDrop();
             Thread.Sleep(1000);
 
