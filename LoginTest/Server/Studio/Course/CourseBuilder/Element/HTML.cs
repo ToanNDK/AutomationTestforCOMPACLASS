@@ -6,6 +6,8 @@ using SeleniumExtras.WaitHelpers;
 
 namespace TestCompa.Server.CourseBuilder.HTML
 {
+    [TestFixture]
+    [Category("Element")]
     public class HTML
     {
         private IWebDriver driver = null!;
@@ -132,11 +134,10 @@ namespace TestCompa.Server.CourseBuilder.HTML
 
 
         }
-        //click vào các btn trên thanh 
+        //click vào các btn Panel trên thanh  
         [Test]
         public void BtnPanel()
         {
-            InitDriver(false);
             AddContent();
 
             // Tìm tất cả các button trong div có class cụ thể

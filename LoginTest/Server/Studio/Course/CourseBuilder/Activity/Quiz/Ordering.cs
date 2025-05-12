@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Server.Studio.Course.Activity.Quiz.Ordering
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class Ordering
     {
         private IWebDriver driver = null!;

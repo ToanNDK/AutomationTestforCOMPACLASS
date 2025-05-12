@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.TF
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class TrueFalse
     {
         private IWebDriver driver = null!;

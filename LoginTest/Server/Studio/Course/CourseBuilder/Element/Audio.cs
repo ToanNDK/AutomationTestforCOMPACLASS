@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Audio
 {
+    [TestFixture]
+    [Category("Element")]
     public class Audio
     {
         private IWebDriver driver = null!;

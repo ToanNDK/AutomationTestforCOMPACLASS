@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.FillIntheblanks
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class Fillintheblanks
     {
         private IWebDriver driver = null!;

@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Studio.Course.Activity.Quiz.MC
 {
+    [TestFixture]
+    [Category("Quiz")]
     public class MulitpleChoice
     {
         private IWebDriver driver = null!;

@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Text
 {
+    [TestFixture]
+    [Category("Element")]
     public class Text
     {
         private IWebDriver driver = null!;

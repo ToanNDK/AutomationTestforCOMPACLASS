@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class MulitpleChoice
     {
         private IWebDriver driver = null!;
@@ -100,8 +100,8 @@ namespace TestCompa.Production.Studio.Course.Activity.Quiz.MC
         public void MultipleChoice()
         {
             AddQuestion();
-            IWebElement single = driver.FindElement(By.XPath("//p[normalize-space()='Multiple Choice']"));
-            single.Click();
+            IWebElement multi = driver.FindElement(By.XPath("//p[normalize-space()='Multiple Choice']"));
+            multi.Click();
             Thread.Sleep(1000);
         }
         //Test 1: Display Settings (UC-S229)

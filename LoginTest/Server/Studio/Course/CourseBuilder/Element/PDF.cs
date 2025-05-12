@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.PDF
 {
+    [TestFixture]
+    [Category("Element")]
     public class PDF
     {
         private IWebDriver driver = null!;

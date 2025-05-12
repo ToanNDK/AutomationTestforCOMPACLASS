@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Studio.Practice
 {
+    [TestFixture]
+    [Category("Practice")]
     public class Blog
     {
         private IWebDriver driver = null!;
@@ -44,7 +46,7 @@ namespace TestCompa.Production.Studio.Practice
         }
 
         [Test]
-        public void BlogTab()
+        public void PracticeTab()
         {
             NavigateToPractice();
             IWebElement CreateNewQuiz = driver.FindElement(By.XPath("//button[normalize-space()='New Practice Quiz']"));
@@ -55,18 +57,223 @@ namespace TestCompa.Production.Studio.Practice
 
         }
 
+        [Test]
+        public void AddQuestion()
+        {
+
+            NavigateToPractice();
+            IWebElement quiz = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(), 'Untitled Practice Quiz')]")));
+            quiz.Click();
+            Thread.Sleep(500);
+        }
+
+        //Test SingleChoice 
+        [Test]
+        public void SingleChoice()
+        {
+            AddQuestion();
+            //Bấm nút AddQuestion
+            IWebElement addquestion = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//span[normalize-space()='Add question']")));
+            addquestion.Click();
+            Thread.Sleep(1000);
+            //Chọn SingleChoice
+            IWebElement single = driver.FindElement(By.XPath("//p[normalize-space()='Single Choice']"));
+            single.Click();
+            Thread.Sleep(1000);
+        }
+        [Test]
+        public void AddContentSingleQuiz()
+        {
+            SingleChoice();
+            Random rd = new();
+
+            IWebElement question = driver.FindElement(By.XPath("//p[@data-placeholder='Start typing your question']"));
+            question.SendKeys($" Câu hỏi {rd.Next(1000, 9999)}");
+            Thread.Sleep(1000);
+
+            // Nhập câu trả lời ngẫu nhiên
+            var answerElements = driver.FindElements(By.XPath("//p[@data-placeholder='Nhập nội dung đáp án...']"));
+            if (answerElements.Count == 4)
+            {
+                for (int i = 0; i < answerElements.Count; i++)
+                {
+                    answerElements[i].SendKeys($" Câu trả lời {rd.Next(1000, 9999)}");
+                    Thread.Sleep(500);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Không tìm thấy đúng 4 ô trả lời.");
+            }
+
+            // Nhấn nút Save
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
+            submit.Click();
+
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            try
+            {
+
+                IWebElement toastMessage = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@class, 'group toast') and contains(., 'Please select exactly one correct answer')]")));
+
+                // Kiểm tra thông báo đã đúng
+                Assert.That(toastMessage.Text.Trim(), Is.EqualTo("Please select exactly one correct answer for single choice question"), "Thông báo không chính xác");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Nếu không tìm thấy thông báo trong thời gian chờ
+                Assert.Fail("Không tìm thấy thông báo trong thời gian chờ.");
+            }
+        }
+
+        [Test]
+        public void ChooseCorrectAnswer()
+        {
+            AddContentSingleQuiz();
+            var answer = driver.FindElements(By.XPath("//div[@class='w-12 h-12 rounded-full flex items-center justify-center border border-gray-200 flex-shrink-0 bg-white text-primary cursor-pointer']"));
+            if (answer.Count > 0)
+            {
+                Random rd = new();
+                int RdIndex = rd.Next(0, answer.Count);
+                answer[RdIndex].Click();
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("Không tìm thấy đáp án");
+            }
+            Thread.Sleep(5000);
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
+            submit.Click();
+            Thread.Sleep(2000);
+        }
+
+        //Test Multiple Choice
+        [Test]
+        public void MultipleChoice()
+        {
+            AddQuestion();
+            //Bấm nút AddQuestion
+            IWebElement addquestion = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//span[normalize-space()='Add question']")));
+            addquestion.Click();
+            Thread.Sleep(1000);
+            //Chọn MulitpleChoice
+            IWebElement multi = driver.FindElement(By.XPath("//p[normalize-space()='Multiple Choice']"));
+            multi.Click();
+            Thread.Sleep(1000);
+        }
+
+        [Test]
+        public void AddContentMultipleQuiz()
+        {
+            MultipleChoice();
+            Random rd = new();
+
+            IWebElement question = driver.FindElement(By.XPath("//p[@data-placeholder='Start typing your question']"));
+            question.SendKeys($" Câu hỏi {rd.Next(1000, 9999)}");
+            Thread.Sleep(1000);
+
+            // Nhập câu trả lời ngẫu nhiên
+            var answerElements = driver.FindElements(By.XPath("//p[@data-placeholder='Nhập nội dung đáp án...']"));
+            if (answerElements.Count == 4)
+            {
+                for (int i = 0; i < answerElements.Count; i++)
+                {
+                    answerElements[i].SendKeys($" Câu trả lời {rd.Next(1000, 9999)}");
+                    Thread.Sleep(500);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Không tìm thấy đúng 4 ô trả lời.");
+            }
+
+            // Nhấn nút Save
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Save']"));
+            submit.Click();
+
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            try
+            {
+
+                IWebElement toastMessage = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//li[contains(@class, 'group toast') and contains(., 'Please select at least one correct answer')]")));
+
+                // Kiểm tra thông báo đã đúng
+                Assert.That(toastMessage.Text.Trim(), Is.EqualTo("Please select at least one correct answer"), "Thông báo không chính xác");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Nếu không tìm thấy thông báo trong thời gian chờ
+                Assert.Fail("Không tìm thấy thông báo trong thời gian chờ.");
+            }
+        }
+
+        //Matching
+
+        [Test]
+        public void Matching()
+        {
+            AddQuestion();
+            //Bấm nút AddQuestion
+            IWebElement addquestion = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//span[normalize-space()='Add question']")));
+            addquestion.Click();
+            Thread.Sleep(1000);
+            //Chọn SingleChoice
+            IWebElement matching = driver.FindElement(By.XPath("//p[normalize-space()='Matching']"));
+            matching.Click();
+            Thread.Sleep(1000);
+        }
+
+        [Test]
+        public void AddContentMatching()
+        {
+            InitDriver(false);
+            Matching();
+            Random rd = new();
+
+            // Nhập câu hỏi ngẫu nhiên
+            IWebElement question = driver.FindElement(By.XPath("//p[@class='ck-placeholder']"));
+            question.Click();
+            Thread.Sleep(300);
+            question.SendKeys($"Câu hỏi {rd.Next(1000, 9999)}");
+            Thread.Sleep(1000);
+
+            // Nhập câu trả lời ngẫu nhiên bằng SendKeys vào các CKEditor
+            var answerElements = driver.FindElements(By.XPath("//div[@contenteditable='true']"));
+
+            if (answerElements.Count == 0)
+            {
+                Console.WriteLine("Không tìm thấy ô nhập câu trả lời.");
+                return;
+            }
+
+            foreach (var element in answerElements)
+            {
+                string answerText = $"Câu trả lời {rd.Next(1000, 9999)}";
+
+                // Click để focus và nhập dữ liệu
+                element.Click();
+                Thread.Sleep(300);
+                element.SendKeys(answerText);
+                Thread.Sleep(500);
+            }
+
+        }
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozik480@gmail.com");
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
+            emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
+
         }
 
         [TearDown]

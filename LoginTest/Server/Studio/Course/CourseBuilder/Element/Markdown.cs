@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Markdown
 {
+    [TestFixture]
+    [Category("Element")]
     public class Markdown
     {
         private IWebDriver driver = null!;

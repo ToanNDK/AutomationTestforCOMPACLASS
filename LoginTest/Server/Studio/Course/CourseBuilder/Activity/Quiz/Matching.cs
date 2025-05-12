@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Server.Studio.Course.Activity.Quiz.Matching
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class Matching
     {
         private IWebDriver driver = null!;

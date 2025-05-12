@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Server.Studio.Course.Activity.Quiz.Typing
 {
     [TestFixture]
-    [Category("Login")]
+    [Category("Quiz")]
     public class Typing
     {
         private IWebDriver driver = null!;

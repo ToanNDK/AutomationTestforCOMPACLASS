@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.CourseBuilder.Image
 {
+    [TestFixture]
+    [Category("Element")]
     public class Image
     {
         private IWebDriver driver = null!;
