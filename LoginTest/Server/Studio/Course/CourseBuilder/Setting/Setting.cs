@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
 {
+    [TestFixture]
+    [Category("CourseSetting")]
     public class Setting
     {
         private IWebDriver driver = null!;
@@ -219,7 +221,7 @@ namespace TestCompa.Server.Studio.Course.CourseBuilder.Setting
         //Test 7: Thêm Unit
 
 
-        public void Login()
+        private void Login()
         {
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));

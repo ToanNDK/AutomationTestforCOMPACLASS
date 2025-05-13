@@ -32,7 +32,7 @@ namespace TestCompa.Production.CourseBuilder.Activity.Video
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
 
         public void studioTest()

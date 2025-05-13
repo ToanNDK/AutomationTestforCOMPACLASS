@@ -1,37 +1,40 @@
-﻿/*using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V131.FedCm;
-using OpenQA.Selenium.Interactions;
-using System.Xml.Linq;
-using static OpenQA.Selenium.BiDi.Modules.Input.Pointer;
 
-namespace TestCompa.Server.CourseBuilder.Video
+namespace TestCompa.Server.CourseBuilder.Activity.Video
 {
     [TestFixture]
     [Category("Element")]
     public class addCourse
     {
-        private IWebDriver driver;
-        private WebDriverWait wait;
-        private string devUrl = "http://10.10.10.30:3000/";
-        [SetUp]
-        public void Setup()
+        private IWebDriver driver = null!;
+        private WebDriverWait wait = null!;
+        private readonly string devUrl = "http://10.10.10.30:3000/";
+        private void InitDriver(bool headless = false)
         {
-            driver = new ChromeDriver();
+            ChromeOptions options = new();
+
+            if (headless)
+            {
+                options.AddArgument("--headless");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+            }
+
+            driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
-
-            driver.Navigate().GoToUrl(devUrl);
-
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
-        //Test 0: Truy cập trang 
-        [Test]
+        [SetUp]
+        public void SetUp()
+        {
+            // Gọi InitDriver với tham số headless = false (mặc định)
+            // Thay đổi thành true nếu muốn chạy ở chế độ headless
+            InitDriver(true);
+        }
+
         public void studioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
@@ -42,18 +45,17 @@ namespace TestCompa.Server.CourseBuilder.Video
 
             Thread.Sleep(5000);
         }
-        //Test 1: bấm nút vào course builder
-        [Test]
+
         public void courseBuilder()
         {
             studioTest();
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='5']"));
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
             Thread.Sleep(3000);
             tab.Click();
             Thread.Sleep(5000);
-            
+
 
             string expectedText = "CourseTest";
 
@@ -63,120 +65,200 @@ namespace TestCompa.Server.CourseBuilder.Video
             js.ExecuteScript("arguments[0].scrollIntoView(true);", h2Element);
             Thread.Sleep(3000);
             h2Element.Click();
-            
+
             Thread.Sleep(3000);
         }
-        //Test 2: Add New Element (UC-S118)
+
+
         [Test]
-        public void videoDragNDrop()
+        public void videoActivity()
         {
             courseBuilder();
-
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'VideoBlock')]"));
             title.Click();
             Thread.Sleep(1000);
+            IWebElement video = driver.FindElement(By.XPath("//button[normalize-space()='Activity']"));
+            video.Click();
+            Thread.Sleep(2000);
+            IWebElement videoOption = driver.FindElement(By.XPath("//span[@class='font-medium select-none'][normalize-space()='Video']"));
+            videoOption.Click();
+            Thread.Sleep(2000);
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Continue']"));
+            submit.Click();
+            Thread.Sleep(1000);
             IWebElement elementTab = driver.FindElement(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]"));
             elementTab.Click();
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
-            IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Video Block Icon']]"));
-
-            IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
-
-            Actions actions = new Actions(driver);
-            actions
-                    .MoveToElement(textElement)
-                    .ClickAndHold()
-                    .MoveToElement(targetElement)
-                    .Release()
-                    .Perform();
-
-            Thread.Sleep(4000);
         }
-        //5.1 Upload Video từ máy tính
+        //Test 1: Test upload video từ local (UC-S191)
         [Test]
-        public void uploadVideo()
+        public void UploadVideo()
         {
-            videoDragNDrop();
-            IWebElement uploadField = driver.FindElement(By.XPath("//p[contains(@class,'text-xs truncate flex-1')]"));
+            videoActivity();
+            IWebElement uploadField = driver.FindElement(By.XPath("//button[@aria-haspopup='dialog' and .//p[text()='Click to add video']]"));
             uploadField.Click();
+            Thread.Sleep(2000);
+            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
+
+            string vidPath = @"C:\Users\Hello\Videos\Screen Recordings\15-2-2025.mp4";
+            // Gửi đường dẫn ảnh vào input file
+            inputFile.SendKeys(vidPath);
+            Thread.Sleep(2000);
+        }
+        //2. Test upload video từ URL (UC-S192)
+        [Test]
+        public void UploadVideoURL()
+        {
+            videoActivity();
+            IWebElement uploadField = driver.FindElement(By.XPath("//button[@aria-haspopup='dialog' and .//p[text()='Click to add video']]"));
+            uploadField.Click();
+            Thread.Sleep(2000);
+            IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
+            embed.Click();
+            IWebElement link = driver.FindElement(By.XPath("//input[@id='video-link']"));
+            link.SendKeys("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4");
+            // Gửi đường dẫn ảnh vào input file
+            Thread.Sleep(2000);
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Embed']"));
+            submit.Click();
+            Thread.Sleep(2000);
+        }
+        //3. Preview Video (UC-S193)
+        [Test]
+        public void previewVideo()
+        {
+            UploadVideoURL();
+
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            IWebElement video = wait.Until(driver => driver.FindElement(By.XPath("//video[@preload='metadata']")));
+
+            // Dùng JavaScript để click, bỏ qua overlay
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].click();", video);
+
+            Thread.Sleep(2000); // Hoặc xác nhận video đang phát
+        }
+        //4. Replace video (UC-S198)
+        [Test]
+        public void replaceVideo()
+        {
+            UploadVideoURL();
+            IWebElement upload = driver.FindElement(By.XPath("//div[normalize-space(text())='Upload']"));
+            upload.Click();
             Thread.Sleep(3000);
-            *//* IWebElement upload = driver.FindElement(By.XPath("//label[@for='video-audio']"));
-             upload.Click();*//*
 
             IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
-            //video test
-            string vidPath = @"C:\Users\Hello\Videos\Captures\Home - Google Chrome 2024-12-13 10-32-40.mp4";
 
+            string vidPath = @"C:\Users\Hello\Videos\Screen Recordings\15-2-2025.mp4";
+            // Gửi đường dẫn ảnh vào input file
             inputFile.SendKeys(vidPath);
-
-            Thread.Sleep(4000);
-
-
-        }
-        //5.2 Embed video từ URL
-
-        [Test]
-        public void embedVideo()
-        {
-            videoDragNDrop();
-            IWebElement uploadbtn = driver.FindElement(By.CssSelector("div.text-gray-d10.cursor-pointer"));
-            uploadbtn.Click();
             Thread.Sleep(3000);
-            IWebElement embedLink = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
-            embedLink.Click();
+        }
+        //5. Replace video (Embed) (UC-S199)
+        [Test]
+        public void replaceVideoURL()
+        {
+            InitDriver(false);
+            UploadVideoURL();
 
+
+            IWebElement remove = driver.FindElement(By.XPath("//button[@title='Remove']"));
+            remove.Click();
+
+            Thread.Sleep(3000);
+            IWebElement upload = driver.FindElement(By.XPath("//div[normalize-space(text())='Upload']"));
+            upload.Click();
+            Thread.Sleep(3000);
+            IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
+            embed.Click();
             IWebElement link = driver.FindElement(By.XPath("//input[@id='video-link']"));
-            link.SendKeys("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4");
-            Thread.Sleep(5000);
+            link.SendKeys("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4");
+            // Gửi đường dẫn ảnh vào input file
+            Thread.Sleep(2000);
             IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Embed']"));
             submit.Click();
             Thread.Sleep(3000);
         }
-
-        //5.3 Test toggle title và description 
+        //6. Remove video (UC-S200)
         [Test]
-        public void toggleTitleAndDescription()
+        public void removeVid()
         {
-            embedVideo();
+            UploadVideoURL();
+
+
+            IWebElement remove = driver.FindElement(By.XPath("//button[@title='Remove']"));
+            remove.Click();
+
+            Thread.Sleep(3000);
+        }
+        //7. Add custom Thumbnail (UC-S202)
+        [Test]
+        public void addThumbnail()
+        {
+            UploadVideoURL();
+            IWebElement uploadButton = driver.FindElement(By.XPath("//div[div[text()='Custom thumbnail']]//div[text()='Upload']"));
+            uploadButton.Click();
+            Thread.Sleep(2000);
+            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
+
+            string thumbnail = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
+            // Gửi đường dẫn ảnh vào input file
+            inputFile.SendKeys(thumbnail);
+            Thread.Sleep(2000);
+        }
+        //8.Replace thumbnail (UC-S203)
+        [Test]
+        public void editThumbnail()
+        {
+            UploadVideoURL();
+            IWebElement uploadButton = driver.FindElement(By.XPath("//div[div[text()='Custom thumbnail']]//div[text()='Upload']"));
+            uploadButton.Click();
+            Thread.Sleep(2000);
+            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
+
+            string thumbnail = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
+            // Gửi đường dẫn ảnh vào input file
+            inputFile.SendKeys(thumbnail);
             Thread.Sleep(5000);
-            IWebElement titleToggle = driver.FindElement(By.Id("video-title"));
-            titleToggle.Click();
-            Thread.Sleep(2000);
-            IWebElement descToggle = driver.FindElement(By.Id("video-desciption"));
-            descToggle.Click();
-            Thread.Sleep(2000);
-            IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
-            remove.Click();
-            Thread.Sleep(2000);
-        }
-        //5.4 Thêm title, description
-        [Test]
-        public void addTitleAndDesc()
-        {
-            embedVideo();
-            Thread.Sleep(4000);
-            IWebElement titleField = driver.FindElement(By.XPath("//input[@placeholder='Add video title...']"));
-            titleField.SendKeys("Title Video 123");
-            Thread.Sleep(2000);
-            IWebElement descField = driver.FindElement(By.XPath("//input[@placeholder='Write a description...']"));
-            titleField.SendKeys("Description Video 123");
-            Thread.Sleep(2000);
-            IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
-            remove.Click();
-            Thread.Sleep(2000);
-        }
+            uploadButton.Click();
+            IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
+            embed.Click();
 
+            Thread.Sleep(2000);
+            IWebElement link = driver.FindElement(By.XPath("//input[@id='thumbnail-link']"));
+            link.SendKeys("https://picsum.photos/200/300");
+            Thread.Sleep(2000);
+            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Embed']"));
+            submit.Click();
+            Thread.Sleep(3000);
+        }//9. Custom Description (UC-S205)
+        [Test]
+        public void customDescription()
+        {
+            UploadVideoURL();
+            IWebElement txtDes = driver.FindElement(By.XPath("//textarea[@id='message-Description']"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", txtDes);
+            Thread.Sleep(500);
+            txtDes.Click();
+            Thread.Sleep(2000);
+            txtDes.SendKeys("00:05 Start");
+            txtDes.SendKeys(Keys.Enter);
+
+            txtDes.SendKeys("00:08 End");
+            txtDes.SendKeys(Keys.Enter);
+
+            Thread.Sleep(2000);
+        }
         public void Login()
         {
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
-            //IWebElement emailInput = driver.FindElement(By.Id("email"));
-            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
+            Thread.Sleep(2000);
+            IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");
 
-            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
-            passwordInput.SendKeys("Kpim@2025");
+            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
@@ -191,4 +273,3 @@ namespace TestCompa.Server.CourseBuilder.Video
 
 
 }
-*/

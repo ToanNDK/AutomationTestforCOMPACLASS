@@ -113,7 +113,7 @@ namespace TestCompa.Server.CourseBuilder.Markdown
 
             //IWebElement passwordInput = driver.FindElement(By.Id("password"));
             IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
-            passwordInput.SendKeys("Kpim@2025");
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
