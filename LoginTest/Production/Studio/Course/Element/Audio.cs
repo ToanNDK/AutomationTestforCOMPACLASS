@@ -73,16 +73,14 @@ namespace TestCompa.Production.CourseBuilder.Audio
         public void PDFDragNDrop()
         {
             courseBuilder();
-            IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'AudioBlock')]"));
+            IWebElement title = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//p[starts-with(normalize-space(), 'AudioBlock')]")));
             title.Click();
-            Thread.Sleep(1000);
-            IWebElement elementTab = driver.FindElement(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]"));
+            IWebElement elementTab = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]")));
             elementTab.Click();
-            Thread.Sleep(3000);
 
-            IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Audio Block Icon']]"));
+            IWebElement textElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[img[@alt='Audio Block Icon']]")));
 
-            IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
+            IWebElement targetElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]")));
 
             Actions actions = new(driver);
             actions.DragAndDrop(textElement, targetElement).Perform();
@@ -94,11 +92,9 @@ namespace TestCompa.Production.CourseBuilder.Audio
         public void addContent()
         {
             PDFDragNDrop();
-            Thread.Sleep(1000);
 
-            IWebElement addPdf = driver.FindElement(By.XPath("//button[.//p[text()='Click to add audio']]"));
+            IWebElement addPdf = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[.//p[text()='Click to add audio']]")));
             addPdf.Click();
-            Thread.Sleep(1000);
 
             IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
             inputFile.SendKeys(@"C:\Users\Hello\Videos\Screen Recordings\Screen Recording 2025-04-26 123449.mp4");
@@ -107,11 +103,13 @@ namespace TestCompa.Production.CourseBuilder.Audio
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));

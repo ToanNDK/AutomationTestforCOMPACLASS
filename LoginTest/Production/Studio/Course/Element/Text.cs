@@ -163,33 +163,33 @@ namespace TestCompa.Production.CourseBuilder.Text
         [Test]
         public void ChangeHeading()
         {
+            InitDriver(false);
             ChangeFormat();
-
-            // Chọn toàn bộ nội dung trong editor
-            IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
-            textEditor.Click();
-            Thread.Sleep(500);
-            textEditor.SendKeys(Keys.Control + "a");
 
             // Mở dropdown "Paragraph"
             IWebElement headingDropdown = driver.FindElement(By.XPath("//span[normalize-space(text())='Paragraph']"));
             headingDropdown.Click();
             Thread.Sleep(3000); // Đợi dropdown hiển thị
 
-            // Random một heading từ 1 đến 6
-            Random random = new();
-            int headingLevel = random.Next(1, 7); // Tạo số ngẫu nhiên từ 1 đến 6
+            // Lấy tất cả các mục Heading trong dropdown (chứa "Heading" trong text)
+            IReadOnlyCollection<IWebElement> headingOptions = driver.FindElements(By.XPath("//div[@role='menuitem']//span[contains(normalize-space(.), 'Heading')]"));
 
-            // Tạo XPath dùng text (normalize-space) của heading
-            string headingText = $"Heading {headingLevel}";
-            string headingXPath = $"//span[normalize-space()='{headingText}']/ancestor::div[@role='menuitem']";
-            Thread.Sleep(2000);
-            // Tìm và click vào heading tương ứng
-            IWebElement heading = driver.FindElement(By.XPath(headingXPath));
-            heading.Click();
+            if (headingOptions.Count == 0)
+            {
+                Assert.Fail("Không tìm thấy heading nào trong dropdown.");
+            }
+
+            // Random chọn 1 heading trong danh sách
+            Random random = new();
+            int randomIndex = random.Next(headingOptions.Count);
+
+            IWebElement[] headingArray = headingOptions.ToArray();
+            IWebElement selectedHeading = headingArray[randomIndex];
+            selectedHeading.Click();
 
             Thread.Sleep(2000);
         }
+
 
 
 
@@ -242,11 +242,13 @@ namespace TestCompa.Production.CourseBuilder.Text
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));

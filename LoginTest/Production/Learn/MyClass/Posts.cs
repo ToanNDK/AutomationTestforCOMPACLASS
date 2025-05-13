@@ -1,15 +1,11 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Learn.Posts
 {
+    [TestFixture]
+    [Category("Class")]
     public class ClassTests
     {
         private IWebDriver driver = null!;

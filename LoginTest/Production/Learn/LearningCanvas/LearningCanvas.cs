@@ -1,13 +1,11 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace TestCompa.Production.Learn.LearningCanvas
 {
+    [TestFixture]
+    [Category("LearningCanvas")]
     public class CourseTests
     {
         private IWebDriver driver = null!;

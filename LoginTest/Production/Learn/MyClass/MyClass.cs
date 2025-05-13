@@ -1,13 +1,12 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
-using static System.Collections.Specialized.BitVector32;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.MyClass
 {
+    [TestFixture]
+    [Category("Class")]
     public class ClassTest
     {
         private IWebDriver driver = null!;
@@ -69,7 +68,7 @@ namespace TestCompa.Production.Learn.MyClass
             Login();
             Assert.That(driver.Url.Contains(homeUrl), Is.True);
             IWebElement testclass = driver.FindElement(By.XPath("//a[@href='/learn/class']"));
-            testclass.Click();  
+            testclass.Click();
             Thread.Sleep(3000);
             Assert.That(driver.Url.Contains("https://compaclass.com/learn/class"), Is.True);
             Thread.Sleep(3000);
@@ -95,7 +94,7 @@ namespace TestCompa.Production.Learn.MyClass
             IWebElement classes = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản - DMVN')]"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", classes);
             Thread.Sleep(4000);
-           
+
             classes.Click();
             Thread.Sleep(2000);
             IWebElement member = driver.FindElement(By.XPath("//a[normalize-space()='Thành viên']"));

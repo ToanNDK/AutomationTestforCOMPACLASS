@@ -5,7 +5,8 @@ using SeleniumExtras.WaitHelpers;
 
 namespace TestCompa.Production.Learn.Home.UserSetting
 {
-
+    [TestFixture]
+    [Category("Home")]
     public class UserSetting
     {
         private IWebDriver driver = null!;

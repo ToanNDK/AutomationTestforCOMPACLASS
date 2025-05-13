@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn
 {
+    [TestFixture]
+    [Category("Home")]
     public class Mission
     {
         private IWebDriver driver = null!;

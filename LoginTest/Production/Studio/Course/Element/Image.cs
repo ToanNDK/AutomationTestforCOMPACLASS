@@ -187,27 +187,25 @@ namespace TestCompa.Production.CourseBuilder.Image
         public void imgEmbed()
         {
             imgDragNDrop();
-            IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
+            IWebElement clickAddImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
             Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
-            IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
+            IWebElement embed = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Embed link']")));
             embed.Click();
-            Thread.Sleep(4000);
-            IWebElement embedImg = driver.FindElement(By.CssSelector("input[placeholder = 'Paste the image link']"));
+            IWebElement embedImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("input[placeholder = 'Paste the image link']")));
             embedImg.SendKeys("https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=");
             Thread.Sleep(1000);
-            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Embed']"));
+            IWebElement submit = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Embed']")));
             submit.Click();
-            Thread.Sleep(3000);
-            IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
+            IWebElement remove = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Remove']")));
             remove.Click();
             Thread.Sleep(2000);
 
         }
         //3.3 Thay đổi ảnh
         [Test]
-        public void changeImg()
+        public void ChangeImg()
         {
             imgDragNDrop();
 
@@ -243,11 +241,11 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
         //Test 3.4 Đổi ảnh nhưng đường dẫn sai 
         [Test]
-        public void invalidUrlImg()
+        public void InvalidUrlImg()
         {
             imgDragNDrop();
 
-            IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
+            IWebElement clickAddImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
             Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
             Thread.Sleep(3000);
@@ -261,17 +259,17 @@ namespace TestCompa.Production.CourseBuilder.Image
             Thread.Sleep(3000);
 
 
-            IWebElement changeButton = driver.FindElement(By.XPath("//button[normalize-space()='Change']"));
+            IWebElement changeButton = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Change']")));
             changeButton.Click();
             Thread.Sleep(5000);
 
-            IWebElement embed = driver.FindElement(By.XPath("//button[normalize-space()='Embed link']"));
+            IWebElement embed = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Embed link']")));
             embed.Click();
-            Thread.Sleep(4000);
+            Thread.Sleep(2000);
             IWebElement embedImg = driver.FindElement(By.CssSelector("input[placeholder = 'Paste the image link']"));
             embedImg.SendKeys("abcxyz");
             Thread.Sleep(1000);
-            IWebElement submit = driver.FindElement(By.XPath("//button[normalize-space()='Embed']"));
+            IWebElement submit = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Embed']")));
             submit.Click();
             Thread.Sleep(3000);
             //thông báo lỗi
@@ -282,14 +280,13 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
         //Test 3.5 Điều chỉnh ảnh 
         [Test]
-        public void editSizeImg()
+        public void EditSizeImg()
         {
-            InitDriver(false);
             imgDragNDrop();
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
 
-            // Đợi phần tử "Click to add pdf" xuất hiện
+            // Đợi phần tử "Click to add img" xuất hiện
             IWebElement clickAddImg = wait.Until(ExpectedConditions.ElementIsVisible(
                 By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
 
@@ -302,34 +299,21 @@ namespace TestCompa.Production.CourseBuilder.Image
                 By.XPath("//button[normalize-space()='Embed link']")));
             inputFile.Click();
             Thread.Sleep(1000);
-            // Gửi đường dẫn ảnh test
-            string imgPath = "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=";
-            inputFile.SendKeys(imgPath);
+            inputFile.SendKeys("https://picsum.photos/200/300");
+            Thread.Sleep(1000);
 
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                By.CssSelector("div.bg-black\\/25[data-state='open']")));
-
-            IWebElement edit = wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//button[@role='switch' and @aria-checked='false']")));
-
-            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", edit);
-            edit.Click();
-
-            // Đợi nút chỉnh ảnh (biểu tượng move horizontal) và click
-            IWebElement setFillImg = wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.CssSelector("svg.lucide.lucide-file-plus")));
-            setFillImg.Click();
-            ;
         }
 
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));

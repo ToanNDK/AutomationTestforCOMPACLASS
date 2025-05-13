@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.LearningCanvas
 {
+    [TestFixture]
+    [Category("LearningCanvas")]
     public class Quiz
     {
         private IWebDriver driver = null!;

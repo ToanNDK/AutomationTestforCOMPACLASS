@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.Blog
 {
+    [TestFixture]
+    [Category("Blog")]
     public class Blog
     {
         private IWebDriver driver = null!;

@@ -70,13 +70,13 @@ namespace TestCompa.Production.CourseBuilder.Markdown
         }
         //Test 1: Test Markdown (UC-S164)
         [Test]
-        public void markdownDragNDrop()
+        public void MarkdownDragNDrop()
         {
             courseBuilder();
-            IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'MarkdownBlock')]"));
+            IWebElement title = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//p[starts-with(normalize-space(), 'MarkdownBlock')]")));
             title.Click();
             Thread.Sleep(1000);
-            IWebElement elementTab = driver.FindElement(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]"));
+            IWebElement elementTab = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[contains(@class, 'flex flex-col gap-1 justify-center items-center') and .//span[contains(text(),'Elements')]]")));
             elementTab.Click();
             Thread.Sleep(3000);
 
@@ -87,17 +87,17 @@ namespace TestCompa.Production.CourseBuilder.Markdown
             Actions actions = new(driver);
             actions.DragAndDrop(textElement, targetElement).Perform();
 
-            Thread.Sleep(4000);
+            Thread.Sleep(2000);
         }
         //Test 2: Add content (UC-S165)
         [Test]
         public void addContent()
         {
-            markdownDragNDrop();
-            IWebElement click = driver.FindElement(By.XPath("//div[@class='relative ']"));
+            MarkdownDragNDrop();
+            IWebElement click = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='relative ']")));
             click.Click();
             Thread.Sleep(2000);
-            IWebElement txt = driver.FindElement(By.XPath("//textarea[@placeholder='Enter Markdown text...']"));
+            IWebElement txt = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@placeholder='Enter Markdown text...']")));
             txt.Click();
             Thread.Sleep(2000);
             txt.SendKeys("Add Content");
@@ -106,11 +106,13 @@ namespace TestCompa.Production.CourseBuilder.Markdown
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));

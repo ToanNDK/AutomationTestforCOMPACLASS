@@ -1,21 +1,17 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Interactions;
 
 namespace TestCompa.Production.Learn.MyClassList
 {
+    [TestFixture]
+    [Category("Class")]
     public class ClassTests
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-       
+
 
         private void InitDriver(bool headless = false)
         {
@@ -56,7 +52,7 @@ namespace TestCompa.Production.Learn.MyClassList
             // Đợi trang mới tải xong
             wait.Until(d => d.Url.Contains("/learn/class"));
 
-           
+
             IWebElement searchContainer = driver.FindElement(By.XPath("//div[contains(@class, 'flex items-center md:items-end')]"));
             IWebElement searchInput = searchContainer.FindElement(By.TagName("input"));
             //searchInput.SendKeys("power bi");

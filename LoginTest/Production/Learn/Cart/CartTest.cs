@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.CartTest
 {
+    [TestFixture]
+    [Category("Cart")]
     public class CartTest
     {
         private IWebDriver driver = null!;
@@ -50,7 +49,7 @@ namespace TestCompa.Production.Learn.CartTest
             course.Click();
 
             wait.Until(d => d.Url.Contains("https://compaclass.com/vn/learn/course/"));
-            Assert.That(driver.Url,Does.Contain("https://compaclass.com/vn/learn/course/"));
+            Assert.That(driver.Url, Does.Contain("https://compaclass.com/vn/learn/course/"));
         }
 
         //Test 2: Truy cập OverView khi đã đăng nhập
@@ -76,7 +75,7 @@ namespace TestCompa.Production.Learn.CartTest
             Thread.Sleep(6000);
 
             // Kiểm tra kết quả
-            Assert.That(driver.Url,Does.Contain("https://compaclass.com/vn/learn/course"));
+            Assert.That(driver.Url, Does.Contain("https://compaclass.com/vn/learn/course"));
         }
 
         //Test 3: Thêm vào giỏ hàng khi chưa đăng nhập

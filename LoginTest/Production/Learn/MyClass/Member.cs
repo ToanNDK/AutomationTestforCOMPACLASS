@@ -1,21 +1,18 @@
-﻿using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Production.Learn.MyClassMember
 {
+    [TestFixture]
+    [Category("Class")]
     public class ClassTests
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
         private readonly string homeUrl = "https://compaclass.com/learn/home";
-        
+
 
         private void InitDriver(bool headless = false)
         {
@@ -72,8 +69,8 @@ namespace TestCompa.Production.Learn.MyClassMember
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
             Thread.Sleep(3000);
-           
-          
+
+
             IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
             ScrollToElement(testclass);
             Thread.Sleep(4000);
