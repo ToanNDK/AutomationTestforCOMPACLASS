@@ -78,7 +78,7 @@ namespace TestCompa.Server.Learn.Attendance
             emailInput.SendKeys("info@kpim.vn");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("KPIM@123");
+            passwordInput.SendKeys("Kpim@2025");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();

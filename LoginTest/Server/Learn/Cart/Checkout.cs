@@ -206,7 +206,7 @@ namespace TestCompa.Server.Learn.Cart
             emailInput.SendKeys("tuantry959@gmail.com");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@123");
+            passwordInput.SendKeys("Kpim@2025");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();

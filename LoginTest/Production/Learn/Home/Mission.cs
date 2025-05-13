@@ -12,7 +12,7 @@ namespace TestCompa.Production.Learn
         private WebDriverWait wait = null!;
         private readonly string devUrl = "https://compaclass.com/learn/mission";
         private readonly string email = "info@kpim.vn";
-        private readonly string password = "KPIM@123";
+        private readonly string password = "Kpim@2025";
 
         private void InitDriver(bool headless = false)
         {

@@ -180,7 +180,7 @@ namespace TestCompa.Production.CourseBuilder.Overview
             emailInput.SendKeys("info@kpim.vn");
 
             var passwordInput = WaitUntilVisible(By.Id("password"));
-            passwordInput.SendKeys("KPIM@123");
+            passwordInput.SendKeys("Kpim@2025");
 
             var loginButton = WaitUntilClickable(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();

@@ -13,7 +13,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         private readonly string homeUrl = "https://compaclass.com/learn/home";
         private readonly string courseUrl = "https://compaclass.com/learn/course";
         private readonly string email = "info@kpim.vn";
-        private readonly string password = "KPIM@123";
+        private readonly string password = "Kpim@2025";
 
         private void InitDriver(bool headless = false)
         {

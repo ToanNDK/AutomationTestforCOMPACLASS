@@ -37,7 +37,7 @@ namespace TestCompa.Production.CourseBuilder.Image
             InitDriver(true);
         }
 
-        public void studioTest()
+        public void StudioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
@@ -49,9 +49,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
         [Test]
 
-        public void courseBuilder()
+        public void CourseBuilder()
         {
-            studioTest();
+            StudioTest();
             IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
@@ -73,9 +73,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
         //Test 2: Test Image (UC-S108)
         [Test]
-        public void imgDragNDrop()
+        public void ImgDragNDrop()
         {
-            courseBuilder();
+            CourseBuilder();
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'ImageBlock')]"));
             title.Click();
             Thread.Sleep(1000);
@@ -94,9 +94,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
         //3 test upload ảnh ( Single Mode )  (UC-S109)
         [Test]
-        public void imgUpload()
+        public void ImgUpload()
         {
-            imgDragNDrop();
+            ImgDragNDrop();
 
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
             Actions action = new(driver);
@@ -115,9 +115,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         //4. Test upload Ảnh ( Mutiple ) (UC-S110) (chưa có đang ở chế độ Disable) 
         //5. Xóa ảnh ( Single Mode ) (UC-S111)
         [Test]
-        public void deleteImgUpload()
+        public void DeleteImgUpload()
         {
-            imgUpload();
+            ImgUpload();
             Thread.Sleep(2000);
             IWebElement removeButton = driver.FindElement(By.XPath("//button[normalize-space()='Remove']"));
 
@@ -132,9 +132,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         //6. Xóa ảnh ( Multiple Mode ) (UC-S112) ( Disable ) 
         //7. Thêm, sửa caption (SM) (UC-S113) 
         [Test]
-        public void captionImg()
+        public void CaptionImg()
         {
-            imgUpload();
+            ImgUpload();
             IWebElement toggleButton = driver.FindElement(By.XPath("//div[contains(@class, 'flex items-center justify-between')]//button[@role='switch']"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", toggleButton);
             Thread.Sleep(500);
@@ -153,9 +153,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         //8.THêm, sửa caption (MM) (UC-S114) (Disable)
         //9.Thay đổi ảnh ( SM) (UC-S115) 
         [Test]
-        public void replaceImg()
+        public void ReplaceImg()
         {
-            imgUpload();
+            ImgUpload();
             IWebElement change = driver.FindElement(By.XPath("//button[normalize-space()='Change']"));
             change.Click();
             Thread.Sleep(500);
@@ -172,9 +172,9 @@ namespace TestCompa.Production.CourseBuilder.Image
         //9.Thay đổi ảnh ( MM) (UC-S116) 
         //10. Chỉnh sửa ảnh (UC-S117)
         [Test]
-        public void changeSizeImg()
+        public void ChangeSizeImg()
         {
-            imgUpload();
+            ImgUpload();
 
 
 
@@ -184,9 +184,10 @@ namespace TestCompa.Production.CourseBuilder.Image
 
         //3.2 Sử dụng embed (link)
         [Test]
-        public void imgEmbed()
+        public void ImgEmbed()
         {
-            imgDragNDrop();
+            InitDriver(false);
+            ImgDragNDrop();
             IWebElement clickAddImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
             Actions action = new(driver);
             action.DoubleClick(clickAddImg).Perform();
@@ -207,7 +208,7 @@ namespace TestCompa.Production.CourseBuilder.Image
         [Test]
         public void ChangeImg()
         {
-            imgDragNDrop();
+            ImgDragNDrop();
 
             IWebElement clickAddImg = driver.FindElement(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]"));
             Actions action = new(driver);
@@ -243,7 +244,7 @@ namespace TestCompa.Production.CourseBuilder.Image
         [Test]
         public void InvalidUrlImg()
         {
-            imgDragNDrop();
+            ImgDragNDrop();
 
             IWebElement clickAddImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
             Actions action = new(driver);
@@ -282,7 +283,7 @@ namespace TestCompa.Production.CourseBuilder.Image
         [Test]
         public void EditSizeImg()
         {
-            imgDragNDrop();
+            ImgDragNDrop();
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
 
@@ -305,7 +306,7 @@ namespace TestCompa.Production.CourseBuilder.Image
         }
 
 
-        public void Login()
+        private void Login()
         {
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             //IWebElement emailInput = driver.FindElement(By.Id("email"));
@@ -314,7 +315,7 @@ namespace TestCompa.Production.CourseBuilder.Image
 
             //IWebElement passwordInput = driver.FindElement(By.Id("password"));
             IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
-            passwordInput.SendKeys("KPIM@123");
+            passwordInput.SendKeys("Kpim@2025");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
