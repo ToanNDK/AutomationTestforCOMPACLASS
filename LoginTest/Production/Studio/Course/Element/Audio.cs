@@ -93,6 +93,8 @@ namespace TestCompa.Production.CourseBuilder.Audio
         {
             PDFDragNDrop();
 
+            Thread.Sleep(1000);
+
             IWebElement addPdf = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[.//p[text()='Click to add audio']]")));
             addPdf.Click();
 

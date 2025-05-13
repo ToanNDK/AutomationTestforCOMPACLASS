@@ -93,16 +93,14 @@ namespace TestCompa.Production.CourseBuilder.Code
         [Test]
         public void addContent()
         {
-            InitDriver(false);
             PDFDragNDrop();
             Thread.Sleep(1000);
 
-            IWebElement addPdf = driver.FindElement(By.XPath("//button[.//p[text()='Click to add audio']]"));
-            addPdf.Click();
+            IWebElement addCode = driver.FindElement(By.XPath("//div[@role='textbox']"));
+            addCode.Click();
             Thread.Sleep(1000);
 
-            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
-            inputFile.SendKeys(@"C:\Users\Hello\Videos\Screen Recordings\Screen Recording 2025-04-26 123449.mp4");
+            addCode.SendKeys("<b>ALO</b>");
             Thread.Sleep(1000);
         }
 

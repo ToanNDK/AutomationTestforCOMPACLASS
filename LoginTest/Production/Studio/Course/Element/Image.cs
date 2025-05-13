@@ -134,6 +134,7 @@ namespace TestCompa.Production.CourseBuilder.Image
         [Test]
         public void CaptionImg()
         {
+
             ImgUpload();
             IWebElement toggleButton = driver.FindElement(By.XPath("//div[contains(@class, 'flex items-center justify-between')]//button[@role='switch']"));
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", toggleButton);
@@ -186,7 +187,6 @@ namespace TestCompa.Production.CourseBuilder.Image
         [Test]
         public void ImgEmbed()
         {
-            InitDriver(false);
             ImgDragNDrop();
             IWebElement clickAddImg = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class,'bg-gray-100 flex items-center')]")));
             Actions action = new(driver);

@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace TestCompa.Production.CourseBuilder.Text
 {
@@ -124,38 +125,48 @@ namespace TestCompa.Production.CourseBuilder.Text
         public void ChangeFormat()
         {
             EditText();
-            IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement textEditor = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector("div.ck.ck-content.ck-editor__editable")));
+
             textEditor.Click();
-            Thread.Sleep(2000);
-            textEditor.SendKeys(Keys.Control + 'a');
-            Thread.Sleep(3000);
-            textEditor.SendKeys(Keys.Control + 'b');
 
-            Thread.Sleep(1000);
+            // Đợi nội dung editor khả dụng
+            wait.Until(driver =>
+            {
+                var content = textEditor.Text;
+                return !string.IsNullOrEmpty(content);
+            });
 
-            textEditor.SendKeys(Keys.Control + 'i');
-            Thread.Sleep(1000);
-            textEditor.SendKeys(Keys.Control + 'u');
-            Thread.Sleep(1000);
-
+            textEditor.SendKeys(Keys.Control + "a");
+            textEditor.SendKeys(Keys.Control + "b");
+            textEditor.SendKeys(Keys.Control + "i");
+            textEditor.SendKeys(Keys.Control + "u");
         }
         //Test 7: Thay đổi alignment (UC-S159)
         [Test]
         public void ChangeAlignment()
         {
             ChangeFormat();
-            IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
-            Thread.Sleep(2000);
-            textEditor.SendKeys(Keys.Control + 'a');
-            IWebElement alignRight = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-justify-end"));
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            IWebElement textEditor = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector("div.ck.ck-content.ck-editor__editable")));
+            textEditor.SendKeys(Keys.Control + "a");
+
+            IWebElement alignRight = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-justify-end")));
             alignRight.Click();
-            Thread.Sleep(2000);
-            IWebElement alignCenter = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-space-around"));
+
+            IWebElement alignCenter = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-space-around")));
             alignCenter.Click();
-            Thread.Sleep(2000);
-            IWebElement alignLeft = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-justify-start"));
+
+            IWebElement alignLeft = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-justify-start")));
             alignLeft.Click();
-            Thread.Sleep(2000);
         }
         //Test 8: Đổi màu chữ ( Chưa có ) (UC-S160)
         //Test 9: ĐỔi độ bão hòa màu chữ ( Chưa có ) (UC-S161)
@@ -207,6 +218,7 @@ namespace TestCompa.Production.CourseBuilder.Text
         [Test]
         public void ChangeLocation()
         {
+            InitDriver(false);
             EditText();
 
             IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Text Block Icon']]"));
@@ -227,15 +239,21 @@ namespace TestCompa.Production.CourseBuilder.Text
             Thread.Sleep(4000);
 
             // Tìm icon move để tiếp tục kéo lên trên cùng
-            IWebElement move = driver.FindElement(By.CssSelector(".lucide.lucide-move"));
+            // Tìm icon move và đợi đến khi nó khả dụng
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement move = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-move")));
 
-            // Kéo icon move lên đầu danh sách
+            // Scroll icon vào vùng hiển thị
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", move);
+
+            // Thực hiện kéo lên trên
+
             actions.ClickAndHold(move)
-                   .MoveByOffset(0, -300)  // Di chuyển lên trên (giá trị Y có thể chỉnh sửa)
+                   .MoveToElement(move, 0, -100)  // Di chuyển lên trên
                    .Release()
                    .Perform();
-
-            Thread.Sleep(8000);
+            Thread.Sleep(3000);
         }
 
 

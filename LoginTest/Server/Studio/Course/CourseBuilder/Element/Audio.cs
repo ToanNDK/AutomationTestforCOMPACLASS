@@ -36,7 +36,7 @@ namespace TestCompa.Server.CourseBuilder.Audio
             InitDriver(true);
         }
 
-        public void studioTest()
+        public void StudioTest()
         {
             driver.Navigate().GoToUrl(devUrl);
             Login();
@@ -44,12 +44,12 @@ namespace TestCompa.Server.CourseBuilder.Audio
             IWebElement course = driver.FindElement(By.XPath("//button[.//span[text()='Course']]"));
             course.Click();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
         }
 
-        public void courseBuilder()
+        public void CourseBuilder()
         {
-            studioTest();
+            StudioTest();
             IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
             jss.ExecuteScript("arguments[0].scrollIntoView(true);", tab);
@@ -72,7 +72,7 @@ namespace TestCompa.Server.CourseBuilder.Audio
         [Test]
         public void PDFDragNDrop()
         {
-            courseBuilder();
+            CourseBuilder();
             IWebElement title = driver.FindElement(By.XPath("//p[starts-with(normalize-space(), 'AudioBlock')]"));
             title.Click();
             Thread.Sleep(1000);
@@ -93,7 +93,6 @@ namespace TestCompa.Server.CourseBuilder.Audio
         [Test]
         public void addContent()
         {
-            InitDriver(false);
             PDFDragNDrop();
             Thread.Sleep(1000);
 

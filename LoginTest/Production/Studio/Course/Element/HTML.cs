@@ -94,14 +94,9 @@ namespace TestCompa.Production.CourseBuilder.HTML
         public void AddContent()
         {
             MarkdownDragNDrop();
-            IWebElement click = driver.FindElement(By.XPath("//div[@class='relative ']"));
-            click.Click();
-            Thread.Sleep(2000);
-            IWebElement txt = driver.FindElement(By.XPath("//textarea[@placeholder='Enter Markdown text...']"));
-            txt.Click();
-            Thread.Sleep(2000);
-            txt.SendKeys("Add Content");
-            Thread.Sleep(2000);
+            IWebElement html = driver.FindElement(By.XPath("//div[@data-language='html']//div[@class='cm-line']"));
+            html.SendKeys("<b>ALO</b>");
+            Thread.Sleep(1000);
         }
 
         public void Login()
