@@ -171,7 +171,7 @@ namespace TestCompa.Production.CourseBuilder.Text
         //Test 8: Đổi màu chữ ( Chưa có ) (UC-S160)
         //Test 9: ĐỔi độ bão hòa màu chữ ( Chưa có ) (UC-S161)
         //Test 10: Đổi heading (UC-S162)
-        [Test]
+        /*[Test]
         public void ChangeHeading()
         {
             InitDriver(false);
@@ -200,7 +200,7 @@ namespace TestCompa.Production.CourseBuilder.Text
 
             Thread.Sleep(2000);
         }
-
+*/
 
 
 

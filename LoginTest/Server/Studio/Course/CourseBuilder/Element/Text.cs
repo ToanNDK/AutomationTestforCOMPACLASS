@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace TestCompa.Server.CourseBuilder.Text
 {
@@ -107,12 +108,12 @@ namespace TestCompa.Server.CourseBuilder.Text
             Thread.Sleep(5000);//chờ autosave
         }
         //Test 4 Thay đổi cài đặt liên quan đến font (typeface) của chữ (UC-S156) (Chưa có)
-        [Test]
+        /*[Test]
         public void ChangeFont()
         {
 
 
-        }
+        }*/
         //Test 5:Thay đổi FontSize ( Chưa có ) (UC-S157)
         /*[Test]
         public void changeFontSize()
@@ -123,20 +124,26 @@ namespace TestCompa.Server.CourseBuilder.Text
         [Test]
         public void ChangeFormat()
         {
+            InitDriver(false);
             EditText();
-            IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            IWebElement textEditor = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector("div.ck.ck-content.ck-editor__editable")));
+
             textEditor.Click();
-            Thread.Sleep(2000);
-            textEditor.SendKeys(Keys.Control + 'a');
-            Thread.Sleep(3000);
-            textEditor.SendKeys(Keys.Control + 'b');
 
-            Thread.Sleep(1000);
+            // Đợi nội dung editor khả dụng
+            wait.Until(driver =>
+            {
+                var content = textEditor.Text;
+                return !string.IsNullOrEmpty(content);
+            });
 
-            textEditor.SendKeys(Keys.Control + 'i');
-            Thread.Sleep(1000);
-            textEditor.SendKeys(Keys.Control + 'u');
-            Thread.Sleep(1000);
+            textEditor.SendKeys(Keys.Control + "a");
+            textEditor.SendKeys(Keys.Control + "b");
+            textEditor.SendKeys(Keys.Control + "i");
+            textEditor.SendKeys(Keys.Control + "u");
 
         }
         //Test 7: Thay đổi alignment (UC-S159)
@@ -144,18 +151,24 @@ namespace TestCompa.Server.CourseBuilder.Text
         public void ChangeAlignment()
         {
             ChangeFormat();
-            IWebElement textEditor = driver.FindElement(By.CssSelector("div.ck.ck-content.ck-editor__editable"));
-            Thread.Sleep(2000);
-            textEditor.SendKeys(Keys.Control + 'a');
-            IWebElement alignRight = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-justify-end"));
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            IWebElement textEditor = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector("div.ck.ck-content.ck-editor__editable")));
+            textEditor.SendKeys(Keys.Control + "a");
+
+            IWebElement alignRight = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-justify-end")));
             alignRight.Click();
-            Thread.Sleep(2000);
-            IWebElement alignCenter = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-space-around"));
+
+            IWebElement alignCenter = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-space-around")));
             alignCenter.Click();
-            Thread.Sleep(2000);
-            IWebElement alignLeft = driver.FindElement(By.CssSelector(".lucide.lucide-align-horizontal-justify-start"));
+
+            IWebElement alignLeft = wait.Until(ExpectedConditions.ElementToBeClickable(
+                By.CssSelector(".lucide.lucide-align-horizontal-justify-start")));
             alignLeft.Click();
-            Thread.Sleep(2000);
         }
         //Test 8: Đổi màu chữ ( Chưa có ) (UC-S160)
         //Test 9: ĐỔi độ bão hòa màu chữ ( Chưa có ) (UC-S161)
@@ -242,12 +255,14 @@ namespace TestCompa.Server.CourseBuilder.Text
 
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@2025");
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
