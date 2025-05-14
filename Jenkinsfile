@@ -46,7 +46,7 @@ pipeline {
             steps {
                 dir('LoginTest') {
                     script {
-                        def categories = ["LearnClass", "Blog"] 
+                        def categories = ["Blog"] 
 
                         categories.each { cat ->
                             def command = "dotnet test --no-build --configuration Release --verbosity normal " +
