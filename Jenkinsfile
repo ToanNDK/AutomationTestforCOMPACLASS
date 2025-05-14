@@ -49,12 +49,11 @@ pipeline {
                         def categories = ["LearnClass", "Blog"] 
 
                         categories.each { cat ->
-                            bat """
-                            dotnet test --no-build --configuration Release --verbosity normal ^
-                            --filter "Category=${cat}" ^
-                            --logger "trx;LogFileName=test_results_${cat}.trx" ^
-                            --results-directory TestResults
-                            """
+                            def command = "dotnet test --no-build --configuration Release --verbosity normal " +
+                                          "--filter \"Category=${cat}\" " +
+                                          "--logger \"trx;LogFileName=test_results_${cat}.trx\" " +
+                                          "--results-directory TestResults"
+                            bat command
                         }
                     }
                 }
