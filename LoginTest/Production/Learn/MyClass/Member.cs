@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Learn.MyClassMember
 {
     [TestFixture]
-    [Category("LearnClass")]
+    [Category("Class")]
     public class ClassTests
     {
         private IWebDriver driver = null!;

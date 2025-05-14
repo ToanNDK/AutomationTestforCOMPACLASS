@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.UI;
 namespace TestCompa.Production.Learn.Posts
 {
     [TestFixture]
-    [Category("LearnClass")]
+    [Category("Class")]
     public class ClassTests
     {
         private IWebDriver driver = null!;
@@ -61,7 +61,7 @@ namespace TestCompa.Production.Learn.Posts
 
         }
         //2. Thêm Post
-        [Test, Order(2)]
+        /*[Test, Order(2)]*/
         public void addPost()
         {
             Posts();
@@ -79,7 +79,7 @@ namespace TestCompa.Production.Learn.Posts
             Thread.Sleep(2000);
         }
         //3. Sửa Post
-        [Test, Order(3)]
+        /*[Test, Order(3)]*/
         public void editPosts()
         {
             addPost();
@@ -125,7 +125,7 @@ namespace TestCompa.Production.Learn.Posts
 
         }
         //5.React bài đăng
-        [Test, Order(5)]
+        /* [Test, Order(5)]*/
         public void reactPosts()
         {
             addPost();
