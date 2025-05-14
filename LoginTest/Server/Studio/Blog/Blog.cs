@@ -125,9 +125,8 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void AddDescription()
         {
-            InitDriver(false);
             EditSetting();
-            IWebElement des = driver.FindElement(By.XPath("//textarea[@id='description']"));
+            IWebElement des = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@id='description']")));
             des.SendKeys("Description");
             Thread.Sleep(500);
         }
