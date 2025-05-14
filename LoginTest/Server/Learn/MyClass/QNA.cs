@@ -138,6 +138,7 @@ namespace TestCompa.Server.Learn.QNA
         //6.Trả lời 
         [Test, Order(5)]
         public void replyQNA()
+
         {
             addQuestion();
             IWebElement rep = driver.FindElement(By.XPath("//button[.//span[text()='Trả lời'] or .//span[text()='Answer']]"));

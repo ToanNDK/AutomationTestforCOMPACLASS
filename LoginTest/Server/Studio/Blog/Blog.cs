@@ -40,7 +40,7 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void CreateNew()
         {
-            InitDriver(false);
+
             driver.Navigate().GoToUrl(blogUrl);
             Login();
             Thread.Sleep(2000);
@@ -52,7 +52,7 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void SelectThumbnail()
         {
-            InitDriver(false);
+
             driver.Navigate().GoToUrl(blogUrl);
             Login();
             Thread.Sleep(2000);
@@ -71,7 +71,7 @@ namespace TestCompa.Server.Studio.Blog
 
             // Gửi đường dẫn ảnh vào input file
             inputFile.SendKeys(imgPath);
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
 
         }
         //Edit Thumbnail 
@@ -112,6 +112,7 @@ namespace TestCompa.Server.Studio.Blog
 
         }
         //Setting Blog
+        [Test]
         public void EditSetting()
         {
             SelectThumbnail();
@@ -124,7 +125,8 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void AddDescription()
         {
-            SelectThumbnail();
+            InitDriver(false);
+            EditSetting();
             IWebElement des = driver.FindElement(By.XPath("//textarea[@id='description']"));
             des.SendKeys("Description");
             Thread.Sleep(500);
@@ -188,7 +190,12 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void Preview()
         {
-            SelectThumbnail();
+            driver.Navigate().GoToUrl(blogUrl);
+            Login();
+            Thread.Sleep(2000);
+            IWebElement blog = driver.FindElement(By.XPath("//a[text()='Test']"));
+            blog.Click();
+            Thread.Sleep(1000);
             IWebElement previewBtn = driver.FindElement(By.CssSelector(".lucide.lucide-play"));
             previewBtn.Click();
             Thread.Sleep(2000);
@@ -223,7 +230,7 @@ namespace TestCompa.Server.Studio.Blog
             edit.SendKeys(Keys.Control + 'i');//italic
             edit.SendKeys(Keys.Control + 'u');//underline
         }
-        public void Login()
+        private void Login()
         {
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             //IWebElement emailInput = driver.FindElement(By.Id("email"));
@@ -232,7 +239,7 @@ namespace TestCompa.Server.Studio.Blog
 
             //IWebElement passwordInput = driver.FindElement(By.Id("password"));
             IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
-            passwordInput.SendKeys("Kpim@2025");
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
