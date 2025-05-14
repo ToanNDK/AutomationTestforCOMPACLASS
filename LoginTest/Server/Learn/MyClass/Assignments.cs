@@ -52,7 +52,7 @@ namespace TestCompa.Server.Learn.Assignments
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(5000);
-            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='2']"));
+            IWebElement tab = driver.FindElement(By.XPath("//button[normalize-space()='1']"));
             tab.Click();
             Thread.Sleep(2000);
             IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản')]"));
@@ -82,7 +82,6 @@ namespace TestCompa.Server.Learn.Assignments
         [Test, Order(3)]
         public void MarkAssignments()
         {
-            InitDriver(false);
             AssignmentsMark();
             IWebElement student = driver.FindElement(By.XPath("//tbody/tr[1]/td[1]"));
             student.Click();
@@ -110,7 +109,7 @@ namespace TestCompa.Server.Learn.Assignments
             feedback.Click();
             feedback.Clear();
             Random rd = new();
-            feedback.SendKeys($"Excellent{rd}!");
+            feedback.SendKeys($"Excellentt{rd}!");
             Thread.Sleep(5000);
             IWebElement submit = driver.FindElement(By.XPath("//button[contains(text(),'Lưu')]"));
             submit.Click();
@@ -121,6 +120,7 @@ namespace TestCompa.Server.Learn.Assignments
         [Test, Order(5)]
         public void submit()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/class/test-IIPbL/activity/activity-1-untitled-h0W3o");
             Thread.Sleep(5000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
