@@ -160,7 +160,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             UploadVideoURL();
 
 
-            IWebElement remove = driver.FindElement(By.XPath("//div[@title='Remove']"));
+            IWebElement remove = driver.FindElement(By.XPath("//button[@title='Remove']"));
             remove.Click();
 
             Thread.Sleep(3000);
@@ -184,7 +184,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
             UploadVideoURL();
 
 
-            IWebElement remove = driver.FindElement(By.XPath("//div[@title='Remove']"));
+            IWebElement remove = driver.FindElement(By.XPath("//button[@title='Remove']"));
             remove.Click();
 
             Thread.Sleep(3000);
@@ -193,6 +193,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         [Test]
         public void AddThumbnail()
         {
+            InitDriver(false);
             UploadVideoURL();
             IWebElement uploadButton = driver.FindElement(By.XPath("//div[div[text()='Custom thumbnail']]//div[text()='Upload']"));
             uploadButton.Click();
@@ -255,12 +256,14 @@ namespace TestCompa.Server.CourseBuilder.Activity.Video
         }
         public void Login()
         {
-            Thread.Sleep(2000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@2025");
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();

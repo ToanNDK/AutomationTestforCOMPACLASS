@@ -4,6 +4,8 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestCompa.Server.Learn.QNA
 {
+    [TestFixture]
+    [Category("LearnClass")]
     public class ClassTests
     {
         private IWebDriver driver = null!;
@@ -31,7 +33,7 @@ namespace TestCompa.Server.Learn.QNA
         {
             // Gọi InitDriver với tham số headless = false (mặc định)
             // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
             driver.Navigate().GoToUrl("http://10.10.10.30/Auth/SignIn");
         }
         // 1. Test chức năng điều hướng tới Q&A
@@ -151,16 +153,17 @@ namespace TestCompa.Server.Learn.QNA
         }
         public void Login()
         {
-            Thread.Sleep(5000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+            //IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("lozik480@gmail.com");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            //IWebElement passwordInput = driver.FindElement(By.Id("password"));
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
             passwordInput.SendKeys("Toanking2k3*");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
-
         }
         public void ScrollToElement(IWebElement element)
         {

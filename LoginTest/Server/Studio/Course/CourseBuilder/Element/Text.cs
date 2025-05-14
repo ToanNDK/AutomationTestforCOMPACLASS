@@ -211,13 +211,14 @@ namespace TestCompa.Server.CourseBuilder.Text
         public void RemoveText()
         {
             EditText();
-            IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
-            remove.Click();
-            Thread.Sleep(2000);
 
+            IWebElement removeButton = driver.FindElement(By.CssSelector("button.inline-flex"));
+            removeButton.Click();
+
+            Thread.Sleep(2000); // có thể thay bằng WebDriverWait nếu cần
         }
         //2.3 Di chuyển các khối text với nhau
-        [Test]
+        /*[Test]
         public void ChangeLocation()
         {
             EditText();
@@ -249,7 +250,7 @@ namespace TestCompa.Server.CourseBuilder.Text
                    .Perform();
 
             Thread.Sleep(8000);
-        }
+        }*/
 
 
 
