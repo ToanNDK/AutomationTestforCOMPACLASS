@@ -52,7 +52,6 @@ namespace TestCompa.Server.Studio.Blog
         [Test]
         public void SelectThumbnail()
         {
-
             driver.Navigate().GoToUrl(blogUrl);
             Login();
             Thread.Sleep(2000);
