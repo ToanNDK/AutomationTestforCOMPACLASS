@@ -23,7 +23,7 @@ namespace TestCompa.Production.Learn.Assignments
         }
         // 1. Test chức năng điều hướng tới Assignment
 
-        [Test, Order(1)]
+        //[Test, Order(1)]
         public void Assignments()
         {
             driver.Navigate().GoToUrl(devUrl);

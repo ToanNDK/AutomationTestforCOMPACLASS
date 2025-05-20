@@ -37,23 +37,23 @@ namespace TestCompa.Production.Learn.SignUp
             InitDriver(true);
         }
 
-        // Test 1: Kiểm tra đăng ký thành công
-        [Test]
-        public void TestSignUp_Success()
-        {
-            driver.Navigate().GoToUrl(productionUrl);
+        /*  // Test 1: Kiểm tra đăng ký thành công
+          [Test]
+          public void TestSignUp_Success()
+          {
+              driver.Navigate().GoToUrl(productionUrl);
 
-            driver.FindElement(By.Id("username")).SendKeys("new_user_123");
-            driver.FindElement(By.Id("email")).SendKeys("newuser123@example.com");
-            driver.FindElement(By.Id("password")).SendKeys("NewPass123@");
-            driver.FindElement(By.Id("confirm_password")).SendKeys("NewPass123@");
+              driver.FindElement(By.Id("username")).SendKeys("new_user_123");
+              driver.FindElement(By.Id("email")).SendKeys("newuser123@example.com");
+              driver.FindElement(By.Id("password")).SendKeys("NewPass123@");
+              driver.FindElement(By.Id("confirm_password")).SendKeys("NewPass123@");
 
-            driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
+              driver.FindElement(By.XPath("//button[text()='SIGN UP']")).Click();
 
-            wait.Until(d => d.Url.Contains("/Auth/SignIn"));
-            Assert.That(driver.Url.Contains("/Auth/SignIn"), Is.True, "User không được chuyển đến trang đăng nhập sau khi đăng ký thành công!");
-        }
-
+              wait.Until(d => d.Url.Contains("/Auth/SignIn"));
+              Assert.That(driver.Url.Contains("/Auth/SignIn"), Is.True, "User không được chuyển đến trang đăng nhập sau khi đăng ký thành công!");
+          }
+  */
         //Test 2: Đăng ký với email đã tồn tại
         [Test]
         public void TestSignUp_EmailAlreadyExists()

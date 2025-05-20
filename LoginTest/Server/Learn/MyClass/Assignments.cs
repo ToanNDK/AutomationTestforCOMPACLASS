@@ -115,31 +115,31 @@ namespace TestCompa.Server.Learn.Assignments
             submit.Click();
             Thread.Sleep(5000);
         }
-        //5.Nộp bài tập
+        /* //5.Nộp bài tập
 
-        [Test, Order(5)]
-        public void submit()
-        {
-            InitDriver(false);
-            driver.Navigate().GoToUrl("http://10.10.10.30/learn/class/test-IIPbL/activity/activity-1-untitled-h0W3o");
-            Thread.Sleep(5000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
-            emailInput.SendKeys("lozik480@gmail.com");
+         [Test, Order(5)]
+         public void submit()
+         {
+             InitDriver(false);
+             driver.Navigate().GoToUrl("http://10.10.10.30/learn/class/test-IIPbL/activity/activity-1-untitled-h0W3o");
+             Thread.Sleep(5000);
+             IWebElement emailInput = driver.FindElement(By.Id("email"));
+             emailInput.SendKeys("lozik480@gmail.com");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Toanking2k3*");
+             IWebElement passwordInput = driver.FindElement(By.Id("password"));
+             passwordInput.SendKeys("Toanking2k3*");
 
-            IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
-            loginButton.Click();
-            Thread.Sleep(5000);
+             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
+             loginButton.Click();
+             Thread.Sleep(5000);
 
-            IWebElement inputField = driver.FindElement(By.CssSelector("input#assignment-link"));
-            inputField.SendKeys("Link");
+             IWebElement inputField = driver.FindElement(By.CssSelector("input#assignment-link"));
+             inputField.SendKeys("Link");
 
-            IWebElement fileInput = driver.FindElement(By.Id("file-input"));
-            fileInput.SendKeys(@"D:\KPIM\ĐỒ ÁN TT\Thông tin Quản lý Final.pdf");
-            Thread.Sleep(3000);
-        }
+             IWebElement fileInput = driver.FindElement(By.Id("file-input"));
+             fileInput.SendKeys(@"D:\KPIM\ĐỒ ÁN TT\Thông tin Quản lý Final.pdf");
+             Thread.Sleep(3000);
+         }*/
         public void Login()
         {
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));

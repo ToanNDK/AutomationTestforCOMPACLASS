@@ -66,7 +66,7 @@ namespace TestCompa.Production.Learn.Grade
         public void gradeMark()
         {
             Grade();
-            IWebElement mark = driver.FindElement(By.XPath("//a[contains(text(),'KPIM Academy')]"));
+            IWebElement mark = driver.FindElement(By.XPath("//a[contains(text(),'oanhntk7')]"));
             mark.Click();
             Thread.Sleep(2000);
 

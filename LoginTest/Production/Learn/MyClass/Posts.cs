@@ -45,11 +45,11 @@ namespace TestCompa.Production.Learn.Posts
             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
             element.Click();
-            Thread.Sleep(3000);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
+            //Thread.Sleep(3000);
+            /*IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");*/
             Thread.Sleep(5000);
-            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Class Test')]"));
+            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Power BI Cơ Bản - CTE')]"));
             testclass.Click();
             Thread.Sleep(5000);
             IWebElement assign = driver.FindElement(By.XPath("//a[text()='Bài đăng']"));

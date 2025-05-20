@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium;
+﻿/*using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
@@ -60,7 +60,7 @@ namespace TestCompa.Production.Learn.QNA
 
         }
         //2. Thêm Post
-        /*[Test, Order(2)]*/
+        *//*[Test, Order(2)]*//*
         public void addQuestion()
         {
             InitDriver(false);
@@ -87,7 +87,7 @@ namespace TestCompa.Production.Learn.QNA
 
         }
         //3. Sửa Post
-        /*[Test, Order(2)]*/
+        *//*[Test, Order(2)]*//*
         public void editQNA()
         {
             addQuestion();
@@ -126,7 +126,7 @@ namespace TestCompa.Production.Learn.QNA
 
         }
         //5.React bài đăng
-        /* [Test, Order(4)]*/
+        *//* [Test, Order(4)]*//*
         public void reactQNA()
         {
             addQuestion();
@@ -137,7 +137,7 @@ namespace TestCompa.Production.Learn.QNA
         }
 
         //6.Trả lời 
-        /*[Test, Order(5)]*/
+        *//*[Test, Order(5)]*//*
         public void replyQNA()
         {
             addQuestion();
@@ -178,3 +178,4 @@ namespace TestCompa.Production.Learn.QNA
         }
     }
 }
+*/

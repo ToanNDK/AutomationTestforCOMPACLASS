@@ -67,7 +67,7 @@ namespace TestCompa.Production.CourseBuilder.Text
             Thread.Sleep(3000);
             h2Element.Click();
             Thread.Sleep(1000);
-            IWebElement courseContent = driver.FindElement(By.XPath("//button[normalize-space()='Course Content']"));
+            IWebElement courseContent = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='Course Content']")));
             courseContent.Click();
             Thread.Sleep(2000);
 
@@ -208,9 +208,12 @@ namespace TestCompa.Production.CourseBuilder.Text
         [Test]
         public void RemoveText()
         {
+            InitDriver(false);
             EditText();
-            IWebElement remove = driver.FindElement(By.CssSelector("button.inline-flex svg.lucide-trash2"));
-            remove.Click();
+
+            IWebElement removeButton = driver.FindElement(By.CssSelector("button.inline-flex"));
+            removeButton.Click();
+
             Thread.Sleep(2000);
 
         }
@@ -218,7 +221,6 @@ namespace TestCompa.Production.CourseBuilder.Text
         [Test]
         public void ChangeLocation()
         {
-            InitDriver(false);
             EditText();
 
             IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Text Block Icon']]"));

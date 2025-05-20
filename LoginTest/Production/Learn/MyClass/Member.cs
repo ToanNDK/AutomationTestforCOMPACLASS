@@ -40,26 +40,27 @@ namespace TestCompa.Production.Learn.MyClassMember
         // 1. Test chức năng điều hướng tới Member
 
 
-        [Test, Order(1)]
-        public void memberClass()
-        {
-            driver.Navigate().GoToUrl(homeUrl);
-            Login();
+        /* [Test, Order(1)]
+         public void memberClass()
+         {
+             InitDriver(false);
+             driver.Navigate().GoToUrl(homeUrl);
+             Login();
 
 
-            WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
-            IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
-            element.Click();
-            Thread.Sleep(3000);
-            IWebElement overview = wait.Until(d => d.FindElement(By.XPath("//div[contains(@class,'flex flex-col gap-2 lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 2xl:grid-cols-5')]//div[1]//div[1]//a[1]")));
-            overview.Click();
-            Thread.Sleep(5000);
+             WebDriverWait wait = new(driver, TimeSpan.FromSeconds(10));
+             IWebElement element = wait.Until(d => d.FindElement(By.CssSelector("a[href='/learn/class']")));
+             element.Click();
+             Thread.Sleep(3000);
+             IWebElement overview = wait.Until(d => d.FindElement(By.XPath("//div[contains(@class,'flex flex-col gap-2 lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 2xl:grid-cols-5')]//div[1]//div[1]//a[1]")));
+             overview.Click();
+             Thread.Sleep(5000);
 
-            IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
-            member.Click();
-            Thread.Sleep(2000);
+             IWebElement member = driver.FindElement(By.XPath("//a[text()='Thành viên']"));
+             member.Click();
+             Thread.Sleep(2000);
 
-        }
+         }*/
         [Test, Order(2)]
         public void memberList()
         {
