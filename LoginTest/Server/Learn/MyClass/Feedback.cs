@@ -50,13 +50,15 @@ namespace TestCompa.Server.Learn.Feedback
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
             Thread.Sleep(5000);
-            IWebElement tab2 = driver.FindElement(By.XPath("//button[normalize-space()='2']"));
+            IWebElement tab2 = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//button[normalize-space()='2']")));
             tab2.Click();
             Thread.Sleep(2000);
-            IWebElement testclass = driver.FindElement(By.XPath("//a[contains(text(),'Test feedback')]"));
+            IWebElement testclass = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//a[contains(text(),'Test feedback')]")));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", testclass);
+            Thread.Sleep(1000);
             testclass.Click();
             Thread.Sleep(5000);
-            IWebElement assign = driver.FindElement(By.XPath("//a[text()='Đánh giá']"));
+            IWebElement assign = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//a[text()='Đánh giá']")));
             assign.Click();
             Thread.Sleep(2000);
 
@@ -117,7 +119,7 @@ namespace TestCompa.Server.Learn.Feedback
         {
             Feedback();
             Thread.Sleep(3000);
-            IWebElement search = driver.FindElement(By.XPath("(//input[@placeholder='Tìm kiếm'])[2]"));
+            IWebElement search = driver.FindElement(By.XPath("//input[@placeholder='Tìm kiếm']"));
             search.SendKeys("very goodd");
             Thread.Sleep(5000);
         }

@@ -154,7 +154,6 @@ namespace TestCompa.Production.Learn.Home.UserSetting
         [Test]
         public void NavigateToLearn()
         {
-            InitDriver(false);
             CheckOrder();
             IWebElement navigate = driver.FindElement(By.CssSelector("a[href*='action=continue_learning']"));
             navigate.Click();

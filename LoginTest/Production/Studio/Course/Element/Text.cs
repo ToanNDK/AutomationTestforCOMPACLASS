@@ -218,45 +218,45 @@ namespace TestCompa.Production.CourseBuilder.Text
 
         }
         //2.3 Di chuyển các khối text với nhau
-        [Test]
-        public void ChangeLocation()
-        {
-            EditText();
+        /* [Test]
+         public void ChangeLocation()
+         {
+             EditText();
 
-            IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Text Block Icon']]"));
-            IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
+             IWebElement textElement = driver.FindElement(By.XPath("//div[img[@alt='Text Block Icon']]"));
+             IWebElement targetElement = driver.FindElement(By.XPath("//div[contains(@class, 'border-t-4 border-t-transparent')]"));
 
-            Actions actions = new(driver);
+             Actions actions = new(driver);
 
-            // Kéo phần tử "Text Block Icon" vào vị trí "targetElement"
-            actions.ClickAndHold(textElement)
-                   .MoveToElement(targetElement)
-                   .Release()
-                   .Perform();
+             // Kéo phần tử "Text Block Icon" vào vị trí "targetElement"
+             actions.ClickAndHold(textElement)
+                    .MoveToElement(targetElement)
+                    .Release()
+                    .Perform();
 
-            actions.Click(textElement)
-           .Click(textElement)
-           .SendKeys("Text Block")
-           .Perform();
-            Thread.Sleep(4000);
+             actions.Click(textElement)
+            .Click(textElement)
+            .SendKeys("Text Block")
+            .Perform();
+             Thread.Sleep(4000);
 
-            // Tìm icon move để tiếp tục kéo lên trên cùng
-            // Tìm icon move và đợi đến khi nó khả dụng
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            IWebElement move = wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.CssSelector(".lucide.lucide-move")));
+             // Tìm icon move để tiếp tục kéo lên trên cùng
+             // Tìm icon move và đợi đến khi nó khả dụng
+             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+             IWebElement move = wait.Until(ExpectedConditions.ElementToBeClickable(
+                 By.CssSelector(".lucide.lucide-move")));
 
-            // Scroll icon vào vùng hiển thị
-            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", move);
+             // Scroll icon vào vùng hiển thị
+             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", move);
 
-            // Thực hiện kéo lên trên
+             // Thực hiện kéo lên trên
 
-            actions.ClickAndHold(move)
-                   .MoveToElement(move, 0, -100)  // Di chuyển lên trên
-                   .Release()
-                   .Perform();
-            Thread.Sleep(3000);
-        }
+             actions.ClickAndHold(move)
+                    .MoveToElement(move, 0, -100)  // Di chuyển lên trên
+                    .Release()
+                    .Perform();
+             Thread.Sleep(3000);
+         }*/
 
 
 

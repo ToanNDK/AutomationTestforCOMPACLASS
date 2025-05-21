@@ -37,7 +37,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         }
         //Test 1: Truy cập learning canvas
         [Test]
-        public void testContinueLearn()
+        public void TestContinueLearn()
         {
             driver.Navigate().GoToUrl("http://compaclass.com/learn/class");
             Thread.Sleep(5000);
@@ -62,9 +62,9 @@ namespace TestCompa.Production.Learn.LearningCanvas
 
         //Test 2: Truy cập tới CourseContent
         [Test]
-        public void gotoCourseContent()
+        public void GotoCourseContent()
         {
-            testContinueLearn();
+            TestContinueLearn();
             IWebElement chapterLink = driver.FindElement(By.XPath("//a[text()='Chapter 5: Tạo biểu đồ và thiết kế báo cáo']"));
             chapterLink.Click();
             Thread.Sleep(3000);
@@ -73,7 +73,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         [Test]
         public void selectQuiz()
         {
-            gotoCourseContent();
+            GotoCourseContent();
             IWebElement quizTest = driver.FindElement(By.XPath("//a[contains(text(),'Bài kiểm tra cuối khoá')]"));
             quizTest.Click();
             Thread.Sleep(2000);
@@ -81,7 +81,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         }
         //Test 4: Bấm Start
         [Test]
-        public void startQuiz()
+        public void StartQuiz()
         {
             selectQuiz();
             IWebElement start = driver.FindElement(By.CssSelector("button[class=' min-w-[140px] bg-primary rounded-[50px] px-12 py-4 text-white font-medium']"));
@@ -90,9 +90,9 @@ namespace TestCompa.Production.Learn.LearningCanvas
         }
         //Test 5: Thực hiện làm bài
         [Test]
-        public void testScrollBar()
+        public void TestScrollBar()
         {
-            startQuiz();
+            StartQuiz();
             int questionCount = 0;
 
             while (questionCount < 12)
@@ -206,9 +206,9 @@ namespace TestCompa.Production.Learn.LearningCanvas
         //Test 6: Nhấn hoàn thành khi chưa làm bài -> Hiển thị popup
 
         [Test]
-        public void finishWithoutTest()
+        public void FinishWithoutTest()
         {
-            startQuiz();
+            StartQuiz();
             IWebElement completeButton = driver.FindElement(By.XPath("//button[contains(text(),'Hoàn thành')]"));
             completeButton.Click();
             Thread.Sleep(4000);
@@ -225,7 +225,7 @@ namespace TestCompa.Production.Learn.LearningCanvas
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
         }
-        public void Login()
+        private void Login()
         {
             IWebElement emailInput = driver.FindElement(By.Id("email"));
             emailInput.SendKeys("info@kpim.vn");

@@ -139,7 +139,7 @@ namespace TestCompa.Server.CourseBuilder.Activity.Quiz
             emailInput.SendKeys("info@kpim.vn");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@2025");
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();

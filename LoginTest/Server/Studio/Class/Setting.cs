@@ -1,10 +1,10 @@
-﻿/*using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace TestCompa.Server.Studio
+namespace TestCompa.Server.Class.Setting
 {
-    public class SettingClass
+    public class Setting
     {
         private IWebDriver driver = null!;
         private WebDriverWait wait = null!;
@@ -12,288 +12,292 @@ namespace TestCompa.Server.Studio
         private void InitDriver(bool headless = false)
         {
             ChromeOptions options = new();
-
             if (headless)
             {
                 options.AddArgument("--headless");
                 options.AddArgument("--no-sandbox");
                 options.AddArgument("--disable-dev-shm-usage");
                 options.AddArgument("--disable-gpu");
-            }
 
+            }
             driver = new ChromeDriver(options);
             driver.Manage().Window.Maximize();
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-
-            // Gọi InitDriver với tham số headless = false (mặc định)
-            // Thay đổi thành true nếu muốn chạy ở chế độ headless
-            InitDriver(false);
+            InitDriver(true);
         }
-        //Test 0: Truy cập trang 
-        [Test]
-        public void ClassTest()
+        [TearDown]
+        public void TearDown()
         {
-            driver.Navigate().GoToUrl(devUrl);
-
-            Login();
-            Thread.Sleep(5000);
-            IWebElement classes = driver.FindElement(By.CssSelector("svg[width='20'][height='20'][viewBox='0 0 18 22']"));
-            classes.Click();
-            Thread.Sleep(5000);
-        }
-        //Test 1: bấm nút 3 chấm -> Setting
-        [Test]
-        public void BtnSettingClass()
-        {
-            ClassTest();
-            Thread.Sleep(3000);
-            IWebElement edit = driver.FindElement(By.CssSelector("body > div:nth-child(1) > article:nth-child(2) > article:nth-child(2) > div:nth-child(2) > article:nth-child(1) > div:nth-child(2) > section:nth-child(3) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(2) > svg:nth-child(1)"));
-            Thread.Sleep(3000);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", edit);
-            Thread.Sleep(2000);
-            edit.Click();
-            IWebElement setting = driver.FindElement(By.XPath("//span[@class='whitespace-nowrap text-sm transition-all']"));
-            setting.Click();
-            Thread.Sleep(3000);
+            driver.Quit();
         }
 
-        //Test 2: Thay đổi className
-        //2.1 Nhập className dài    
-        [Test]
-        public void ChangeClassName()
+        private void Login()
         {
-            string longname = new('a', 150);
-            BtnSettingClass();
-            IWebElement classNametxt = driver.FindElement(By.CssSelector("input[placeholder='Enter class name']"));
-            classNametxt.Click();
-            Thread.Sleep(1000);
-            classNametxt.SendKeys(longname);
-            Thread.Sleep(3000);
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            btnSave.Click();
-            Thread.Sleep(3000);
-
-        }
-        //2.2 Xóa tên lớp, không nhập -> Hiển thị lỗi phải nhập ít nhất 1 kí tự
-        [Test]
-        public void DeleteClassName()
-        {
-
-            BtnSettingClass();
-            IWebElement classNametxt = driver.FindElement(By.CssSelector("input[placeholder='Enter class name']"));
-            classNametxt.Click();
-            Thread.Sleep(1000);
-            classNametxt.SendKeys("abc");
-            classNametxt.Clear();
-            Thread.Sleep(3000);
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            btnSave.Click();
-            Thread.Sleep(5000);
-            try
-            {
-                IWebElement errorMessage = driver.FindElement(By.CssSelector("div.flex.space-x-1.items-center.pt-2 span.text-red-d10"));
-                if (errorMessage.Displayed)
-                {
-                    Console.WriteLine("PASS: Thông báo lỗi hiển thị.");
-                }
-                else
-                {
-                    Console.WriteLine("FAILED: Thông báo lỗi không hiển thị.");
-                }
-            }
-            catch (NoSuchElementException)
-            {
-                Console.WriteLine("FAILED: Thông báo lỗi không tìm thấy.");
-            }
-        }
-
-
-        //Test 3: Description
-        //3.1 Nhập hơn 300 ký tự 
-        [Test]
-        public void ChangeDescription()
-        {
-            string longname = new('a', 301);
-            BtnSettingClass();
-            IWebElement classDesctxt = driver.FindElement(By.CssSelector("textarea[placeholder='Class description']"));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", classDesctxt);
             Thread.Sleep(2000);
-            classDesctxt.Click();
-            Thread.Sleep(1000);
-            classDesctxt.Clear();
-            classDesctxt.SendKeys(longname);
-            Thread.Sleep(3000);
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
-            jss.ExecuteScript("arguments[0].scrollIntoView(true);", btnSave);
-            Thread.Sleep(2000);
-            btnSave.Click();
-            Thread.Sleep(3000);
-
-        }
-
-        //3.2 Không nhập description
-        [Test]
-        public void DeleteDescription()
-        {
-
-            BtnSettingClass();
-            IWebElement classDesctxt = driver.FindElement(By.CssSelector("textarea[placeholder='Class description']"));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", classDesctxt);
-            Thread.Sleep(2000);
-            classDesctxt.Click();
-            Thread.Sleep(1000);
-            classDesctxt.SendKeys(Keys.Backspace);
-            Thread.Sleep(3000);
-            classDesctxt.SendKeys("f");
-            Thread.Sleep(3000);
-            classDesctxt.SendKeys(Keys.Control + "a");
-            classDesctxt.SendKeys(Keys.Backspace);
-            Thread.Sleep(2000);
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
-            jss.ExecuteScript("arguments[0].scrollIntoView(true);", btnSave);
-            Thread.Sleep(2000);
-            btnSave.Click();
-            Thread.Sleep(3000);
-            try
-            {
-                IWebElement errorMessage = driver.FindElement(By.CssSelector("div.flex.space-x-1.items-center.pt-2 span.text-red-d10"));
-                IJavaScriptExecutor jsDesc = (IJavaScriptExecutor)driver;
-                jsDesc.ExecuteScript("arguments[0].scrollIntoView(true);", errorMessage);
-                Thread.Sleep(5000);
-                if (errorMessage.Displayed)
-                {
-                    Console.WriteLine("PASS: Thông báo lỗi hiển thị.");
-                }
-                else
-                {
-                    Console.WriteLine("FAILED: Thông báo lỗi không hiển thị.");
-                }
-            }
-            catch (NoSuchElementException)
-            {
-                Console.WriteLine("FAILED: Thông báo lỗi không tìm thấy.");
-            }
-
-        }
-        //Test 4: Bấm ngẫu nhiên và các toggle và lưu 
-        [Test]
-        public void ToggleTest()
-        {
-            BtnSettingClass();
-            Random random = new();
-            IReadOnlyList<IWebElement> toggles = driver.FindElements(By.CssSelector("button.switch"));
-
-            if (toggles.Count > 0)
-            {
-                int randomIndex = random.Next(0, toggles.Count); // Chọn một toggle ngẫu nhiên
-                toggles[randomIndex].Click();
-                Thread.Sleep(2000);
-                Console.WriteLine($"Đã nhấn vào toggle thứ {randomIndex + 1}");
-            }
-            else
-            {
-                Console.WriteLine("Không tìm thấy toggle nào trên trang.");
-            }
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
-            jss.ExecuteScript("arguments[0].scrollIntoView(true);", btnSave);
-            Thread.Sleep(2000);
-            btnSave.Click();
-            Thread.Sleep(2000);
-        }
-        //Test 5: Chọn copyURL
-        [Test]
-        public void CheckCopyUrl()
-        {
-            BtnSettingClass();
-            Thread.Sleep(2000);
-
-
-            IWebElement svg = driver.FindElement(By.XPath("//button[contains(@id, 'headlessui-listbox-button')]"));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].click();", svg);
-            Thread.Sleep(2000);
-
-
-            IWebElement copyUrl = driver.FindElement(By.XPath("//span[contains(text(),'Lấy liên kết đến lớp học') or contains(text(),'Get link to the class')]"));
-            copyUrl.Click();
-            Thread.Sleep(2000);
-            IWebElement link = driver.FindElement(By.CssSelector("svg[width='21'][height='21'][viewBox='0 0 24 24']"));
-            link.Click();
-            Thread.Sleep(3000);
-
-        }
-        //Test 6: Nhập Minimum Registrations lớn hơn Maximum Registrations
-        [Test]
-        public void TestRegistrations()
-        {
-            BtnSettingClass();
-            Thread.Sleep(2000);
-            IWebElement input = driver.FindElement(By.XPath("//input[@type='number' and @min='1']"));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].click();", input);
-            Thread.Sleep(2000);
-            input.Clear();
-            input.SendKeys("200");
-            Thread.Sleep(2000);
-            IWebElement btnSave = driver.FindElement(By.CssSelector("div[class='hidden lg:flex items-center justify-between gap-4'] button[type='submit']"));
-            IJavaScriptExecutor jss = (IJavaScriptExecutor)driver;
-            jss.ExecuteScript("arguments[0].scrollIntoView(true);", btnSave);
-            Thread.Sleep(2000);
-            btnSave.Click();
-            Thread.Sleep(3000);
-            try
-            {
-                IWebElement errorMessage = driver.FindElement(By.CssSelector("span.text-red-d10.text-sm.text-red"));
-                IJavaScriptExecutor jsDesc = (IJavaScriptExecutor)driver;
-                jsDesc.ExecuteScript("arguments[0].scrollIntoView(true);", errorMessage);
-                Thread.Sleep(5000);
-                if (errorMessage.Displayed)
-                {
-                    Console.WriteLine("PASS: Thông báo lỗi hiển thị.");
-                }
-                *//*else
-                {
-                    Console.WriteLine("FAILED: Thông báo lỗi không hiển thị.");
-                }*//*
-            }
-            catch (NoSuchElementException)
-            {
-                Console.WriteLine("FAILED: Thông báo lỗi không tìm thấy.");
-            }
-        }
-
-        //Test 7
-
-        public void Login()
-        {
-            Thread.Sleep(5000);
-            IWebElement emailInput = driver.FindElement(By.Id("email"));
+            IWebElement emailInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
             emailInput.SendKeys("info@kpim.vn");
 
-            IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@2025");
+            IWebElement passwordInput = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("password")));
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
         }
-
-        [TearDown]
-        public void Teardown()
+        //Chuyển tới trang Class
+        [Test]
+        public void NavigateToClass()
         {
-            driver.Quit();
+            driver.Navigate().GoToUrl(devUrl);
+            Login();
+
+            IWebElement classes = wait.Until(d => d.FindElement(By.XPath("//a[normalize-space()='Class']")));
+            classes.Click();
+            Thread.Sleep(500);
+
+        }
+
+        //Vào class
+        [Test]
+        public void ClassTest()
+        {
+
+            NavigateToClass();
+            IWebElement testclass = wait.Until(d => d.FindElement(By.XPath("//h3[normalize-space()='Test']")));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", testclass);
+            Thread.Sleep(500);
+            testclass.Click();
+
+            Thread.Sleep(1000);
+            //Nhấn 3 chấm góc phải
+            IWebElement edit = driver.FindElement(By.XPath("//button[@aria-haspopup='listbox' and contains(@class, 'cursor-pointer')]"));
+            edit.Click();
+            Thread.Sleep(500);
+
+            //Chọn Setting
+            IWebElement setting = driver.FindElement(By.XPath("//span[contains(text(),'Class Setting')]"));
+            setting.Click();
+            Thread.Sleep(500);
+        }
+        //Thay đổi Thumbnail
+        [Test]
+        public void ChangeThumbnail()
+        {
+
+            ClassTest();
+            //Thumbnail web
+            IWebElement inputFile = driver.FindElement(By.XPath("//input[@type='file']"));
+
+            string imgPath = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
+            // Gửi đường dẫn ảnh vào input file
+            inputFile.SendKeys(imgPath);
+            Thread.Sleep(1000);
+
+            //Thumbnail mobile
+            IWebElement inputFileThumbnail = driver.FindElement(By.XPath("(//input[@type='file'])[2]"));
+            string imgMobileThumbnail = @"C:\Users\Hello\Pictures\TestImage\loginBG.jpg";
+            inputFileThumbnail.SendKeys(imgMobileThumbnail);
+
+            Thread.Sleep(1000);
+        }
+
+        //đổi slug
+        [Test]
+        public void ChangeSlug()
+        {
+
+            Random rd = new();
+
+            int random = rd.Next(1000, 9999);
+            ClassTest();
+
+            IWebElement slug = driver.FindElement(By.XPath("//input[@placeholder='Enter class Slug']"));
+            slug.Click();
+            slug.SendKeys(Keys.Control + 'a');
+            slug.SendKeys(Keys.Backspace);
+            Thread.Sleep(500);
+            slug.SendKeys($"class-slug-{random}");
+            Thread.Sleep(500);
+
+            //Save
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+            save.Click();
+            Thread.Sleep(2000);
+        }
+
+        //Số lượng ng đăng ký
+        [Test]
+        public void Registrations()
+        {
+            Random rd = new();
+
+            int random = rd.Next(10, 100);
+            ClassTest();
+            //min
+            IWebElement minimum = driver.FindElement(By.XPath("//input[@placeholder='Enter Minimum Registrations']"));
+            minimum.Click();
+            minimum.SendKeys(Keys.Control + 'a');
+            minimum.SendKeys(Keys.Backspace);
+            Thread.Sleep(500);
+            minimum.SendKeys($"{random}");
+            Thread.Sleep(500);
+            //max
+            IWebElement maximum = driver.FindElement(By.XPath("//input[@placeholder='Enter Maximum Registrations']"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", maximum);
+            Thread.Sleep(500);
+            maximum.Click();
+            maximum.SendKeys(Keys.Control + 'a');
+            maximum.SendKeys(Keys.Backspace);
+            Thread.Sleep(500);
+            maximum.SendKeys($"{random}");
+            Thread.Sleep(500);
+
+            //Save
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", save);
+            Thread.Sleep(500);
+            save.Click();
+            Thread.Sleep(2000);
+        }
+        //Enrollment Start
+        [Test]
+        public void EnrollmentStart()
+        {
+
+            ClassTest();
+            IWebElement enrollmentStartButton = driver.FindElement(By.XPath("//label[text()='Enrollment Start']/ancestor::div[contains(@class, 'flex')]/following-sibling::button"));
+            enrollmentStartButton.Click();
+
+
+            Thread.Sleep(500);
+            Random rd = new Random();
+            int randomDay = rd.Next(10, 29); // từ ngày 10 đến 28
+
+            // Click vào ngày ngẫu nhiên đó
+            IWebElement dayButton = driver.FindElement(By.XPath($"//button[text()='{randomDay}']"));
+            dayButton.Click();
+            Thread.Sleep(1000);
+
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", save);
+            Thread.Sleep(500);
+            save.Click();
+            Thread.Sleep(2000);
+        }
+
+        //Enrollment End 
+        [Test]
+        public void EnrollmentEnd()
+        {
+            Random rd = new();
+            int random = rd.Next(10, 90);
+            ClassTest();
+            IWebElement certainDays = wait.Until(d => d.FindElement(By.XPath("//button[@id='AfterCertainDay']")));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", certainDays);
+            Thread.Sleep(500);
+            certainDays.Click();
+            Thread.Sleep(500);
+
+            IWebElement inputDays = driver.FindElement(By.XPath("(//input[@type='number'])[3]"));
+            inputDays.SendKeys(Keys.Control + 'a');
+            inputDays.SendKeys(Keys.Backspace);
+            inputDays.SendKeys($"{random}");
+            Thread.Sleep(1000);
+
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", save);
+            Thread.Sleep(500);
+            save.Click();
+            Thread.Sleep(2000);
+        }
+
+        //Class Start
+        [Test]
+        public void ClassStart()
+        {
+            ClassTest();
+            IWebElement classStartButton = driver.FindElement(By.XPath("//label[text()='Class Start']/ancestor::div[contains(@class, 'flex')]/following-sibling::button"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", classStartButton);
+            Thread.Sleep(500);
+            classStartButton.Click();
+            Thread.Sleep(500);
+
+            Random rd = new();
+            int randomDay = rd.Next(10, 29); // từ ngày 10 đến 28
+
+            // Click vào ngày ngẫu nhiên đó
+            IWebElement dayButton = driver.FindElement(By.XPath($"//button[text()='{randomDay}']"));
+            dayButton.Click();
+            Thread.Sleep(1000);
+        }
+        //Class End
+        [Test]
+        public void ClassEnd()
+        {
+
+            ClassTest();
+            IWebElement classStartButton = driver.FindElement(By.XPath("//label[text()='Class End']/ancestor::div[contains(@class, 'flex')]/following-sibling::button"));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", classStartButton);
+            Thread.Sleep(500);
+            classStartButton.Click();
+            Thread.Sleep(500);
+
+        }
+        //Occurrence 
+        [Test]
+        public void Occurrence()
+        {
+            ClassTest();
+            IWebElement text = wait.Until(d => d.FindElement(By.XPath("//input[@placeholder='Search available days...']")));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", text);
+            Thread.Sleep(500);
+            text.Click();
+            Thread.Sleep(500);
+            text.SendKeys("Friday");
+            Thread.Sleep(500);
+
+
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", save);
+            Thread.Sleep(500);
+            save.Click();
+            Thread.Sleep(2000);
+        }
+        //Toggle QNA, Feedback
+        [Test]
+        public void ToggleTest()
+        {
+            InitDriver(false);
+            ClassTest();
+            IWebElement toggleQNA = wait.Until(d => d.FindElement(By.Id("qa")));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", toggleQNA);
+            Thread.Sleep(500);
+            toggleQNA.Click();
+
+            IWebElement toggleFeedback = wait.Until(d => d.FindElement(By.Id("feedback")));
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", toggleFeedback);
+            Thread.Sleep(500);
+            toggleFeedback.Click();
+
+            IWebElement save = wait.Until(d => d.FindElement(By.XPath("//button[normalize-space()='Save']")));
+
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", save);
+            Thread.Sleep(500);
+            save.Click();
+            Thread.Sleep(2000);
         }
     }
-
-
 }
-*/

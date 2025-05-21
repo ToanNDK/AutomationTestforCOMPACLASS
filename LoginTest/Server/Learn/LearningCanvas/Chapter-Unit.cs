@@ -108,6 +108,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
         [Test, Order(5)]
         public void testScrollBar()
         {
+            InitDriver(false);
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/home");
             Login();
             Thread.Sleep(2000);
@@ -144,6 +145,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
         [Test, Order(6)]
         public void addcomnentQA()
         {
+
             driver.Navigate().GoToUrl("http://10.10.10.30/learn/home");
             Thread.Sleep(2000);
             IWebElement emailInput = driver.FindElement(By.Id("email"));
@@ -232,7 +234,7 @@ namespace TestCompa.Server.Learn.LearningCanvas
             emailInput.SendKeys("info@kpim.vn");
 
             IWebElement passwordInput = driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys("Kpim@2025");
+            passwordInput.SendKeys("KPIM@123");
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[text()='SIGN IN']"));
             loginButton.Click();
